@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Md Sifatullah Sheikh | Portfolio</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #4a76ee;
+        --bg: #f0f2f8;
+        --text: #1c1e21;
+        --card-bg: rgba(255, 255, 255, 0.75);
+        --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        --radius: 16px;
+      }
+
+      [data-theme="dark"] {
+        --primary: #90caf9;
+        --bg: #121212;
+        --text: #ffffff;
+        --card-bg: rgba(30, 30, 30, 0.85);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Outfit", sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        padding: 2rem;
+        transition: background-color 0.4s, color 0.4s;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        padding: 1rem 2rem;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        margin-bottom: 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      nav .left a {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      nav .right a {
+        margin-left: 1.5rem;
+        color: var(--text);
+        transition: color 0.3s;
+      }
+
+      nav .right a:hover {
+        color: var(--primary);
+      }
+
+      .theme-toggle {
+        cursor: pointer;
+        font-size: 1.2rem;
+        padding: 0.5rem;
+      }
+
+      .hero {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        background: linear-gradient(to right, #e6edff, #f3f6ff);
+        padding: 3rem;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        margin-bottom: 2rem;
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      .hero .text {
+        flex: 1 1 60%;
+      }
+
+      .hero .image {
+        flex: 1 1 30%;
+        text-align: center;
+      }
+
+      .hero img {
+        width: 220px;
+        border-radius: 50%;
+        border: 4px solid var(--primary);
+        box-shadow: var(--shadow);
+        animation: float 3s ease-in-out infinite;
+      }
+
+      .section {
+        margin-top: 3rem;
+      }
+
+      .section h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+
+      .card,
+      .timeline-item {
+        background-color: var(--card-bg);
+        backdrop-filter: blur(10px);
+        padding: 2rem;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        transition: transform 0.3s ease;
+        margin-bottom: 1.5rem;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .projects,
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 1rem;
+      }
+
+      .project-card,
+      .skill-bar {
+        text-align: center;
+      }
+
+      .project-card img {
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+      }
+
+      .project-card a {
+        display: inline-block;
+        margin-top: 0.5rem;
+        background: var(--primary);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: background 0.3s;
+      }
+
+      .project-card a:hover {
+        background: #345eea;
+      }
+
+      .skill-bar {
+        background: #dfe7ff;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .skill-bar span {
+        display: block;
+        height: 20px;
+        background: var(--primary);
+        animation: growBar 2s ease forwards;
+      }
+
+      @keyframes growBar {
+        from {
+          width: 0;
+        }
+        to {
+          width: var(--level);
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="left"><a href="#">SIFAT</a></div>
+      <div class="right">
+        <a href="https://github.com/SifatSwapnil2022" target="_blank"
+          ><i class="fab fa-github"></i
+        ></a>
+        <a href="https://linkedin.com/in/mdsifatullahsheikh" target="_blank"
+          ><i class="fab fa-linkedin"></i
+        ></a>
+        <a href="mailto:mdsifatullahsheikh@gmail.com"
+          ><i class="fas fa-envelope"></i
+        ></a>
+        <span
+          class="theme-toggle"
+          onclick="document.body.dataset.theme = document.body.dataset.theme === 'dark' ? '' : 'dark'"
+          ><i class="fas fa-adjust"></i
+        ></span>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="text">
+        <h1>Greetings !</h1>
+        <p>
+          I am Md Sifat Ullah Sheikh from Dhaka, Bangladesh, currently a
+          final-year undergraduate student at East West University, pursuing a
+          B.Sc. in Computer Science and Engineering with a major in Data Science
+          and Intelligent Systems. I am deeply passionate about building
+          intelligent systems that can learn, adapt, and make decisions in real
+          world contexts. My primary interests lie at the intersection of
+          machine learning, large language models, robotics, and embodied
+          intelligence.
+        </p>
+      </div>
+      <div class="image">
+        <img src="images/me.jpeg" alt="Sifat's portrait" />
+      </div>
+    </section>
+
+    <section class="section" id="education">
+      <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+      <div class="card">
+        <h3>East West University</h3>
+        <p>
+          BSc in Computer Science and Engineering<br /><em
+            >2022 – Present (Expected graduation December 2025)</em
+          >
+        </p>
+      </div>
+      <div class="card">
+        <h3>Birshreshtha Munshi Abdur Rouf Public College</h3>
+        <p>Higher Secondary Certificate (HSC)<br /><em>2017 – 2019</em></p>
+      </div>
+      <div class="card">
+        <h3>Narinda Govt. High School</h3>
+        <p>Secondary School Certificate (SSC)<br /><em>2015 – 2017</em></p>
+      </div>
+    </section>
+
+    <section class="section" id="news">
+      <h2><i class="fas fa-newspaper"></i> Research News & Updates</h2>
+      <div class="card">
+        <h3>📜 Latest Publication</h3>
+        <p>
+          <strong>Title:</strong> Deepfake Detection using CNN + Vision
+          Transformers<br />
+          <strong>Conference:</strong> IBDAP 2025<br />
+          <strong>Date:</strong> July 2025
+        </p>
+        <p>
+          This paper presents a novel approach combining Convolutional Neural
+          Networks (CNNs) with Vision Transformers for effective deepfake
+          detection, achieving state-of-the-art results on benchmark datasets.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>📜 Deepfake Detection Project</h3>
+        <div class="card">
+          <img
+            src="images/vit.png"
+            alt="VFDNET Architecture"
+            style="width: 100%; border-radius: 10px; margin-bottom: 1rem"
+          />
+          <p>
+            <strong>What is a deepfake?</strong><br />
+            A deepfake refers to AI-generated media where a person’s appearance
+            or voice is synthetically replaced by another. Although the term
+            emerged around 2017, visual forgery has existed for over a century.
+            VFDNET (Vision Fake Detection Network) is our response — a
+            transformer-based deep learning model for spotting fake or
+            GAN-generated images.
+          </p>
+          <h4>🔍 How Vision Fake Detection Network (VFDNET) Works</h4>
+          <ul>
+            <li><strong>Input Image:</strong> 224×224×3 RGB image</li>
+            <li>
+              <strong>Patch Embedding:</strong> Image split into 16×16 patches
+              (196 total), flattened and projected
+            </li>
+            <li>
+              <strong>Positional Encoding:</strong> Added to patch embeddings to
+              preserve spatial info
+            </li>
+            <li>
+              <strong>[CLS] Token:</strong> Added to represent global image
+              features
+            </li>
+            <li>
+              <strong>Transformer Encoder:</strong> Includes Layer Norm, MHSA,
+              MLP, and residual connections
+            </li>
+            <li><strong>Feature Extraction:</strong> Use [CLS] token output</li>
+            <li>
+              <strong>Classification Head:</strong> MLP + softmax for Real/Fake
+              prediction
+            </li>
+          </ul>
+          <p>
+            In an age of synthetic media, VFDNET helps defend visual integrity
+            by detecting manipulated content with high accuracy.
+          </p>
+        </div>
+      </div>
+      <div class="card" style="padding: 1rem; font-family: Arial, sans-serif">
+        <h3>🧪 Ongoing Research</h3>
+        <br />
+
+        <!-- Retinal Research Section -->
+        <div style="margin-bottom: 2rem">
+          <p>
+            <strong
+              >Retinal Disease Detection using Self-Supervised Vision
+              Transformers:</strong
+            ><br />
+            Investigating a scalable AI pipeline combining Self-Supervised
+            Learning (SSL) and Vision Transformers (ViTs) for early detection of
+            retinal diseases such as Diabetic Retinopathy (DR), AMD, and
+            Glaucoma from fundus images. SSL frameworks like DINO and MAE enable
+            the model to learn from large unlabeled datasets, reducing reliance
+            on expert annotations. Fine-tuned ViTs capture global retinal
+            patterns, and Grad-CAM provides visual interpretability. This
+            approach supports telemedicine, clinical triaging, and discovery of
+            novel biomarkers.
+          </p>
+          <img
+            src="images/SSL2.png"
+            alt="Retinal fundus example"
+            style="
+              width: 100%;
+              max-width: 600px;
+              display: block;
+              margin-top: 1rem;
+              border-radius: 8px;
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            "
+          />
+        </div>
+
+        <!-- Ethnobotanical Knowledge Graph Section -->
+        <div style="margin-bottom: 2rem">
+          <strong
+            >An Integrated Deep Learning and Language Processing Framework for
+            Medicinal Plant Identification and Ethnobotanical
+            Description</strong
+          >
+          <p>
+            This project aims to develop an
+            <strong>Ethnobotanical Knowledge Graph</strong> by integrating
+            textual ethnobotanical knowledge and custom plant datasets through
+            advanced AI and NLP techniques. The workflow is as follows:
+          </p>
+
+          <ul style="list-style-type: disc; padding-left: 1.2rem">
+            <li>
+              <strong>Text Sources</strong> (traditional texts, modern
+              literature, fieldwork) undergo NLP processing for entity
+              recognition, relationship extraction, and standardization.
+            </li>
+            <li>
+              <strong>Custom Plant Image Dataset</strong> is collected and used
+              for model training via:
+              <ul style="list-style-type: circle; padding-left: 1.2rem">
+                <li>Traditional ML (SVM, RF, KNN)</li>
+                <li>Deep Learning (CNNs, ResNet, EfficientNet)</li>
+                <li>Transformer-based Models</li>
+                <li>Hybrid and Ensemble Methods</li>
+              </ul>
+            </li>
+            <li>
+              Trained models support <strong>Plant Identification</strong>,
+              followed by <strong>Model Comparison</strong> and
+              <strong>XAI Tools</strong>.
+            </li>
+            <li>
+              Outputs from both textual and visual pipelines feed into an
+              <strong>Integrated Pipeline</strong> for structured knowledge
+              extraction.
+            </li>
+            <li>
+              The resulting knowledge graph informs:
+              <ul style="list-style-type: circle; padding-left: 1.2rem">
+                <li>Multimodal Reports</li>
+                <li>Web Application</li>
+                <li>Delivery to End Users</li>
+              </ul>
+            </li>
+          </ul>
+
+          <p>
+            Ultimately, this facilitates a
+            <strong>comprehensive understanding and preservation</strong> of
+            indigenous medicinal plant knowledge by linking plants to their
+            uses, properties, and cultural context.
+          </p>
+
+          <img
+            src="images/WORKFLOW.png"
+            alt="Ethnobotanical Workflow Diagram"
+            style="
+              width: 100%;
+              max-width: 800px;
+              margin-top: 1rem;
+              border: 1px solid #ccc;
+              padding: 5px;
+              border-radius: 6px;
+            "
+          />
+        </div>
+
+        <!-- Additional Research Items -->
+        <ul
+          style="
+            list-style-type: disc;
+            padding-left: 1.2rem;
+            margin-bottom: 2rem;
+          "
+        >
+          <!-- Deepfake Detection -->
+          <li style="margin-bottom: 1rem">
+            <strong
+              >Continued Development on Deepfake Detection
+              (Post-Publication):</strong
+            ><br />
+            Building upon our previously published deepfake detection work, this
+            ongoing effort focuses on improving model robustness across diverse
+            manipulation techniques and datasets. We are integrating advanced
+            temporal modeling (e.g., CNN-LSTM), feature-level inconsistency
+            analysis, and visual explanations (Grad-CAM, LIME) to detect forged
+            content more accurately. Current updates aim to generalize detection
+            across challenging benchmarks like DFDC and FaceForensics++, with
+            emphasis on adversarial resistance and real-time inference
+            potential.
+          </li>
+        </ul>
+      </div>
+
+      <style>
+        .btn-group {
+          display: flex;
+          justify-content: center;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+          margin-top: 0.5rem;
+        }
+
+        .btn {
+          padding: 0.4rem 1rem;
+          background: var(--primary);
+          color: #fff;
+          border-radius: 6px;
+          text-decoration: none;
+          font-weight: 600;
+          transition: background 0.3s;
+        }
+
+        .btn:hover {
+          background: #345eea;
+        }
+      </style>
+
+      <style>
+        .btn-group {
+          display: flex;
+          justify-content: center;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+          margin-top: 0.5rem;
+        }
+
+        .btn {
+          padding: 0.4rem 1rem;
+          background: var(--primary);
+          color: #fff;
+          border-radius: 6px;
+          text-decoration: none;
+          font-weight: 600;
+          transition: background 0.3s;
+        }
+
+        .btn:hover {
+          background: #345eea;
+        }
+      </style>
+
+      <section class="section">
+        <h2>Area of Interest</h2>
+        <div class="card">
+          <p>
+            <strong
+              >Artificial Intelligence, Machine Learning, Deep Learning, NLP and
+              LLM</strong
+            >: Focused on building intelligent systems that can learn, adapt,
+            and make decisions in real-world contexts.
+          </p>
+        </div>
+      </section>
+    </section>
+    <section class="section" id="projects">
+      <h2><i class="fas fa-project-diagram"></i> Projects</h2>
+      <div class="projects">
+        <div class="project-card">
+          <img src="projects/sample1.png" alt="EWU Chronicle NET" />
+          <h3>EWU Chronicle NET</h3>
+          <p>Database app with user roles & interactivity.</p>
+          <div class="btn-group">
+            <a
+              class="btn"
+              href="https://apex.oracle.com/pls/apex/r/tanvir_mridha17540042/cems/"
+              target="_blank"
+              >Live Demo</a
+            >
+            <a
+              class="btn"
+              href="https://github.com/SifatSwapnil2022/Campus-Event-Management-System"
+              target="_blank"
+              >Source Code</a
+            >
+          </div>
+        </div>
+        <div class="project-card">
+          <img src="projects/sample2.png" alt="BD Railway Management" />
+          <h3>BD Railway Management</h3>
+          <p>Optimized RMS for scheduling & logistics.</p>
+          <div class="btn-group">
+            <a
+              class="btn"
+              href="https://apex.oracle.com/pls/apex/r/database_cse303/bangladesh-railway-management-system/"
+              target="_blank"
+              >Live Demo</a
+            >
+            <a
+              class="btn"
+              href="https://github.com/SifatSwapnil2022/Bangladesh-Railway-Management-System"
+              target="_blank"
+              >Source Code</a
+            >
+          </div>
+        </div>
+        <div class="project-card">
+          <img src="projects/sample3.png" alt="FoodieBite App" />
+          <h3>FoodieBite</h3>
+          <p>Food delivery platform improving UX & ops.</p>
+          <div class="btn-group">
+            <a
+              class="btn"
+              href="https://foodiebite-app-frontend.onrender.com/"
+              target="_blank"
+              >Live Demo</a
+            >
+            <a
+              class="btn"
+              href="https://github.com/SifatSwapnil2022/FoodieBite-app-frontend"
+              target="_blank"
+              >Source Code</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <style>
+      .btn-group {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+      }
+
+      .btn {
+        padding: 0.4rem 1rem;
+        background: var(--primary);
+        color: #fff;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background 0.3s;
+      }
+
+      .btn:hover {
+        background: #345eea;
+      }
+    </style>
+
+    <section class="section">
+      <h2>Technical Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-bar" style="--level: 90%">
+          Python<span style="width: 90%"></span>
+        </div>
+        <div class="skill-bar" style="--level: 80%">
+          TensorFlow<span style="width: 80%"></span>
+        </div>
+        <div class="skill-bar" style="--level: 75%">
+          PyTorch<span style="width: 75%"></span>
+        </div>
+        <div class="skill-bar" style="--level: 85%">
+          HTML/CSS/JS<span style="width: 85%"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Hobbies</h2>
+      <div class="card">
+        <p>
+          Photography, Traveling, Reading, and Cooking. I enjoy capturing
+          moments through photography, exploring new places, diving into books,
+          and experimenting with new recipes.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Contact Me</h2>
+      <div class="card">
+        <p>
+          Email:
+          <a href="mailto:mdsifatullahsheikh@gmail.com"
+            >mdsifatullahsheikh@gmail.com</a
+          >
+        </p>
+        <p>
+          LinkedIn:
+          <a href="https://linkedin.com/in/mdsifatullahsheikh" target="_blank"
+            >Profile</a
+          >
+        </p>
+      </div>
+    </section>
+  </body>
+</html>
