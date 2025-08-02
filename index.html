@@ -3,31 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Md Sifatullah Sheikh | Portfolio</title>
+    <title>Md Sifatullah Sheikh | AI/ML Researcher & Engineer</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       crossorigin="anonymous"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
         --primary: #4a76ee;
-        --bg: #f0f2f8;
+        --primary-light: #6d8ef0;
+        --primary-dark: #345eea;
+        --secondary: #6c63ff;
+        --accent: #ff6584;
+        --bg: #f8faff;
         --text: #1c1e21;
-        --card-bg: rgba(255, 255, 255, 0.75);
-        --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        --text-light: #5a5d63;
+        --card-bg: rgba(255, 255, 255, 0.9);
+        --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
         --radius: 16px;
+        --radius-sm: 8px;
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        --section-padding: 4rem 0;
+        --max-width: 1200px;
       }
 
       [data-theme="dark"] {
         --primary: #90caf9;
+        --primary-light: #b3d9ff;
+        --primary-dark: #6da8d8;
+        --secondary: #a59cff;
+        --accent: #ff8fa3;
         --bg: #121212;
-        --text: #ffffff;
-        --card-bg: rgba(30, 30, 30, 0.85);
+        --bg-light: #1e1e1e;
+        --text: #f0f0f0;
+        --text-light: #b0b0b0;
+        --card-bg: rgba(30, 30, 30, 0.9);
+        --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
       }
 
       * {
@@ -38,161 +56,644 @@
 
       html {
         scroll-behavior: smooth;
+        font-size: 16px;
       }
 
       body {
         font-family: "Outfit", sans-serif;
         background-color: var(--bg);
         color: var(--text);
-        line-height: 1.6;
-        padding: 2rem;
-        transition: background-color 0.4s, color 0.4s;
+        line-height: 1.7;
+        transition: var(--transition);
+        overflow-x: hidden;
       }
 
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-weight: 600;
+        line-height: 1.3;
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        font-family: "Playfair Display", serif;
+      }
+
+      h2 {
+        font-size: 2rem;
+        color: var(--primary);
+        position: relative;
+        display: inline-block;
+        margin-bottom: 2rem;
+      }
+
+      h2::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 3px;
+      }
+
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      p {
+        margin-bottom: 1rem;
+        color: var(--text-light);
+      }
+
+      a {
+        color: var(--primary);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      a:hover {
+        color: var(--primary-dark);
+      }
+
+      ul {
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      li {
+        margin-bottom: 0.5rem;
+      }
+
+      strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      em {
+        font-style: italic;
+        color: var(--text-light);
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .container {
+        width: 100%;
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      /* Navigation */
       nav {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: white;
-        padding: 1rem 2rem;
-        border-radius: var(--radius);
+        padding: 1.5rem 2rem;
+        background-color: var(--card-bg);
+        backdrop-filter: blur(10px);
         box-shadow: var(--shadow);
-        margin-bottom: 2rem;
-        position: sticky;
+        position: fixed;
         top: 0;
-        z-index: 10;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        transition: var(--transition);
       }
 
-      nav .left a {
+      nav.scrolled {
+        padding: 1rem 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-left a {
         font-size: 1.6rem;
         font-weight: 700;
         color: var(--primary);
+        font-family: "Playfair Display", serif;
       }
 
-      nav .right a {
-        margin-left: 1.5rem;
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .nav-link {
         color: var(--text);
-        transition: color 0.3s;
+        font-weight: 500;
+        transition: var(--transition);
+        position: relative;
       }
 
-      nav .right a:hover {
+      .nav-link:hover {
         color: var(--primary);
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        transition: var(--transition);
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
       }
 
       .theme-toggle {
         cursor: pointer;
         font-size: 1.2rem;
-        padding: 0.5rem;
-      }
-
-      .hero {
+        color: var(--text);
+        transition: var(--transition);
         display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        background: linear-gradient(to right, #e6edff, #f3f6ff);
-        padding: 3rem;
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        margin-bottom: 2rem;
-        animation: fadeIn 1s ease-in-out;
-      }
-
-      .hero .text {
-        flex: 1 1 60%;
-      }
-
-      .hero .image {
-        flex: 1 1 30%;
-        text-align: center;
-      }
-
-      .hero img {
-        width: 220px;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
         border-radius: 50%;
-        border: 4px solid var(--primary);
-        box-shadow: var(--shadow);
-        animation: float 3s ease-in-out infinite;
       }
 
-      .section {
-        margin-top: 3rem;
-      }
-
-      .section h2 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
+      .theme-toggle:hover {
         color: var(--primary);
+        background-color: rgba(74, 118, 238, 0.1);
       }
 
-      .card,
-      .timeline-item {
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--text);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 8rem 0 4rem;
+        background: linear-gradient(
+          135deg,
+          rgba(74, 118, 238, 0.1) 0%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 80%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(74, 118, 238, 0.08) 0%,
+          rgba(255, 255, 255, 0) 70%
+        );
+        z-index: -1;
+      }
+
+      .hero-content {
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+      }
+
+      .hero-text {
+        flex: 1;
+        animation: fadeInUp 1s ease-out;
+      }
+
+      .hero-image {
+        flex: 0 0 400px;
+        position: relative;
+        animation: fadeIn 1s ease-out 0.3s both;
+      }
+
+      .hero-image img {
+        width: 100%;
+        max-width: 350px;
+        border-radius: var(--radius);
+        border: 8px solid var(--card-bg);
+        box-shadow: var(--shadow);
+        position: relative;
+        z-index: 1;
+        transition: var(--transition);
+      }
+
+      .hero-image::before {
+        content: "";
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 100%;
+        height: 100%;
+        border-radius: var(--radius);
+        border: 2px solid var(--primary);
+        z-index: 0;
+        transition: var(--transition);
+      }
+
+      .hero-image:hover img {
+        transform: translate(-10px, -10px);
+      }
+
+      .hero-image:hover::before {
+        transform: translate(10px, 10px);
+      }
+
+      .hero-title {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--text);
+        line-height: 1.2;
+      }
+
+      .hero-subtitle {
+        font-size: 1.2rem;
+        color: var(--primary);
+        margin-bottom: 2rem;
+        font-weight: 500;
+      }
+
+      .hero-description {
+        font-size: 1.1rem;
+        margin-bottom: 2.5rem;
+        max-width: 600px;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .social-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--card-bg);
+        color: var(--text);
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+      }
+
+      .social-link:hover {
+        background-color: var(--primary);
+        color: white;
+        transform: translateY(-3px);
+      }
+
+      /* Sections */
+      section {
+        padding: var(--section-padding);
+        position: relative;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .section-title h2 {
+        display: inline-block;
+      }
+
+      /* Cards */
+      .card {
         background-color: var(--card-bg);
         backdrop-filter: blur(10px);
         padding: 2rem;
         border-radius: var(--radius);
         box-shadow: var(--shadow);
-        transition: transform 0.3s ease;
+        transition: var(--transition);
         margin-bottom: 1.5rem;
+        border: 1px solid rgba(74, 118, 238, 0.1);
       }
 
       .card:hover {
         transform: translateY(-5px);
+        box-shadow: var(--shadow-hover);
       }
 
-      .projects,
-      .skills-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
-        margin-top: 1rem;
-      }
-
-      .project-card,
-      .skill-bar {
-        text-align: center;
-      }
-
-      .project-card img {
-        width: 100%;
-        border-radius: 10px;
+      .card-icon {
+        font-size: 2rem;
+        color: var(--primary);
         margin-bottom: 1rem;
       }
 
-      .project-card a {
-        display: inline-block;
-        margin-top: 0.5rem;
-        background: var(--primary);
-        color: #fff;
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: background 0.3s;
+      /* Timeline */
+      .timeline {
+        position: relative;
+        padding-left: 2rem;
       }
 
-      .project-card a:hover {
-        background: #345eea;
+      .timeline::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 7px;
+        height: 100%;
+        width: 2px;
+        background: var(--primary);
+      }
+
+      .timeline-item {
+        position: relative;
+        padding-bottom: 2rem;
+        padding-left: 2rem;
+      }
+
+      .timeline-item:last-child {
+        padding-bottom: 0;
+      }
+
+      .timeline-dot {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: var(--primary);
+        border: 3px solid var(--card-bg);
+      }
+
+      .timeline-date {
+        font-size: 0.9rem;
+        color: var(--text-light);
+        margin-bottom: 0.5rem;
+      }
+
+      /* Projects */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 2rem;
+      }
+
+      .project-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .project-image {
+        height: 200px;
+        overflow: hidden;
+        border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      }
+
+      .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .project-card:hover .project-image img {
+        transform: scale(1.05);
+      }
+
+      .project-content {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .project-title {
+        margin-bottom: 0.75rem;
+      }
+
+      .project-description {
+        margin-bottom: 1.5rem;
+        flex-grow: 1;
+      }
+
+      .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .tag {
+        background-color: rgba(74, 118, 238, 0.1);
+        color: var(--primary);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: auto;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.6rem 1.2rem;
+        border-radius: var(--radius-sm);
+        font-weight: 500;
+        transition: var(--transition);
+        gap: 0.5rem;
+      }
+
+      .btn-primary {
+        background-color: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      .btn-outline {
+        border: 1px solid var(--primary);
+        color: var(--primary);
+      }
+
+      .btn-outline:hover {
+        background-color: var(--primary);
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      /* Skills */
+      .skills-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .skill-category {
+        background-color: var(--card-bg);
+        padding: 1.5rem;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      .skill-category-title {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+
+      .skill-item {
+        margin-bottom: 1rem;
+      }
+
+      .skill-name {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
       }
 
       .skill-bar {
-        background: #dfe7ff;
-        border-radius: 10px;
+        height: 8px;
+        background-color: rgba(74, 118, 238, 0.1);
+        border-radius: 4px;
         overflow: hidden;
-        position: relative;
       }
 
-      .skill-bar span {
-        display: block;
-        height: 20px;
-        background: var(--primary);
-        animation: growBar 2s ease forwards;
+      .skill-progress {
+        height: 100%;
+        background-color: var(--primary);
+        border-radius: 4px;
+        transition: width 1.5s ease;
       }
 
-      @keyframes growBar {
+      /* Research */
+      .research-item {
+        margin-bottom: 3rem;
+      }
+
+      .research-image {
+        margin: 1.5rem 0;
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      .research-image img {
+        width: 100%;
+        transition: transform 0.5s ease;
+      }
+
+      .research-image:hover img {
+        transform: scale(1.02);
+      }
+
+      /* Contact */
+      .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .contact-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .contact-icon {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+      }
+
+      .contact-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .contact-info {
+        color: var(--text-light);
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--card-bg);
+        padding: 2rem 0;
+        text-align: center;
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .footer-content {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin: 1.5rem 0;
+      }
+
+      .footer-link {
+        color: var(--text-light);
+        transition: var(--transition);
+      }
+
+      .footer-link:hover {
+        color: var(--primary);
+      }
+
+      .copyright {
+        color: var(--text-light);
+        font-size: 0.9rem;
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
         from {
-          width: 0;
+          opacity: 0;
         }
         to {
-          width: var(--level);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
       }
 
@@ -206,113 +707,192 @@
         }
       }
 
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
+      /* Responsive */
+      @media (max-width: 992px) {
+        .hero-content {
+          flex-direction: column-reverse;
+          text-align: center;
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+
+        .hero-image {
+          margin-bottom: 2rem;
+        }
+
+        .hero-description {
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .social-links {
+          justify-content: center;
         }
       }
 
       @media (max-width: 768px) {
-        .hero {
+        html {
+          font-size: 15px;
+        }
+
+        .mobile-menu-btn {
+          display: block;
+        }
+
+        .nav-right {
+          position: fixed;
+          top: 80px;
+          right: -100%;
+          width: 70%;
+          height: calc(100vh - 80px);
+          background-color: var(--card-bg);
           flex-direction: column;
-          text-align: center;
+          align-items: flex-start;
+          padding: 2rem;
+          box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+          transition: right 0.3s ease;
+          z-index: 999;
+        }
+
+        .nav-right.active {
+          right: 0;
+        }
+
+        .hero-title {
+          font-size: 2.5rem;
+        }
+
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .container {
+          padding: 0 1.5rem;
+        }
+
+        .hero-title {
+          font-size: 2rem;
+        }
+
+        .btn-group {
+          flex-direction: column;
+        }
+
+        .btn {
+          width: 100%;
         }
       }
     </style>
   </head>
   <body>
-    <nav>
-      <div class="left"><a href="#">SIFAT</a></div>
-      <div class="right">
-        <a href="https://github.com/SifatSwapnil2022" target="_blank"
-          ><i class="fab fa-github"></i
-        ></a>
-        <a href="https://linkedin.com/in/mdsifatullahsheikh" target="_blank"
-          ><i class="fab fa-linkedin"></i
-        ></a>
-        <a href="mailto:mdsifatullahsheikh@gmail.com"
-          ><i class="fas fa-envelope"></i
-        ></a>
-        <span
-          class="theme-toggle"
-          onclick="document.body.dataset.theme = document.body.dataset.theme === 'dark' ? '' : 'dark'"
-          ><i class="fas fa-adjust"></i
-        ></span>
+    <!-- Navigation -->
+    <nav id="navbar">
+      <div class="container">
+        <div class="nav-left">
+          <a href="#">SIFAT</a>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-right" id="navRight">
+          <a href="#about" class="nav-link">About</a>
+          <a href="#research" class="nav-link">Research</a>
+          <a href="#education" class="nav-link">Education</a>
+          <a href="#projects" class="nav-link">Projects</a>
+          <a href="#skills" class="nav-link">Skills</a>
+          <a href="#contact" class="nav-link">Contact</a>
+          <span
+            class="theme-toggle"
+            id="themeToggle"
+            title="Toggle Dark/Light Mode"
+          >
+            <i class="fas fa-adjust"></i>
+          </span>
+        </div>
       </div>
     </nav>
 
-    <section class="hero">
-      <div class="text">
-        <h1>Greetings !</h1>
-        <p>
-          I am Md Sifat Ullah Sheikh from Dhaka, Bangladesh, currently a
-          final-year undergraduate student at East West University, pursuing a
-          B.Sc. in Computer Science and Engineering with a major in Data Science
-          and Intelligent Systems. I am deeply passionate about building
-          intelligent systems that can learn, adapt, and make decisions in real
-          world contexts. My primary interests lie at the intersection of
-          machine learning, large language models, robotics, and embodied
-          intelligence.
-        </p>
-      </div>
-      <div class="image">
-        <img src="images/me.jpeg" alt="Sifat's portrait" />
+    <!-- Hero Section -->
+    <section class="hero" id="about">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1 class="hero-title">Md Sifatullah Sheikh</h1>
+            <h2 class="hero-subtitle">
+              Area of Interest: ML, DL, Embodied Robotics, LLMs & NLP
+            </h2>
+            <p class="hero-description">
+              I am a final-year undergraduate student at East West University,
+              pursuing a B.Sc. in Computer Science and Engineering with a major
+              in Data Science and Intelligent Systems. I am deeply passionate
+              about building intelligent systems that can learn, adapt, and make
+              decisions in real-world contexts. My primary interests lie at the
+              intersection of machine learning, large language models, robotics,
+              and embodied intelligence.
+            </p>
+            <div class="social-links">
+              <a
+                href="https://github.com/SifatSwapnil2022"
+                target="_blank"
+                class="social-link"
+                title="GitHub"
+              >
+                <i class="fab fa-github"></i>
+              </a>
+              <a
+                href="https://linkedin.com/in/mdsifatullahsheikh"
+                target="_blank"
+                class="social-link"
+                title="LinkedIn"
+              >
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a
+                href="mailto:mdsifatullahsheikh@gmail.com"
+                class="social-link"
+                title="Email"
+              >
+                <i class="fas fa-envelope"></i>
+              </a>
+            </div>
+          </div>
+          <div class="hero-image">
+            <img src="images/me.jpg" alt="Md Sifatullah Sheikh" />
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="section" id="education">
-      <h2><i class="fas fa-graduation-cap"></i> Education</h2>
-      <div class="card">
-        <h3>East West University</h3>
-        <p>
-          BSc in Computer Science and Engineering<br /><em
-            >2022 – Present (Expected graduation December 2025)</em
-          >
-        </p>
-      </div>
-      <div class="card">
-        <h3>Birshreshtha Munshi Abdur Rouf Public College</h3>
-        <p>Higher Secondary Certificate (HSC)<br /><em>2017 – 2019</em></p>
-      </div>
-      <div class="card">
-        <h3>Narinda Govt. High School</h3>
-        <p>Secondary School Certificate (SSC)<br /><em>2015 – 2017</em></p>
-      </div>
-    </section>
+    <!-- Research Section -->
+    <section id="research" class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2><i class="fas fa-microscope"></i> Research & Publications</h2>
+        </div>
 
-    <section class="section" id="news">
-      <h2><i class="fas fa-newspaper"></i> Research News & Updates</h2>
-      <div class="card">
-        <h3>📜 Latest Publication</h3>
-        <p>
-          <strong>Title:</strong> Deepfake Detection using CNN + Vision
-          Transformers<br />
-          <strong>Conference:</strong> IBDAP 2025<br />
-          <strong>Date:</strong> July 2025
-        </p>
-        <p>
-          This paper presents a novel approach combining Convolutional Neural
-          Networks (CNNs) with Vision Transformers for effective deepfake
-          detection, achieving state-of-the-art results on benchmark datasets.
-        </p>
-      </div>
+        <div class="card research-item">
+          <h3>📜 Latest Publication</h3>
+          <p>
+            <strong>Title:</strong> Deepfake Detection using CNN + Vision
+            Transformers<br />
+            <strong>Conference:</strong> IBDAP 2025<br />
+            <strong>Date:</strong> July 2025
+          </p>
+          <p>
+            This paper presents a novel approach combining Convolutional Neural
+            Networks (CNNs) with Vision Transformers for effective deepfake
+            detection, achieving state-of-the-art results on benchmark datasets.
+          </p>
+        </div>
 
-      <div class="card">
-        <h3>📜 Deepfake Detection Project</h3>
-        <div class="card">
-          <img
-            src="images/vit.png"
-            alt="VFDNET Architecture"
-            style="width: 100%; border-radius: 10px; margin-bottom: 1rem"
-          />
+        <div class="card research-item">
+          <h3>📜 Deepfake Detection Project</h3>
+          <div class="research-image">
+            <img src="images/vit.png" alt="VFDNET Architecture" />
+          </div>
           <p>
             <strong>What is a deepfake?</strong><br />
-            A deepfake refers to AI-generated media where a person’s appearance
+            A deepfake refers to AI-generated media where a person's appearance
             or voice is synthetically replaced by another. Although the term
             emerged around 2017, visual forgery has existed for over a century.
             VFDNET (Vision Fake Detection Network) is our response — a
@@ -349,191 +929,120 @@
             by detecting manipulated content with high accuracy.
           </p>
         </div>
-      </div>
-      <div class="card" style="padding: 1rem; font-family: Arial, sans-serif">
-        <h3>🧪 Ongoing Research</h3>
-        <br />
 
-        <!-- Retinal Research Section -->
-        <div style="margin-bottom: 2rem">
-          <p>
+        <div class="card research-item">
+          <h3>🧪 Ongoing Research</h3>
+
+          <!-- Retinal Research Section -->
+          <div style="margin-bottom: 2rem">
+            <p>
+              <strong
+                >Retinal Disease Detection using Self-Supervised Vision
+                Transformers:</strong
+              ><br />
+              Investigating a scalable AI pipeline combining Self-Supervised
+              Learning (SSL) and Vision Transformers (ViTs) for early detection
+              of retinal diseases such as Diabetic Retinopathy (DR), AMD, and
+              Glaucoma from fundus images. SSL frameworks like DINO and MAE
+              enable the model to learn from large unlabeled datasets, reducing
+              reliance on expert annotations. Fine-tuned ViTs capture global
+              retinal patterns, and Grad-CAM provides visual interpretability.
+              This approach supports telemedicine, clinical triaging, and
+              discovery of novel biomarkers.
+            </p>
+            <div class="research-image">
+              <img src="images/SSL2.png" alt="Retinal fundus example" />
+            </div>
+          </div>
+
+          <!-- Ethnobotanical Knowledge Graph Section -->
+          <div style="margin-bottom: 2rem">
             <strong
-              >Retinal Disease Detection using Self-Supervised Vision
-              Transformers:</strong
-            ><br />
-            Investigating a scalable AI pipeline combining Self-Supervised
-            Learning (SSL) and Vision Transformers (ViTs) for early detection of
-            retinal diseases such as Diabetic Retinopathy (DR), AMD, and
-            Glaucoma from fundus images. SSL frameworks like DINO and MAE enable
-            the model to learn from large unlabeled datasets, reducing reliance
-            on expert annotations. Fine-tuned ViTs capture global retinal
-            patterns, and Grad-CAM provides visual interpretability. This
-            approach supports telemedicine, clinical triaging, and discovery of
-            novel biomarkers.
-          </p>
-          <img
-            src="images/SSL2.png"
-            alt="Retinal fundus example"
-            style="
-              width: 100%;
-              max-width: 600px;
-              display: block;
-              margin-top: 1rem;
-              border-radius: 8px;
-              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            "
-          />
-        </div>
+              >An Integrated Deep Learning and Language Processing Framework for
+              Medicinal Plant Identification and Ethnobotanical
+              Description</strong
+            >
+            <p>
+              This project aims to develop an
+              <strong>Ethnobotanical Knowledge Graph</strong> by integrating
+              textual ethnobotanical knowledge and custom plant datasets through
+              advanced AI and NLP techniques. The workflow is as follows:
+            </p>
 
-        <!-- Ethnobotanical Knowledge Graph Section -->
-        <div style="margin-bottom: 2rem">
-          <strong
-            >An Integrated Deep Learning and Language Processing Framework for
-            Medicinal Plant Identification and Ethnobotanical
-            Description</strong
-          >
-          <p>
-            This project aims to develop an
-            <strong>Ethnobotanical Knowledge Graph</strong> by integrating
-            textual ethnobotanical knowledge and custom plant datasets through
-            advanced AI and NLP techniques. The workflow is as follows:
-          </p>
+            <ul>
+              <li>
+                <strong>Text Sources</strong> (traditional texts, modern
+                literature, fieldwork) undergo NLP processing for entity
+                recognition, relationship extraction, and standardization.
+              </li>
+              <li>
+                <strong>Custom Plant Image Dataset</strong> is collected and
+                used for model training via:
+                <ul>
+                  <li>Traditional ML (SVM, RF, KNN)</li>
+                  <li>Deep Learning (CNNs, ResNet, EfficientNet)</li>
+                  <li>Transformer-based Models</li>
+                  <li>Hybrid and Ensemble Methods</li>
+                </ul>
+              </li>
+              <li>
+                Trained models support <strong>Plant Identification</strong>,
+                followed by <strong>Model Comparison</strong> and
+                <strong>XAI Tools</strong>.
+              </li>
+              <li>
+                Outputs from both textual and visual pipelines feed into an
+                <strong>Integrated Pipeline</strong> for structured knowledge
+                extraction.
+              </li>
+              <li>
+                The resulting knowledge graph informs:
+                <ul>
+                  <li>Multimodal Reports</li>
+                  <li>Web Application</li>
+                  <li>Delivery to End Users</li>
+                </ul>
+              </li>
+            </ul>
 
-          <ul style="list-style-type: disc; padding-left: 1.2rem">
-            <li>
-              <strong>Text Sources</strong> (traditional texts, modern
-              literature, fieldwork) undergo NLP processing for entity
-              recognition, relationship extraction, and standardization.
-            </li>
-            <li>
-              <strong>Custom Plant Image Dataset</strong> is collected and used
-              for model training via:
-              <ul style="list-style-type: circle; padding-left: 1.2rem">
-                <li>Traditional ML (SVM, RF, KNN)</li>
-                <li>Deep Learning (CNNs, ResNet, EfficientNet)</li>
-                <li>Transformer-based Models</li>
-                <li>Hybrid and Ensemble Methods</li>
-              </ul>
-            </li>
-            <li>
-              Trained models support <strong>Plant Identification</strong>,
-              followed by <strong>Model Comparison</strong> and
-              <strong>XAI Tools</strong>.
-            </li>
-            <li>
-              Outputs from both textual and visual pipelines feed into an
-              <strong>Integrated Pipeline</strong> for structured knowledge
-              extraction.
-            </li>
-            <li>
-              The resulting knowledge graph informs:
-              <ul style="list-style-type: circle; padding-left: 1.2rem">
-                <li>Multimodal Reports</li>
-                <li>Web Application</li>
-                <li>Delivery to End Users</li>
-              </ul>
+            <p>
+              Ultimately, this facilitates a
+              <strong>comprehensive understanding and preservation</strong> of
+              indigenous medicinal plant knowledge by linking plants to their
+              uses, properties, and cultural context.
+            </p>
+
+            <div class="research-image">
+              <img
+                src="images/WORKFLOW.png"
+                alt="Ethnobotanical Workflow Diagram"
+              />
+            </div>
+          </div>
+
+          <!-- Additional Research Items -->
+          <ul>
+            <!-- Deepfake Detection -->
+            <li style="margin-bottom: 1rem">
+              <strong
+                >Continued Development on Deepfake Detection
+                (Post-Publication):</strong
+              ><br />
+              Building upon our previously published deepfake detection work,
+              this ongoing effort focuses on improving model robustness across
+              diverse manipulation techniques and datasets. We are integrating
+              advanced temporal modeling (e.g., CNN-LSTM), feature-level
+              inconsistency analysis, and visual explanations (Grad-CAM, LIME)
+              to detect forged content more accurately. Current updates aim to
+              generalize detection across challenging benchmarks like DFDC and
+              FaceForensics++, with emphasis on adversarial resistance and
+              real-time inference potential.
             </li>
           </ul>
-
-          <p>
-            Ultimately, this facilitates a
-            <strong>comprehensive understanding and preservation</strong> of
-            indigenous medicinal plant knowledge by linking plants to their
-            uses, properties, and cultural context.
-          </p>
-
-          <img
-            src="images/WORKFLOW.png"
-            alt="Ethnobotanical Workflow Diagram"
-            style="
-              width: 100%;
-              max-width: 800px;
-              margin-top: 1rem;
-              border: 1px solid #ccc;
-              padding: 5px;
-              border-radius: 6px;
-            "
-          />
         </div>
 
-        <!-- Additional Research Items -->
-        <ul
-          style="
-            list-style-type: disc;
-            padding-left: 1.2rem;
-            margin-bottom: 2rem;
-          "
-        >
-          <!-- Deepfake Detection -->
-          <li style="margin-bottom: 1rem">
-            <strong
-              >Continued Development on Deepfake Detection
-              (Post-Publication):</strong
-            ><br />
-            Building upon our previously published deepfake detection work, this
-            ongoing effort focuses on improving model robustness across diverse
-            manipulation techniques and datasets. We are integrating advanced
-            temporal modeling (e.g., CNN-LSTM), feature-level inconsistency
-            analysis, and visual explanations (Grad-CAM, LIME) to detect forged
-            content more accurately. Current updates aim to generalize detection
-            across challenging benchmarks like DFDC and FaceForensics++, with
-            emphasis on adversarial resistance and real-time inference
-            potential.
-          </li>
-        </ul>
-      </div>
-
-      <style>
-        .btn-group {
-          display: flex;
-          justify-content: center;
-          gap: 0.5rem;
-          flex-wrap: wrap;
-          margin-top: 0.5rem;
-        }
-
-        .btn {
-          padding: 0.4rem 1rem;
-          background: var(--primary);
-          color: #fff;
-          border-radius: 6px;
-          text-decoration: none;
-          font-weight: 600;
-          transition: background 0.3s;
-        }
-
-        .btn:hover {
-          background: #345eea;
-        }
-      </style>
-
-      <style>
-        .btn-group {
-          display: flex;
-          justify-content: center;
-          gap: 0.5rem;
-          flex-wrap: wrap;
-          margin-top: 0.5rem;
-        }
-
-        .btn {
-          padding: 0.4rem 1rem;
-          background: var(--primary);
-          color: #fff;
-          border-radius: 6px;
-          text-decoration: none;
-          font-weight: 600;
-          transition: background 0.3s;
-        }
-
-        .btn:hover {
-          background: #345eea;
-        }
-      </style>
-
-      <section class="section">
-        <h2>Area of Interest</h2>
         <div class="card">
+          <h3>Area of Interest</h3>
           <p>
             <strong
               >Artificial Intelligence, Machine Learning, Deep Learning, NLP and
@@ -542,140 +1051,515 @@
             and make decisions in real-world contexts.
           </p>
         </div>
-      </section>
+      </div>
     </section>
-    <section class="section" id="projects">
-      <h2><i class="fas fa-project-diagram"></i> Projects</h2>
-      <div class="projects">
-        <div class="project-card">
-          <img src="projects/sample1.png" alt="EWU Chronicle NET" />
-          <h3>EWU Chronicle NET</h3>
-          <p>Database app with user roles & interactivity.</p>
-          <div class="btn-group">
-            <a
-              class="btn"
-              href="https://apex.oracle.com/pls/apex/r/tanvir_mridha17540042/cems/"
-              target="_blank"
-              >Live Demo</a
-            >
-            <a
-              class="btn"
-              href="https://github.com/SifatSwapnil2022/Campus-Event-Management-System"
-              target="_blank"
-              >Source Code</a
-            >
-          </div>
+
+    <!-- Education Section -->
+    <section id="education" class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2><i class="fas fa-graduation-cap"></i> Education</h2>
         </div>
-        <div class="project-card">
-          <img src="projects/sample2.png" alt="BD Railway Management" />
-          <h3>BD Railway Management</h3>
-          <p>Optimized RMS for scheduling & logistics.</p>
-          <div class="btn-group">
-            <a
-              class="btn"
-              href="https://apex.oracle.com/pls/apex/r/database_cse303/bangladesh-railway-management-system/"
-              target="_blank"
-              >Live Demo</a
-            >
-            <a
-              class="btn"
-              href="https://github.com/SifatSwapnil2022/Bangladesh-Railway-Management-System"
-              target="_blank"
-              >Source Code</a
-            >
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content card">
+              <h3>East West University</h3>
+              <p class="timeline-date">
+                2022 – Present (Expected graduation December 2025)
+              </p>
+              <p>
+                BSc in Computer Science and Engineering<br />
+                Major in Data Science and Intelligent Systems
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="project-card">
-          <img src="projects/sample3.png" alt="FoodieBite App" />
-          <h3>FoodieBite</h3>
-          <p>Food delivery platform improving UX & ops.</p>
-          <div class="btn-group">
-            <a
-              class="btn"
-              href="https://foodiebite-app-frontend.onrender.com/"
-              target="_blank"
-              >Live Demo</a
-            >
-            <a
-              class="btn"
-              href="https://github.com/SifatSwapnil2022/FoodieBite-app-frontend"
-              target="_blank"
-              >Source Code</a
-            >
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content card">
+              <h3>Birshreshtha Munshi Abdur Rouf Public College</h3>
+              <p class="timeline-date">2017 – 2019</p>
+              <p>
+                Higher Secondary Certificate (HSC)<br />
+                Science Group
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content card">
+              <h3>Narinda Govt. High School</h3>
+              <p class="timeline-date">2015 – 2017</p>
+              <p>
+                Secondary School Certificate (SSC)<br />
+                Science Group
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <style>
-      .btn-group {
-        display: flex;
-        justify-content: center;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        margin-top: 0.5rem;
-      }
-
-      .btn {
-        padding: 0.4rem 1rem;
-        background: var(--primary);
-        color: #fff;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: background 0.3s;
-      }
-
-      .btn:hover {
-        background: #345eea;
-      }
-    </style>
-
-    <section class="section">
-      <h2>Technical Skills</h2>
-      <div class="skills-grid">
-        <div class="skill-bar" style="--level: 90%">
-          Python<span style="width: 90%"></span>
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2><i class="fas fa-project-diagram"></i> Projects</h2>
         </div>
-        <div class="skill-bar" style="--level: 80%">
-          TensorFlow<span style="width: 80%"></span>
-        </div>
-        <div class="skill-bar" style="--level: 75%">
-          PyTorch<span style="width: 75%"></span>
-        </div>
-        <div class="skill-bar" style="--level: 85%">
-          HTML/CSS/JS<span style="width: 85%"></span>
+
+        <div class="projects-grid">
+          <!-- Project 1 -->
+          <div class="card project-card">
+            <div class="project-image">
+              <img src="projects/sample1.png" alt="EWU Chronicle NET" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">EWU Chronicle NET</h3>
+              <p class="project-description">
+                Database application with user roles and interactivity for
+                campus event management.
+              </p>
+              <div class="project-tags">
+                <span class="tag">Oracle APEX</span>
+                <span class="tag">SQL</span>
+                <span class="tag">Database</span>
+              </div>
+              <div class="btn-group">
+                <a
+                  href="https://apex.oracle.com/pls/apex/r/tanvir_mridha17540042/cems/"
+                  target="_blank"
+                  class="btn btn-primary"
+                >
+                  <i class="fas fa-external-link-alt"></i> Live Demo
+                </a>
+                <a
+                  href="https://github.com/SifatSwapnil2022/Campus-Event-Management-System"
+                  target="_blank"
+                  class="btn btn-outline"
+                >
+                  <i class="fab fa-github"></i> Source Code
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 2 -->
+          <div class="card project-card">
+            <div class="project-image">
+              <img src="projects/sample2.png" alt="BD Railway Management" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">BD Railway Management</h3>
+              <p class="project-description">
+                Optimized Railway Management System for scheduling and logistics
+                operations.
+              </p>
+              <div class="project-tags">
+                <span class="tag">Oracle APEX</span>
+                <span class="tag">Database</span>
+                <span class="tag">System Design</span>
+              </div>
+              <div class="btn-group">
+                <a
+                  href="https://apex.oracle.com/pls/apex/r/database_cse303/bangladesh-railway-management-system/"
+                  target="_blank"
+                  class="btn btn-primary"
+                >
+                  <i class="fas fa-external-link-alt"></i> Live Demo
+                </a>
+                <a
+                  href="https://github.com/SifatSwapnil2022/Bangladesh-Railway-Management-System"
+                  target="_blank"
+                  class="btn btn-outline"
+                >
+                  <i class="fab fa-github"></i> Source Code
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 3 -->
+          <div class="card project-card">
+            <div class="project-image">
+              <img src="projects/sample3.png" alt="FoodieBite App" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">FoodieBite</h3>
+              <p class="project-description">
+                Food delivery platform with improved user experience and
+                operational efficiency.
+              </p>
+              <div class="project-tags">
+                <span class="tag">React</span>
+                <span class="tag">Node.js</span>
+                <span class="tag">MongoDB</span>
+              </div>
+              <div class="btn-group">
+                <a
+                  href="https://foodiebite-app-frontend.onrender.com/"
+                  target="_blank"
+                  class="btn btn-primary"
+                >
+                  <i class="fas fa-external-link-alt"></i> Live Demo
+                </a>
+                <a
+                  href="https://github.com/SifatSwapnil2022/FoodieBite-app-frontend"
+                  target="_blank"
+                  class="btn btn-outline"
+                >
+                  <i class="fab fa-github"></i> Source Code
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <h2>Hobbies</h2>
-      <div class="card">
-        <p>
-          Photography, Traveling, Reading, and Cooking. I enjoy capturing
-          moments through photography, exploring new places, diving into books,
-          and experimenting with new recipes.
-        </p>
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2><i class="fas fa-code"></i> Technical Skills</h2>
+        </div>
+
+        <div class="skills-container">
+          <!-- Programming Languages -->
+          <div class="skill-category card">
+            <h3 class="skill-category-title">
+              <i class="fas fa-laptop-code"></i> Programming
+            </h3>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>Python</span>
+                <span>90%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 90%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>JavaScript</span>
+                <span>80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 80%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>SQL</span>
+                <span>85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 85%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Machine Learning -->
+          <div class="skill-category card">
+            <h3 class="skill-category-title">
+              <i class="fas fa-brain"></i> Machine Learning
+            </h3>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>TensorFlow</span>
+                <span>85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 85%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>PyTorch</span>
+                <span>80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 80%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>Scikit-learn</span>
+                <span>85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 85%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Web Development -->
+          <div class="skill-category card">
+            <h3 class="skill-category-title">
+              <i class="fas fa-globe"></i> Web Development
+            </h3>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>HTML/CSS</span>
+                <span>90%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 90%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>React</span>
+                <span>75%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 75%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>Node.js</span>
+                <span>70%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 70%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Data Science -->
+          <div class="skill-category card">
+            <h3 class="skill-category-title">
+              <i class="fas fa-database"></i> Data Science
+            </h3>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>Pandas</span>
+                <span>85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 85%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>NumPy</span>
+                <span>80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 80%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">
+                <span>Matplotlib</span>
+                <span>75%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 75%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
+    <!-- Hobbies Section -->
     <section class="section">
-      <h2>Contact Me</h2>
-      <div class="card">
-        <p>
-          Email:
-          <a href="mailto:mdsifatullahsheikh@gmail.com"
-            >mdsifatullahsheikh@gmail.com</a
+      <div class="container">
+        <div class="section-title">
+          <h2><i class="fas fa-heart"></i> Hobbies & Interests</h2>
+        </div>
+        <div class="card">
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+              gap: 1.5rem;
+            "
           >
-        </p>
-        <p>
-          LinkedIn:
-          <a href="https://linkedin.com/in/mdsifatullahsheikh" target="_blank"
-            >Profile</a
-          >
-        </p>
+            <div>
+              <h4><i class="fas fa-camera"></i> Photography</h4>
+              <p>
+                Capturing moments and exploring creative perspectives through
+                the lens.
+              </p>
+            </div>
+            <div>
+              <h4><i class="fas fa-plane"></i> Traveling</h4>
+              <p>
+                Exploring new places, cultures, and experiences around the
+                world.
+              </p>
+            </div>
+            <div>
+              <h4><i class="fas fa-book"></i> Reading</h4>
+              <p>
+                Diving into books on technology, science, and personal
+                development.
+              </p>
+            </div>
+            <div>
+              <h4><i class="fas fa-utensils"></i> Cooking</h4>
+              <p>Experimenting with new recipes and culinary techniques.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2><i class="fas fa-envelope"></i> Get In Touch</h2>
+        </div>
+
+        <div class="contact-grid">
+          <div class="card contact-card">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <h3 class="contact-title">Email</h3>
+            <p class="contact-info">
+              <a href="mailto:mdsifatullahsheikh@gmail.com"
+                >mdsifatullahsheikh@gmail.com</a
+              >
+            </p>
+          </div>
+
+          <div class="card contact-card">
+            <div class="contact-icon">
+              <i class="fab fa-linkedin"></i>
+            </div>
+            <h3 class="contact-title">LinkedIn</h3>
+            <p class="contact-info">
+              <a
+                href="https://linkedin.com/in/mdsifatullahsheikh"
+                target="_blank"
+                >linkedin.com/in/mdsifatullahsheikh</a
+              >
+            </p>
+          </div>
+
+          <div class="card contact-card">
+            <div class="contact-icon">
+              <i class="fab fa-github"></i>
+            </div>
+            <h3 class="contact-title">GitHub</h3>
+            <p class="contact-info">
+              <a href="https://github.com/SifatSwapnil2022" target="_blank"
+                >github.com/SifatSwapnil2022</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-links">
+            <a href="#about" class="footer-link">About</a>
+            <a href="#research" class="footer-link">Research</a>
+            <a href="#projects" class="footer-link">Projects</a>
+            <a href="#contact" class="footer-link">Contact</a>
+          </div>
+          <p class="copyright">
+            &copy; 2023 Md Sifatullah Sheikh. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile Menu Toggle
+      const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+      const navRight = document.getElementById("navRight");
+
+      mobileMenuBtn.addEventListener("click", () => {
+        navRight.classList.toggle("active");
+        mobileMenuBtn.innerHTML = navRight.classList.contains("active")
+          ? '<i class="fas fa-times"></i>'
+          : '<i class="fas fa-bars"></i>';
+      });
+
+      // Close mobile menu when clicking a link
+      document.querySelectorAll(".nav-link").forEach((link) => {
+        link.addEventListener("click", () => {
+          navRight.classList.remove("active");
+          mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        });
+      });
+
+      // Theme Toggle
+      const themeToggle = document.getElementById("themeToggle");
+      themeToggle.addEventListener("click", () => {
+        document.body.dataset.theme =
+          document.body.dataset.theme === "dark" ? "" : "dark";
+        localStorage.setItem("theme", document.body.dataset.theme);
+      });
+
+      // Check for saved theme preference
+      if (localStorage.getItem("theme") === "dark") {
+        document.body.dataset.theme = "dark";
+      } else if (
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+      ) {
+        document.body.dataset.theme = "dark";
+      }
+
+      // Navbar scroll effect
+      const navbar = document.getElementById("navbar");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+
+      // Animate skill bars when they come into view
+      const skillBars = document.querySelectorAll(".skill-progress");
+
+      const animateSkillBars = () => {
+        skillBars.forEach((bar) => {
+          const rect = bar.getBoundingClientRect();
+          if (rect.top < window.innerHeight - 100) {
+            bar.style.width =
+              bar.parentElement.previousElementSibling.lastElementChild.textContent;
+          }
+        });
+      };
+
+      // Run once on page load
+      animateSkillBars();
+
+      // Run on scroll
+      window.addEventListener("scroll", animateSkillBars);
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          const targetId = this.getAttribute("href");
+          const targetElement = document.querySelector(targetId);
+
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+    </script>
   </body>
 </html>
+<!DOCTYPE html>
