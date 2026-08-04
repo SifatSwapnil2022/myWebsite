@@ -1,20 +1,69 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# myWebsite
 
-# Run and deploy your AI Studio app
+Personal academic portfolio for **Md Sifatullah Sheikh (Sifat)** — showcasing research, publications, and projects in Computer Vision, Machine Learning, Robotics, Trustworthy AI, and Human-Computer Interaction (HCI).
 
-This contains everything you need to run your app locally.
+Built to present my work to PhD admissions committees, academic collaborators, and prospective advisers.
 
-View your app in AI Studio: https://ai.studio/apps/ea679d22-00e4-4d89-85f6-67699779055d
+🔗 **Live site:** [add your deployed URL here]
 
-## Run Locally
+---
 
-**Prerequisites:**  Node.js
+## About
 
+B.Sc. in Computer Science and Engineering from East West University (EWU), Dhaka, Bangladesh, specializing in Data Science and Intelligent Systems. Currently preparing PhD applications (Fall 2027 cycle) and lecturer applications in CSE departments.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+**Featured work:**
+- **DeFaX** — a cross-attention fusion framework for explainable deepfake detection, published in *IEEE Access* (Q1, 2025). Combines Swin Transformer and EfficientNet with Grad-CAM/LIME explainability.
+- **MediLeafNET** — a multimodal medicinal plant identification system (undergraduate thesis), with an accompanying 13-species leaf image dataset released on Mendeley Data.
+
+## Tech Stack
+
+- **React** + **TypeScript**
+- **Tailwind CSS**
+- [Vite / Create React App — adjust to whichever you're actually using]
+- [Formspree](https://formspree.io/) for the contact form
+
+## Getting Started
+
+```bash
+# clone the repo
+git clone git@github.com:SifatSwapnil2022/myWebsite.git
+cd myWebsite
+
+# install dependencies
+npm install
+
+# run locally
+npm run dev
+```
+
+## Environment Variables
+
+Create a `.env.local` file in the project root (not committed — see `.gitignore`):
+
+```
+VITE_FORMSPREE_ENDPOINT=your_formspree_endpoint_here
+```
+
+## Project Structure
+
+```
+├── src/
+│   ├── components/     # page sections (News, Contact, etc.)
+│   ├── data/            # site content (portfolioData.ts)
+│   └── ...
+├── public/
+│   └── files/            # static images used across the site
+└── README.md
+```
+
+## Contact
+
+- **Email:** mdsifatullahsheikh@gmail.com
+- **LinkedIn:** [mdsifatullahsheikh](https://www.linkedin.com/in/mdsifatullahsheikh)
+- **GitHub:** [SifatSwapnil2022](https://github.com/SifatSwapnil2022)
+- **Google Scholar:** [Sifatullah Sheikh](https://scholar.google.com/citations?view_op=list_works&hl=en&user=7m3g1cEAAAAJ)
+
+---
+
+*This repository contains the source code for my personal portfolio site. Feel free to reach out for research collaboration or PhD-related discussions.*
