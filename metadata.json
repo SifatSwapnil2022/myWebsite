@@ -1,0 +1,6 @@
+{
+  "name": "Academic Portfolio",
+  "description": "A multi-page professional research and academic portfolio website for Md Sifatullah Sheikh, showing publication history, research projects, experience, and educational background.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
