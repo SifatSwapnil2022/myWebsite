@@ -61,7 +61,7 @@ export const PROJECTS: Project[] = [
     metric: "99.80% Accuracy",
     github: "https://github.com/SifatSwapnil2022/Journal_DefaX_codes",
     paperLink: "https://ieeexplore.ieee.org/abstract/document/11303744",
-    image: "public/files/defax_full.gif",
+    image: "/files/defax_full.gif",
     iconName: "CheckCircle2",
     videoSrc: ""
   },
@@ -83,7 +83,7 @@ export const PROJECTS: Project[] = [
     metric: "96.22% Accuracy",
     github: "https://github.com/SifatSwapnil2022/MediLeafNET",
     paperLink: "https://data.mendeley.com/datasets/9tdc9gbtgb/2",
-    image: "public/files/medileafnet.png",
+    image: "/files/medileafnet.png",
     iconName: "Cpu",
     videoSrc: ""
   },
@@ -104,7 +104,7 @@ export const PROJECTS: Project[] = [
     tech: ["Python", "FastAPI", "YOLOv8", "TensorFlow", "MongoDB", "Docker", "Streamlit"],
     metric: "95.42% mAP (Lesion Detection)",
     github: "https://github.com/SifatSwapnil2022/SkinCareAI",
-    image: "public/files/skinAI.png",
+    image: "/files/skinAI.png",
     iconName: "HeartPulse",
     videoSrc: ""
   },
@@ -126,7 +126,7 @@ export const PROJECTS: Project[] = [
     metric: "50+ Active Tenants",
     github: "https://github.com/SifatSwapnil2022/bazario-A-multi-tenant-Ecommerce-Platform",
     website: "https://bazario.ltd/",
-    image: "public/files/bazario.png",
+    image: "/files/bazario.png",
     iconName: "Layers",
     videoSrc: ""
   }
@@ -175,7 +175,7 @@ export const NEWS: NewsItem[] = [
     category: "Academic",
     content: "Graduated with a Bachelor of Science in Computer Science & Engineering from East West University.",
     longContent: "Completed the four-year engineering program with honors. My final-year thesis, MediLeafNET, focused on multimodal plant identification, supervised and evaluated by the department's faculty.",
-    image: "public/files/graduation.jpg"
+    image: "/files/graduation.jpg"
   },
   {
     id: "n-2",
@@ -183,7 +183,7 @@ export const NEWS: NewsItem[] = [
     category: "Publication",
     content: "Published a medicinal plant leaf image dataset covering 13 species collected in Bangladesh, on Mendeley Data (Version 2).",
     longContent: "Working with local botanists and fellow researchers, we released a high-resolution collection of leaf photos from 13 medicinally important plant species. The dataset is freely available on Mendeley Data, while the accompanying manuscript is currently under review at Nature's Scientific Data.",
-    image: "public/files/datasets_13.png",
+    image: "/files/datasets_13.png",
     link: "https://data.mendeley.com/datasets/9tdc9gbtgb/2",
     linkText: "View Mendeley Dataset"
   },
@@ -193,7 +193,7 @@ export const NEWS: NewsItem[] = [
     category: "Publication",
     content: "Our main research paper, 'DeFaX: A Cross-Attention Fusion Framework for Robust and Explainable Deepfake Detection,' was accepted and published in IEEE Access, a top-tier Q1 journal.",
     longContent: "This is our flagship contribution to AI safety research. By combining Swin Transformer and CNN models through a custom attention mechanism, DeFaX sets a strong benchmark for catching AI-generated face manipulations, while also producing clear visual explanations for every decision it makes.",
-    image: "public/files/framework.png",
+    image: "/files/framework.png",
     link: "https://ieeexplore.ieee.org/abstract/document/11303744",
     linkText: "Read Q1 IEEE Paper"
   },
@@ -203,7 +203,7 @@ export const NEWS: NewsItem[] = [
     category: "Event",
     content: "Presented our research, 'AI-Powered Deepfake Detection Using CNN and Vision Transformer Architectures,' at the IEEE IBDAP Conference in Thailand.",
     longContent: "Traveled to Thailand to give an oral presentation on our custom CNN-Transformer hybrid model, VFDNET. Spent the conference exchanging ideas with international researchers on where AI-generated media detection and explainable AI are headed next.",
-    image: "public/files/conference.png",
+    image: "/files/conference.png",
     link: "https://ieeexplore.ieee.org/abstract/document/11145852",
     linkText: "Read IBDAP Proceeding"
   },
@@ -213,7 +213,7 @@ export const NEWS: NewsItem[] = [
     category: "Award",
     content: "Won 3rd place nationally in the IT Olympiad at National Robo-Fest 2024.",
     longContent: "Represented our university in a nationwide competition covering algorithms, systems troubleshooting, and digital logic design — finishing 3rd out of hundreds of undergraduate engineering teams from across the country.",
-    image: "public\\files\\ROBOTICS.jpg"
+    image: "/files/ROBOTICS.jpg"
   }
 ];
 

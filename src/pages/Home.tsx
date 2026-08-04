@@ -194,7 +194,7 @@ export default function Home() {
       style={{ backgroundColor: `${INK}0D`, border: `1px solid ${INK}0D` }}
     >
       <img
-        src="public/files/framework.png"
+        src="/files/framework.png"
         alt="DeFaX architecture: Swin Transformer and EfficientNet fused via cross-attention, with Grad-CAM/LIME explainability output"
         className="w-full h-auto object-cover"
         referrerPolicy="no-referrer"
