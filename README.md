@@ -8,14 +8,6 @@ Built to present my work to PhD admissions committees, academic collaborators, a
 
 ---
 
-## About
-
-B.Sc. in Computer Science and Engineering from East West University (EWU), Dhaka, Bangladesh, specializing in Data Science and Intelligent Systems. Currently preparing PhD applications (Fall 2027 cycle) and lecturer applications in CSE departments.
-
-**Featured work:**
-- **DeFaX** — a cross-attention fusion framework for explainable deepfake detection, published in *IEEE Access* (Q1, 2025). Combines Swin Transformer and EfficientNet with Grad-CAM/LIME explainability.
-- **MediLeafNET** — a multimodal medicinal plant identification system (undergraduate thesis), with an accompanying 13-species leaf image dataset released on Mendeley Data.
-
 ## Tech Stack
 
 - **React** + **TypeScript**
