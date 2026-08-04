@@ -154,7 +154,7 @@ export default function Home() {
                     public/profile.png. Swap the src below for your imported
                     photo once it's in place, e.g. src={profilePhoto}. */}
                 <img
-                  src="public/files/profile.png"
+                  src="/files/profile.png"
                   alt="Md Sifatullah Sheikh"
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
