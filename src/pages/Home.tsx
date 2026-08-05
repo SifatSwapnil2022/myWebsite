@@ -104,7 +104,7 @@ export default function Home() {
                 Academic background
               </a>
               <a
-                href="public/files/CV_Sifat_Sheikh.pdf"
+                href="/files/CV_Sifat_Sheikh.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-7 py-3.5 rounded-full font-bold text-xs tracking-widest uppercase flex items-center gap-2 transition-colors duration-200"

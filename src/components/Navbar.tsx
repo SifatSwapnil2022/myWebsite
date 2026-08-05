@@ -116,7 +116,7 @@ export default function Navbar({ currentPath }: NavbarProps) {
 
         {/* CV Download button */}
         <a
-          href="public/files/CV_Sifat_Sheikh.pdf"
+          href="/files/CV_Sifat_Sheikh.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="group px-5 py-2.5 rounded-full text-xs font-bold tracking-widest uppercase transition-colors duration-200 inline-flex items-center gap-2 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
