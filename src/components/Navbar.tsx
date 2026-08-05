@@ -26,6 +26,12 @@ const CORAL = '#FF5A3C';
 const INK   = '#16192B';
 const PAPER = '#FAFAF7';
 
+// FIXED: this used to be "/resume.pdf" here in the mobile menu while the
+// desktop button (below) pointed at "/files/CV_Sifat_Sheikh.pdf" — two
+// buttons for the same action going to two different files. Both now share
+// this one constant so they can't drift apart again.
+const CV_PATH = '/files/CV_Sifat_Sheikh.pdf';
+
 export default function Navbar({ currentPath }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -64,7 +70,7 @@ export default function Navbar({ currentPath }: NavbarProps) {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md flex items-center justify-between px-6 md:px-12 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md flex items-center justify-between px-4 sm:px-6 md:px-12 transition-all duration-300 ${
         scrolled ? 'h-16 shadow-[0_8px_30px_rgba(22,25,43,0.08)]' : 'h-20'
       }`}
       style={{
@@ -80,7 +86,7 @@ export default function Navbar({ currentPath }: NavbarProps) {
 
       <a
         href="#/"
-        className="dsp text-2xl font-bold tracking-tight flex items-center gap-1 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
+        className="dsp text-xl sm:text-2xl font-bold tracking-tight flex items-center gap-1 rounded-sm transition-transform duration-200 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
         style={{ color: INK }}
       >
         <span>Sifatullah</span>
@@ -96,7 +102,7 @@ export default function Navbar({ currentPath }: NavbarProps) {
               key={item.label}
               href={item.path}
               aria-current={active ? 'page' : undefined}
-              className="text-xs font-bold tracking-widest uppercase transition-colors relative py-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
+              className="text-xs font-bold tracking-widest uppercase transition-colors duration-200 relative py-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
               style={{ color: active ? CORAL : `${INK}99` }}
               onMouseEnter={(e) => { if (!active) e.currentTarget.style.color = CORAL; }}
               onMouseLeave={(e) => { if (!active) e.currentTarget.style.color = `${INK}99`; }}
@@ -116,10 +122,10 @@ export default function Navbar({ currentPath }: NavbarProps) {
 
         {/* CV Download button */}
         <a
-          href="/files/CV_Sifat_Sheikh.pdf"
+          href={CV_PATH}
           target="_blank"
           rel="noopener noreferrer"
-          className="group px-5 py-2.5 rounded-full text-xs font-bold tracking-widest uppercase transition-colors duration-200 inline-flex items-center gap-2 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
+          className="group px-5 py-2.5 rounded-full text-xs font-bold tracking-widest uppercase transition-all duration-200 inline-flex items-center gap-2 shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
           style={{ backgroundColor: INK, color: '#fff' }}
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = CORAL)}
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = INK)}
@@ -131,7 +137,7 @@ export default function Navbar({ currentPath }: NavbarProps) {
 
       {/* Mobile Toggle */}
       <button
-        className="lg:hidden p-2 transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
+        className="lg:hidden p-2 transition-colors duration-200 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
         style={{ color: INK }}
         onClick={() => setMobileMenuOpen((prev) => !prev)}
         aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
@@ -152,11 +158,11 @@ export default function Navbar({ currentPath }: NavbarProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="fixed inset-0 top-20 z-40 lg:hidden flex flex-col justify-between p-8"
+            className="fixed inset-0 top-16 sm:top-20 z-40 lg:hidden flex flex-col justify-between p-6 sm:p-8 overflow-y-auto"
             style={{ backgroundColor: PAPER, borderTop: `1px solid ${INK}0D`, fontFamily: "'Inter', sans-serif" }}
           >
             <motion.div
-              className="flex flex-col gap-6"
+              className="flex flex-col gap-5 sm:gap-6"
               initial="closed"
               animate="open"
               variants={{
@@ -176,7 +182,7 @@ export default function Navbar({ currentPath }: NavbarProps) {
                       open: { opacity: 1, x: 0 },
                       closed: { opacity: 0, x: -16 },
                     }}
-                    className="dsp text-2xl font-bold tracking-tight transition-colors py-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C]"
+                    className="dsp text-xl sm:text-2xl font-bold tracking-tight transition-colors duration-200 py-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C]"
                     style={{ color: active ? CORAL : INK }}
                   >
                     {item.label}
@@ -185,9 +191,9 @@ export default function Navbar({ currentPath }: NavbarProps) {
               })}
             </motion.div>
 
-            <div className="pt-8 space-y-6" style={{ borderTop: `1px solid ${INK}0D` }}>
+            <div className="pt-6 sm:pt-8 space-y-5 sm:space-y-6" style={{ borderTop: `1px solid ${INK}0D` }}>
               <a
-                href="/resume.pdf"
+                href={CV_PATH}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-4 rounded-full font-bold text-center tracking-widest uppercase text-xs flex items-center justify-center gap-2 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
@@ -207,7 +213,7 @@ export default function Navbar({ currentPath }: NavbarProps) {
                     target={href.startsWith('mailto:') ? undefined : '_blank'}
                     rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
                     aria-label={label}
-                    className="transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
+                    className="transition-colors duration-200 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
                     style={{ color: `${INK}99` }}
                     onMouseEnter={(e) => (e.currentTarget.style.color = CORAL)}
                     onMouseLeave={(e) => (e.currentTarget.style.color = `${INK}99`)}

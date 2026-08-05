@@ -69,7 +69,7 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
-/* ─── Scroll-in reveal (simple opacity + translate, no 3D) ──────────────── */
+/* ─── Scroll-in reveal (opacity + translate) ─────────────────────────────── */
 function Reveal({
   children,
   delay = 0,
@@ -168,7 +168,6 @@ function HobbyIcon({ name }: { name: string }) {
 }
 
 /* ─── Research interest data ─────────────────────────────────────────────── */
-/* ─── Research interest data ─────────────────────────────────────────────── */
 const RESEARCH_INTERESTS = [
   { title: 'Computer Vision', desc: 'Teaching machines to see — from recognizing patterns in images to understanding full scenes and video.' },
   { title: 'Machine Learning', desc: 'Building models that learn from data and generalize well to new, real-world situations.' },
@@ -187,72 +186,105 @@ const COURSEWORK = [
   'Linear Algebra', 'Probability & Statistics',
 ];
 
+/* Shared card hover treatment — used across bordered cards for consistency */
+const CARD_HOVER = 'transition-all duration-300 hover:-translate-y-1 hover:shadow-md';
+
 /* ═══════════════════════════════════════════════════════════════════════════
    Page
    ═══════════════════════════════════════════════════════════════════════════ */
 export default function About() {
+  const reducedMotion = usePrefersReducedMotion();
+
   return (
-    <div className="space-y-24 py-12" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="space-y-16 md:space-y-24 py-8 md:py-12" style={{ fontFamily: "'Inter', sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap');
         .dsp { font-family: 'Space Grotesk', sans-serif; }
+        @keyframes driftA {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(20px, -16px) scale(1.05); }
+        }
+        @keyframes driftB {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(-18px, 14px) scale(1.04); }
+        }
       `}</style>
 
       {/* ── 1. Hero bio ─────────────────────────────────────────────────── */}
-      <section className="grid lg:grid-cols-5 gap-12 items-start">
-        <div className="lg:col-span-3 space-y-6">
-  <SectionLabel>About</SectionLabel>
-  <h1
-    className="dsp text-4xl md:text-5xl font-bold leading-[1.05]"
-    style={{ color: INK }}
-  >
-    Prospective PhD student in machine learning, computer vision, and intelligent systems.
-  </h1>
-  <div className="space-y-4 text-base md:text-lg leading-relaxed" style={{ color: `${INK}99` }}>
-    <p>
-      I completed my B.Sc. in Computer Science and Engineering at East West University, Dhaka,
-      with a strong interest in machine learning, computer vision, and human-centered intelligent systems.
-    </p>
-    <p>
-      During my final year, I worked on research in synthetic media detection, which strengthened my
-      interest in trustworthy AI, model interpretability, and robust visual learning. My research
-      experience has also shaped my broader interest in large language models, embodied AI, and
-      software engineering for scalable intelligent systems.
-    </p>
-    <p>
-      I am now applying to PhD programs to further explore machine learning, human-computer interaction,
-      embodied AI, large language models, and computer vision in both foundational and applied settings.
-    </p>
-  </div>
-</div>
+      <section className="relative overflow-hidden rounded-4xl">
+        {/* Ambient drifting blobs — matches Home.tsx hero, disabled under reduced motion */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-16 -right-10 w-64 h-64 md:w-80 md:h-80 rounded-full blur-[90px]"
+          style={{
+            backgroundColor: `${CORAL}0F`,
+            animation: reducedMotion ? undefined : 'driftA 15s ease-in-out infinite',
+          }}
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-20 -left-14 w-64 h-64 md:w-80 md:h-80 rounded-full blur-[90px]"
+          style={{
+            backgroundColor: `${TEAL}0F`,
+            animation: reducedMotion ? undefined : 'driftB 18s ease-in-out infinite',
+          }}
+        />
 
-        {/* Research interests card */}
-        <div className="lg:col-span-2">
-          <div
-            className="rounded-3xl p-8 border space-y-6"
-            style={{ background: PAPER, borderColor: `${INK}0D` }}
-          >
-            <h3 className="dsp text-xl font-bold flex items-center gap-2.5" style={{ color: INK }}>
-              <Target className="w-5 h-5" style={{ color: CORAL }} />
-              Areas of interest
-            </h3>
-            <ul className="space-y-4">
-              {RESEARCH_INTERESTS.map((r, i) => (
-                <li key={r.title} className="flex items-start gap-3">
-                  <span
-                    className="dsp shrink-0 w-6 h-6 rounded-lg text-[10px] font-bold flex items-center justify-center mt-0.5"
-                    style={{ backgroundColor: [CORAL, TEAL, AMBER, INK][i % 4], color: i === 2 ? INK : '#fff' }}
-                  >
-                    {i + 1}
-                  </span>
-                  <div>
-                    <p className="text-sm font-semibold" style={{ color: INK }}>{r.title}</p>
-                    <p className="text-sm leading-relaxed" style={{ color: `${INK}80` }}>{r.desc}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="relative grid md:grid-cols-5 gap-10 md:gap-12 items-start p-2">
+          <Reveal className="md:col-span-3 space-y-6">
+            <SectionLabel>About</SectionLabel>
+            <h1
+              className="dsp text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.1]"
+              style={{ color: INK }}
+            >
+              Prospective PhD student in machine learning, computer vision, and intelligent systems.
+            </h1>
+            <div className="space-y-4 text-base md:text-lg leading-relaxed" style={{ color: `${INK}99` }}>
+              <p>
+                I completed my B.Sc. in Computer Science and Engineering at East West University, Dhaka,
+                with a strong interest in machine learning, computer vision, and human-centered intelligent systems.
+              </p>
+              <p>
+                During my final year, I worked on research in synthetic media detection, which strengthened my
+                interest in trustworthy AI, model interpretability, and robust visual learning. My research
+                experience has also shaped my broader interest in large language models, embodied AI, and
+                software engineering for scalable intelligent systems.
+              </p>
+              <p>
+                I am now applying to PhD programs to further explore machine learning, human-computer interaction,
+                embodied AI, large language models, and computer vision in both foundational and applied settings.
+              </p>
+            </div>
+          </Reveal>
+
+          {/* Research interests card */}
+          <Reveal delay={120} className="md:col-span-2">
+            <div
+              className={`rounded-3xl p-6 sm:p-8 border space-y-6 ${CARD_HOVER}`}
+              style={{ background: PAPER, borderColor: `${INK}0D` }}
+            >
+              <h3 className="dsp text-xl font-bold flex items-center gap-2.5" style={{ color: INK }}>
+                <Target className="w-5 h-5" style={{ color: CORAL }} />
+                Areas of interest
+              </h3>
+              <ul className="space-y-4">
+                {RESEARCH_INTERESTS.map((r, i) => (
+                  <li key={r.title} className="flex items-start gap-3">
+                    <span
+                      className="dsp shrink-0 w-6 h-6 rounded-lg text-[10px] font-bold flex items-center justify-center mt-0.5"
+                      style={{ backgroundColor: [CORAL, TEAL, AMBER, INK][i % 4], color: i === 2 ? INK : '#fff' }}
+                    >
+                      {i + 1}
+                    </span>
+                    <div>
+                      <p className="text-sm font-semibold" style={{ color: INK }}>{r.title}</p>
+                      <p className="text-sm leading-relaxed" style={{ color: `${INK}80` }}>{r.desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -261,11 +293,11 @@ export default function About() {
         <section className="space-y-8">
           <div>
             <SectionLabel>Education</SectionLabel>
-            <h2 className="dsp text-3xl font-bold" style={{ color: INK }}>Academic background</h2>
+            <h2 className="dsp text-2xl sm:text-3xl font-bold" style={{ color: INK }}>Academic background</h2>
           </div>
 
           <div
-            className="rounded-3xl border p-8 md:p-10 flex flex-col md:flex-row gap-8 md:items-start"
+            className={`rounded-3xl border p-6 sm:p-8 md:p-10 flex flex-col md:flex-row gap-8 md:items-start ${CARD_HOVER}`}
             style={{ background: PAPER, borderColor: `${INK}0D` }}
           >
             {/* Logo badge */}
@@ -274,7 +306,7 @@ export default function About() {
                 const c = logoColors('East West University');
                 return (
                   <div
-                    className="dsp w-16 h-16 rounded-2xl flex items-center justify-center text-xl font-bold"
+                    className="dsp w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-lg sm:text-xl font-bold"
                     style={{ backgroundColor: c.bg, color: c.fg }}
                   >
                     EWU
@@ -286,7 +318,7 @@ export default function About() {
             <div className="flex-1 space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <h3 className="dsp text-2xl font-bold" style={{ color: INK }}>B.Sc. in Computer Science & Engineering</h3>
+                  <h3 className="dsp text-xl sm:text-2xl font-bold" style={{ color: INK }}>B.Sc. in Computer Science & Engineering</h3>
                   <p className="text-base font-semibold mt-1" style={{ color: TEAL }}>East West University — Dhaka, Bangladesh</p>
                   <p className="text-sm mt-0.5" style={{ color: `${INK}55` }}>
                     Specialization: Data Science and Intelligent Systems · CGPA 3.70/4.00 · Dean's List
@@ -308,7 +340,7 @@ export default function About() {
                   {COURSEWORK.map((c) => (
                     <span
                       key={c}
-                      className="text-xs font-medium px-3 py-1.5 rounded-lg border"
+                      className="text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors duration-200"
                       style={{
                         backgroundColor: '#fff',
                         borderColor: `${INK}14`,
@@ -330,17 +362,16 @@ export default function About() {
         <section className="space-y-8">
           <div>
             <SectionLabel>Skills</SectionLabel>
-            <h2 className="dsp text-3xl font-bold" style={{ color: INK }}>Tools & frameworks</h2>
+            <h2 className="dsp text-2xl sm:text-3xl font-bold" style={{ color: INK }}>Tools & frameworks</h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {SKILL_GROUPS.map((group, i) => {
               const accent = [CORAL, TEAL, AMBER, INK, CORAL, TEAL][i % 6];
-              const accentText = accent === AMBER ? INK : '#fff';
               return (
                 <Reveal key={group.title} delay={i * 60}>
                   <div
-                    className="rounded-2xl border p-6 space-y-4 h-full"
+                    className={`rounded-2xl border p-6 space-y-4 h-full ${CARD_HOVER}`}
                     style={{ background: PAPER, borderColor: `${INK}0D` }}
                   >
                     <div className="flex items-center gap-2.5">
@@ -383,17 +414,17 @@ export default function About() {
         <Reveal>
           <div>
             <SectionLabel>Beyond the lab</SectionLabel>
-            <h2 className="dsp text-3xl font-bold" style={{ color: INK }}>Teaching & leadership</h2>
+            <h2 className="dsp text-2xl sm:text-3xl font-bold" style={{ color: INK }}>Teaching & leadership</h2>
           </div>
         </Reveal>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {EXTRA_ACTIVITIES.map((act, i) => {
             const c = logoColors(act.organization);
             return (
               <Reveal key={act.id} delay={i * 80}>
                 <div
-                  className="rounded-2xl border p-6 space-y-5 h-full flex flex-col"
+                  className={`rounded-2xl border p-6 space-y-5 h-full flex flex-col ${CARD_HOVER}`}
                   style={{ background: PAPER, borderColor: `${INK}0D` }}
                 >
                   <div className="flex items-start justify-between gap-3">
@@ -449,15 +480,15 @@ export default function About() {
         <Reveal>
           <div>
             <SectionLabel>Outside of research</SectionLabel>
-            <h2 className="dsp text-3xl font-bold" style={{ color: INK }}>Interests</h2>
+            <h2 className="dsp text-2xl sm:text-3xl font-bold" style={{ color: INK }}>Interests</h2>
           </div>
         </Reveal>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {HOBBIES.map((hobby, i) => (
             <Reveal key={hobby.name} delay={i * 60}>
               <div
-                className="rounded-2xl border p-6 space-y-4 h-full"
+                className={`rounded-2xl border p-6 space-y-4 h-full ${CARD_HOVER}`}
                 style={{ background: PAPER, borderColor: `${INK}0D` }}
               >
                 <div className="flex items-center justify-between">
@@ -488,14 +519,14 @@ export default function About() {
 
       {/* ── 6. Languages + Awards ───────────────────────────────────────── */}
       <Reveal>
-        <section className="grid md:grid-cols-2 gap-10 pt-4">
+        <section className="grid md:grid-cols-2 gap-8 md:gap-10 pt-4">
 
           {/* Languages */}
           <div
-            className="rounded-3xl border p-8 space-y-7"
+            className={`rounded-3xl border p-6 sm:p-8 space-y-7 ${CARD_HOVER}`}
             style={{ background: PAPER, borderColor: `${INK}0D` }}
           >
-            <h3 className="dsp text-2xl font-bold flex items-center gap-2.5" style={{ color: INK }}>
+            <h3 className="dsp text-xl sm:text-2xl font-bold flex items-center gap-2.5" style={{ color: INK }}>
               <Languages className="w-6 h-6" style={{ color: CORAL }} />
               Languages
             </h3>
@@ -508,7 +539,7 @@ export default function About() {
 
           {/* Awards */}
           <div className="space-y-6">
-            <h3 className="dsp text-2xl font-bold flex items-center gap-2.5" style={{ color: INK }}>
+            <h3 className="dsp text-xl sm:text-2xl font-bold flex items-center gap-2.5" style={{ color: INK }}>
               <Award className="w-6 h-6" style={{ color: CORAL }} />
               Honors & awards
             </h3>
@@ -516,7 +547,7 @@ export default function About() {
               {AWARDS.map((award, i) => (
                 <Reveal key={award.title} delay={i * 70}>
                   <div
-                    className="flex items-start gap-4 p-5 rounded-2xl border"
+                    className={`flex items-start gap-4 p-5 rounded-2xl border ${CARD_HOVER}`}
                     style={{ background: PAPER, borderColor: `${INK}0D` }}
                   >
                     <span className="text-2xl shrink-0 mt-0.5">{award.icon}</span>

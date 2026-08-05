@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   X,
   FileText,
@@ -38,7 +38,21 @@ export const getIcon = (name: string) => {
   }
 };
 
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduced(mq.matches);
+    const h = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mq.addEventListener('change', h);
+    return () => mq.removeEventListener('change', h);
+  }, []);
+  return reduced;
+}
+
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
+  const reducedMotion = usePrefersReducedMotion();
+
   // Close on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -59,7 +73,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 overflow-y-auto animate-[fadeIn_0.25s_ease-out]"
+      className={`fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-8 overflow-y-auto ${
+        reducedMotion ? '' : 'animate-[fadeIn_0.25s_ease-out]'
+      }`}
       style={{ backgroundColor: 'rgba(22,25,43,0.75)', backdropFilter: 'blur(4px)' }}
       onClick={onClose}
       role="presentation"
@@ -75,14 +91,16 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="project-modal-title"
-        className="w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden relative my-8 animate-[modalIn_0.3s_cubic-bezier(0.16,1,0.3,1)]"
+        className={`w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden relative my-4 sm:my-8 ${
+          reducedMotion ? '' : 'animate-[modalIn_0.3s_cubic-bezier(0.16,1,0.3,1)]'
+        }`}
         style={{ backgroundColor: PAPER, fontFamily: "'Inter', sans-serif" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 flex items-center justify-center w-11 h-11 rounded-full shadow-md transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full shadow-md transition-all duration-300 hover:rotate-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
           style={{ backgroundColor: 'rgba(255,255,255,0.9)', color: INK }}
           onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = CORAL; e.currentTarget.style.color = '#fff'; }}
           onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.9)'; e.currentTarget.style.color = INK; }}
@@ -92,7 +110,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         </button>
 
         {/* Hero image header */}
-        <div className="relative h-60 md:h-80 overflow-hidden" style={{ backgroundColor: `${INK}0D` }}>
+        <div className="relative h-48 sm:h-60 md:h-80 overflow-hidden" style={{ backgroundColor: `${INK}0D` }}>
           <img
             src={project.image}
             alt={project.title}
@@ -106,7 +124,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         </div>
 
         {/* Details container */}
-        <div className="p-6 md:p-10 -mt-16 relative rounded-t-[2rem]" style={{ backgroundColor: PAPER }}>
+        <div className="p-5 sm:p-6 md:p-10 -mt-12 sm:-mt-16 relative rounded-t-[2rem]" style={{ backgroundColor: PAPER }}>
           {/* Headline metadata */}
           <div
             className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6"
@@ -114,7 +132,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           >
             <div className="flex items-center gap-4">
               <div
-                className="p-3 rounded-xl shadow-sm"
+                className="p-3 rounded-xl shadow-sm shrink-0"
                 style={{ backgroundColor: `${CORAL}14`, color: CORAL }}
               >
                 {getIcon(project.iconName)}
@@ -126,21 +144,23 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 >
                   {project.tag}
                 </span>
-                <h3 id="project-modal-title" className="dsp text-3xl md:text-4xl font-bold" style={{ color: INK }}>
+                <h3 id="project-modal-title" className="dsp text-2xl sm:text-3xl md:text-4xl font-bold" style={{ color: INK }}>
                   {project.title}
                 </h3>
               </div>
             </div>
 
             <div
-              className="px-5 py-3 rounded-2xl shadow-sm flex items-center gap-2.5"
+              className="px-5 py-3 rounded-2xl shadow-sm flex items-center gap-2.5 w-fit"
               style={{ backgroundColor: '#fff', border: `1px solid ${INK}0D` }}
             >
               <span className="relative flex w-2.5 h-2.5">
-                <span
-                  className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
-                  style={{ backgroundColor: TEAL }}
-                />
+                {!reducedMotion && (
+                  <span
+                    className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
+                    style={{ backgroundColor: TEAL }}
+                  />
+                )}
                 <span className="relative inline-flex rounded-full w-2.5 h-2.5" style={{ backgroundColor: TEAL }} />
               </span>
               <div>
@@ -153,7 +173,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           </div>
 
           {/* Grid information */}
-          <div className="grid md:grid-cols-3 gap-8 mt-8">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8 mt-8">
             {/* Description and features */}
             <div className="md:col-span-2 space-y-8">
               <section className="space-y-3">
@@ -175,7 +195,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   {project.features.map((feature, i) => (
                     <div
                       key={i}
-                      className="flex items-start gap-3 p-3 rounded-xl text-sm transition-colors duration-200"
+                      className="flex items-start gap-3 p-3 rounded-xl text-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
                       style={{ backgroundColor: '#fff', border: `1px solid ${INK}0D`, color: `${INK}B3` }}
                     >
                       <span
@@ -213,7 +233,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-xs tracking-wider uppercase transition-colors duration-200 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
                   style={{ backgroundColor: INK, color: '#fff' }}
                   onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = CORAL)}
                   onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = INK)}
@@ -227,7 +247,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                     href={project.paperLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-xs tracking-wider uppercase transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
                     style={{ backgroundColor: '#fff', border: `1px solid ${INK}1F`, color: INK }}
                     onMouseEnter={(e) => { e.currentTarget.style.borderColor = CORAL; e.currentTarget.style.color = CORAL; }}
                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = `${INK}1F`; e.currentTarget.style.color = INK; }}
@@ -242,7 +262,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                     href={project.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-xs tracking-wider uppercase transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5A3C] focus-visible:ring-offset-2"
                     style={{ backgroundColor: '#fff', border: `1px solid ${INK}1F`, color: INK }}
                     onMouseEnter={(e) => { e.currentTarget.style.borderColor = CORAL; e.currentTarget.style.color = CORAL; }}
                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = `${INK}1F`; e.currentTarget.style.color = INK; }}
