@@ -124,7 +124,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         </div>
 
         {/* Details container */}
-        <div className="p-5 sm:p-6 md:p-10 -mt-12 sm:-mt-16 relative rounded-t-[2rem]" style={{ backgroundColor: PAPER }}>
+        <div className="p-5 sm:p-6 md:p-10 -mt-12 sm:-mt-16 relative rounded-t-4xl" style={{ backgroundColor: PAPER }}>
           {/* Headline metadata */}
           <div
             className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6"
