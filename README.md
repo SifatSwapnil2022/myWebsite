@@ -12,7 +12,7 @@ Built to present my work to PhD admissions committees, academic collaborators, a
 
 - **React** + **TypeScript**
 - **Tailwind CSS**
-- [Vite / Create React App — adjust to whichever you're actually using]
+- [Create React App]
 - [Formspree](https://formspree.io/) for the contact form
 
 ## Getting Started
