@@ -203,7 +203,7 @@ export default function Home() {
                     animation: reducedMotion ? undefined : 'softPulse 2.6s ease-in-out infinite',
                   }}
                 />
-                Prospective PhD candidate
+                Open to research collaborations and full-time opportunities.
               </span>
             </Reveal>
 
