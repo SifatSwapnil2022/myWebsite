@@ -170,14 +170,6 @@ export const EXPERIENCES: Experience[] = [
 
 export const NEWS: NewsItem[] = [
   {
-    id: "n-1",
-    date: "February 2026",
-    category: "Academic",
-    content: "Graduated with a Bachelor of Science in Computer Science & Engineering from East West University.",
-    longContent: "Completed the four-year engineering program with honors. My final-year thesis, MediLeafNET, focused on multimodal plant identification, supervised and evaluated by the department's faculty.",
-    image: "/files/graduation.jpg"
-  },
-  {
     id: "n-2",
     date: "July 2026",
     category: "Publication",
@@ -186,6 +178,22 @@ export const NEWS: NewsItem[] = [
     image: "/files/datasets_13.png",
     link: "https://data.mendeley.com/datasets/9tdc9gbtgb/2",
     linkText: "View Mendeley Dataset"
+  },
+  {
+    id: "n-6",
+    date: "May 2026",
+    category: "Academic",
+    content: "Completed a 4-month internship in IT & Operations at Banglalink, Dhaka.",
+    longContent: "Worked across IT and Operations, managing 100+ operational documents and preparing daily, weekly, and monthly reports drawing on data from multiple departments. Maintained IT asset inventories and employee records, supported the IT team on hardware, software, and network troubleshooting, and helped develop SOPs and technical documentation for the team.",
+    image: "/files/Certificate_Intern_Sifatullah_Sheikh.png"
+  },
+  {
+    id: "n-1",
+    date: "February 2026",
+    category: "Academic",
+    content: "Graduated with a Bachelor of Science in Computer Science & Engineering from East West University.",
+    longContent: "Completed the four-year engineering program with honors. My final-year thesis, MediLeafNET, focused on multimodal plant identification, supervised and evaluated by the department's faculty.",
+    image: "/files/graduation.jpg"
   },
   {
     id: "n-3",
