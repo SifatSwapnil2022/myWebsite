@@ -134,18 +134,26 @@ export const PROJECTS: Project[] = [
 
 export const EXPERIENCES: Experience[] = [
   {
+    id: "exp-3",
+    role: "ML Engineer Intern",
+    company: "Syntax Solution Limited",
+    location: "Dhaka, Bangladesh",
+    period: "Aug 2026 – Present",
+    bullets: [
+      "Evaluated machine learning models using Python, performing data preprocessing, feature engineering, and model validation on real-world datasets.",
+      "Conducted model performance analysis and experimentation, optimizing algorithms and workflows to improve prediction accuracy and support production-oriented ML solutions."
+    ],
+  },
+  {
     id: "exp-2",
     role: "Intern, IT & Operations",
     company: "Banglalink",
     location: "Dhaka, Bangladesh",
     period: "Feb 2026 – May 2026",
     bullets: [
-      "Managed and maintained 100+ operational documents, ensuring data accuracy, completeness, and compliance with organizational standards.",
-      "Prepared daily, weekly, and monthly operational reports by collecting, validating, and analyzing data across multiple departments to support management decision-making.",
-      "Organized, verified, and updated IT asset inventories, employee records, and operational databases, improving data accessibility and record accuracy.",
-      "Supported the IT team in troubleshooting hardware, software, and network issues, ensuring timely resolution and uninterrupted business operations.",
-      "Assisted in developing and maintaining Standard Operating Procedures (SOPs), technical documentation, and workflow guides, improving process consistency and operational efficiency."
-    ]
+      "Managed 100+ operational documents and maintained IT asset, employee, and database records, ensuring accurate and up-to-date information.",
+      "Prepared daily, weekly, and monthly reports by collecting and analyzing departmental data, while supporting hardware, software, and network troubleshooting."
+    ],
   },
   {
     id: "exp-1",
@@ -154,10 +162,9 @@ export const EXPERIENCES: Experience[] = [
     location: "Dhaka, Bangladesh",
     period: "Dec 2024 – Dec 2025",
     bullets: [
-      "Conducted applied research in computer vision and deep learning, focusing on robust deepfake detection and Explainable AI (XAI).",
-      "Proposed DeFaX, a cross-attention fusion framework integrating Swin Transformer and EfficientNet for deepfake detection, published in IEEE Access (Q1, Impact Factor 3.9).",
-      "Managed the end-to-end research workflow — dataset curation, preprocessing, model training, ablation studies, and statistical evaluation — while coordinating with a 5-member research team under faculty supervision.",
-      "Co-authored peer-reviewed research accepted at IEEE Access (Q1) and the IEEE IBDAP international conference (2025)."
+      "Benchmarked deep learning architectures for AI-generated face detection on 140K images, identifying complementary strengths between CNN-based local features and transformer-based global contexts.",
+      "Designed DeFaX, a cross-attention fusion architecture combining Swin Transformer’s global reasoning with EfficientNet’s local feature extraction to address the limitations of individual architectures.",
+      "Managed the end-to-end research workflow, including dataset curation, preprocessing, model training, ablation studies, and statistical evaluation."
     ],
     supervisor: {
       name: "Al Imran",

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowUpRight, Copy, Check, Info, BookOpen, GraduationCap, Database, Star } from 'lucide-react';
+import { ArrowUpRight, Copy, Check, Info, BookOpen, GraduationCap, Database, Star, ExternalLink } from 'lucide-react';
 import { PUBLICATIONS } from '../data/portfolioData';
 import { Publication } from '../types';
 
@@ -8,6 +8,21 @@ const AMBER = '#FFC94A';
 const TEAL  = '#0F6E63';
 const INK   = '#16192B';
 const PAPER = '#FAFAF7';
+
+const SCHOLAR_URL = 'https://scholar.google.com/citations?view_op=list_works&hl=en&user=7m3g1cEAAAAJ';
+
+// MANUALLY SYNCED — there is no official Google Scholar API, and scraping it
+// from the browser doesn't work (Scholar blocks cross-origin requests and
+// rate-limits/CAPTCHAs anything that looks automated). Update these 3
+// numbers by hand whenever you check your Scholar profile. The link below
+// always points to the live, authoritative page for anyone who wants the
+// exact current numbers.
+const CITATION_STATS = {
+  citations: 10,
+  hIndex: 2,
+  i10Index: 0,
+  lastUpdated: 'Aug 2026', // update this alongside the numbers above
+};
 
 const SELF_NAME_PATTERN = /^(Md\.?\s*Sifatullah Sheikh)/i;
 
@@ -75,6 +90,15 @@ function Reveal({
       }}
     >
       {children}
+    </div>
+  );
+}
+
+function StatTile({ value, label }: { value: number; label: string }) {
+  return (
+    <div className="text-center sm:text-left">
+      <div className="dsp text-3xl sm:text-4xl font-bold" style={{ color: INK }}>{value}</div>
+      <div className="text-xs font-semibold uppercase tracking-wider mt-0.5" style={{ color: `${INK}55` }}>{label}</div>
     </div>
   );
 }
@@ -246,6 +270,37 @@ export default function Research() {
           </p>
         </Reveal>
       </section>
+
+      {/* Citation stats — manually synced from Google Scholar (no live API exists);
+          the link keeps the authoritative numbers one click away for anyone verifying them */}
+      <Reveal>
+        <div
+          className="rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-5"
+          style={{ backgroundColor: PAPER, border: `1px solid ${INK}0D` }}
+        >
+          <div className="flex flex-wrap gap-x-8 gap-y-4 justify-center sm:justify-start">
+            <StatTile value={CITATION_STATS.citations} label="Citations" />
+            <StatTile value={CITATION_STATS.hIndex} label="h-index" />
+            <StatTile value={CITATION_STATS.i10Index} label="i10-index" />
+          </div>
+          <div className="flex flex-col items-center sm:items-end gap-2">
+            <a
+              href={SCHOLAR_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs font-bold tracking-wide uppercase px-4 py-2 rounded-full transition-colors duration-200"
+              style={{ backgroundColor: INK, color: '#fff' }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = CORAL)}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = INK)}
+            >
+              View live on Google Scholar <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+            <span className="text-[11px]" style={{ color: `${INK}45` }}>
+              Updated {CITATION_STATS.lastUpdated} · not real-time
+            </span>
+          </div>
+        </div>
+      </Reveal>
 
       {/* Publications sections */}
       <div className="space-y-12">

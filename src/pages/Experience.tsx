@@ -10,6 +10,19 @@ const LOGO_PALETTE = [
   { bg: '#FFC94A', fg: '#16192B' }, // amber
 ];
 
+// Real company logo images. The key MUST match the `company` string exactly
+// as it appears in EXPERIENCES (portfolioData) — case and punctuation
+// included — or the lookup silently misses and falls back to initials.
+// Files must live in public/files/ (i.e. public/files/syntax-solution-logo.png)
+// — you said the 3 images are already at D:\My-Portfolio\public\files, so
+// either rename them to the filenames below, or edit these three paths to
+// match whatever you actually saved them as.
+const LOGO_IMAGES: Record<string, string> = {
+  'Syntax Solution Limited': '/files/syntax_solution_limited_logo.jpeg',
+  'Banglalink': '/files/bangalink.png',
+  'East West University': '/files/EWU.png',
+};
+
 function getInitials(name = '') {
   const words = name.replace(/[().]/g, '').split(' ').filter(Boolean);
   if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
@@ -76,6 +89,59 @@ function Reveal({
   );
 }
 
+/**
+ * Company logo badge. Renders the real logo image when one is mapped in
+ * LOGO_IMAGES and it loads successfully; otherwise falls back to the
+ * colored-initials badge so the layout never shows a broken image icon.
+ * `className` controls size, rounding, position, and display (flex/hidden) —
+ * this component only adds centering/overflow, never its own display class,
+ * so it can't fight a caller's "hidden md:flex" pattern.
+ */
+function CompanyBadge({
+  company,
+  bg,
+  fg,
+  className = '',
+  textSizeClass = 'text-lg',
+  pulse = false,
+}: {
+  company: string;
+  bg: string;
+  fg: string;
+  className?: string;
+  textSizeClass?: string;
+  pulse?: boolean;
+}) {
+  const [imgFailed, setImgFailed] = useState(false);
+  const src = LOGO_IMAGES[company];
+  const showImage = Boolean(src) && !imgFailed;
+
+  return (
+    <div
+      className={`${className} items-center justify-center overflow-hidden shrink-0`}
+      style={{
+        backgroundColor: showImage ? '#ffffff' : bg,
+        border: showImage ? '1px solid rgba(22,25,43,0.08)' : undefined,
+        animation: pulse ? 'pulse-dot 2.4s infinite' : undefined,
+      }}
+    >
+      {showImage ? (
+        <img
+          src={src}
+          alt={`${company} logo`}
+          className="w-full h-full object-contain p-2"
+          referrerPolicy="no-referrer"
+          onError={() => setImgFailed(true)}
+        />
+      ) : (
+        <span className={`font-bold ${textSizeClass}`} style={{ color: fg }}>
+          {getInitials(company)}
+        </span>
+      )}
+    </div>
+  );
+}
+
 export default function Experience() {
   const reducedMotion = usePrefersReducedMotion();
 
@@ -136,7 +202,7 @@ export default function Experience() {
       <div className="relative">
         {/* connecting pulse line */}
         <div
-          className="absolute left-[27px] top-3 bottom-3 w-[2px] hidden md:block"
+          className="absolute left-6.75 top-3 bottom-3 w-0.5 hidden md:block"
           style={{ background: 'linear-gradient(to bottom, #FF5A3C, #FFC94A)' }}
         />
 
@@ -146,28 +212,27 @@ export default function Experience() {
             return (
               <Reveal key={exp.id} delay={i * 90}>
                 <div className="relative md:pl-20 group">
-                  {/* node */}
-                  <div
-                    className="hidden md:flex absolute left-0 top-1 w-14 h-14 rounded-2xl items-center justify-center font-bold text-lg shrink-0 z-10 transition-transform duration-300 group-hover:scale-105"
-                    style={{
-                      backgroundColor: logo.bg,
-                      color: logo.fg,
-                      animation: i === 0 && !reducedMotion ? 'pulse-dot 2.4s infinite' : 'none',
-                    }}
-                  >
-                    {getInitials(exp.company)}
-                  </div>
+                  {/* node (desktop) */}
+                  <CompanyBadge
+                    company={exp.company}
+                    bg={logo.bg}
+                    fg={logo.fg}
+                    className="hidden md:flex absolute left-0 top-1 w-14 h-14 rounded-2xl z-10 transition-transform duration-300 group-hover:scale-105"
+                    textSizeClass="text-lg"
+                    pulse={i === 0 && !reducedMotion}
+                  />
 
                   <div className="space-y-6">
                     {/* Header */}
                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                       <div className="flex items-start gap-4 md:hidden">
-                        <div
-                          className="w-11 h-11 rounded-xl flex items-center justify-center font-bold text-sm shrink-0"
-                          style={{ backgroundColor: logo.bg, color: logo.fg }}
-                        >
-                          {getInitials(exp.company)}
-                        </div>
+                        <CompanyBadge
+                          company={exp.company}
+                          bg={logo.bg}
+                          fg={logo.fg}
+                          className="flex w-11 h-11 rounded-xl"
+                          textSizeClass="text-sm"
+                        />
                       </div>
                       <div>
                         <h2 className="display-font text-xl sm:text-2xl md:text-3xl font-bold text-[#16192B] leading-tight">
