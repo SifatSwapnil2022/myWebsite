@@ -44,7 +44,7 @@ export interface Experience {
 export interface NewsItem {
   id: string;
   date: string;
-  category?: 'Publication' | 'Event' | 'Academic' | 'Award';
+  category?: 'Publication' | 'Event' | 'Academic' | 'Award' |'Career';
   content: string;
   longContent?: string;
   image?: string;

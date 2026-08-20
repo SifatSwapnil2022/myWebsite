@@ -177,6 +177,14 @@ export const EXPERIENCES: Experience[] = [
 
 export const NEWS: NewsItem[] = [
   {
+    id: "n-7",
+    date: "August 2026",
+    category: "Career",
+    content: "Joined Nasir Syntax Solution Limited as a Machine Learning Engineer Intern.",
+    longContent: "Joined Nasir Syntax Solution Limited as a Machine Learning Engineer Intern, starting August 1, 2026. Working on machine learning projects and gaining hands-on industry experience in developing and evaluating AI solutions.",
+    image: "/files/syntax.png"
+  },
+  {
     id: "n-2",
     date: "July 2026",
     category: "Publication",
@@ -189,7 +197,7 @@ export const NEWS: NewsItem[] = [
   {
     id: "n-6",
     date: "May 2026",
-    category: "Academic",
+    category: "Career",
     content: "Completed a 4-month internship in IT & Operations at Banglalink, Dhaka.",
     longContent: "Worked across IT and Operations, managing 100+ operational documents and preparing daily, weekly, and monthly reports drawing on data from multiple departments. Maintained IT asset inventories and employee records, supported the IT team on hardware, software, and network troubleshooting, and helped develop SOPs and technical documentation for the team.",
     image: "/files/Certificate_Intern_Sifatullah_Sheikh.png"
@@ -229,9 +237,8 @@ export const NEWS: NewsItem[] = [
     content: "Won 3rd place nationally in the IT Olympiad at National Robo-Fest 2024.",
     longContent: "Represented our university in a nationwide competition covering algorithms, systems troubleshooting, and digital logic design — finishing 3rd out of hundreds of undergraduate engineering teams from across the country.",
     image: "/files/ROBOTICS.jpg"
-  }
+  },
 ];
-
 export const EXTRA_ACTIVITIES: ExtraActivity[] = [
   {
     id: "ea-1",

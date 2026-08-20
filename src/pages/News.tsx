@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChevronRight, Calendar, Bookmark, Award, BookOpen, GraduationCap, Sparkles, Filter, ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronRight, Calendar, Bookmark, Award, BookOpen, GraduationCap, Sparkles, Filter, ChevronDown, ChevronUp, Briefcase } from 'lucide-react';
 import { NEWS } from '../data/portfolioData';
 
-type FilterType = 'All' | 'Publication' | 'Event' | 'Academic' | 'Award';
+type FilterType = 'All' | 'Publication' | 'Event' | 'Academic' | 'Award' | 'Career';
 
-const FILTERS: FilterType[] = ['All', 'Publication', 'Event', 'Academic', 'Award'];
+const FILTERS: FilterType[] = ['All', 'Publication', 'Event', 'Academic', 'Award', 'Career'];
 
 const CORAL = '#FF5A3C';
 const AMBER = '#FFC94A';
@@ -12,12 +12,16 @@ const TEAL  = '#0F6E63';
 const INK   = '#16192B';
 const PAPER = '#FAFAF7';
 
-// One accent per category, drawn from the shared palette — not a rainbow
+// One accent per category, drawn from the shared palette — not a rainbow.
+// Career shares teal with Academic (both are "life milestone" categories
+// rather than research output) but is still distinguishable via its own
+// icon (Briefcase vs GraduationCap) and label.
 const CATEGORY_STYLE: Record<string, { color: string; bg: string }> = {
   Publication: { color: CORAL, bg: `${CORAL}14` },
   Event:       { color: '#8A6300', bg: `${AMBER}25` }, // darker amber for text contrast on the light amber fill
   Academic:    { color: TEAL, bg: `${TEAL}14` },
   Award:       { color: INK, bg: `${INK}0D` },
+  Career:      { color: TEAL, bg: `${TEAL}14` },
 };
 
 /* ─── Motion primitives (hooks + CSS only, no new dependencies) ─────────── */
@@ -98,6 +102,7 @@ export default function News() {
       case 'Event':        return <Sparkles className="w-3.5 h-3.5" />;
       case 'Academic':     return <GraduationCap className="w-3.5 h-3.5" />;
       case 'Award':        return <Award className="w-3.5 h-3.5" />;
+      case 'Career':        return <Briefcase className="w-3.5 h-3.5" />;
       default:              return <Calendar className="w-3.5 h-3.5" />;
     }
   };
