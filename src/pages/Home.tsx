@@ -222,13 +222,11 @@ export default function Home() {
             {/* Grounded summary — what I do, what problems it addresses, and the direction I'm headed */}
             <Reveal delay={140}>
               <p className="text-base md:text-lg leading-relaxed max-w-2xl" style={{ color: `${INK}99` }}>
-                I am a computer science graduate with a year of research experience in machine learning
-                and deep learning, working on computer vision, multimodal AI, and trustworthy AI. My
-                past research has applied these methods to real problems in healthcare and biodiversity —
-                detecting manipulated media and identifying medicinal plants from images. I am now looking
-                to extend this work toward machine learning systems, AI-enabled autonomy, and multi-agent
-                systems, with the long-term goal of building AI that can make decisions safely and
-                reliably in real environments, and explain those decisions to the people who rely on them.
+               I am a Computer Science graduate and Machine Learning researcher with experience in deep learning, computer vision,
+                multimodal AI, and trustworthy AI. My research has addressed real-world problems such as detecting manipulated media.
+                 I can develop and evaluate AI models for complex visual and multimodal tasks, with a focus on reliable and interpretable systems.
+                  Moving forward, I aim to work on machine learning systems,
+                AI-enabled autonomy, and multi-agent systems for safe and intelligent decision-making in real-world environments.  
               </p>
             </Reveal>
 
