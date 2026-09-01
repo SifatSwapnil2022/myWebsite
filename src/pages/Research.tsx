@@ -18,7 +18,7 @@ const SCHOLAR_URL = 'https://scholar.google.com/citations?view_op=list_works&hl=
 // always points to the live, authoritative page for anyone who wants the
 // exact current numbers.
 const CITATION_STATS = {
-  citations: 11,
+  citations: 12,
   hIndex: 2,
   i10Index: 0,
   lastUpdated: 'Aug 2026', // update this alongside the numbers above
