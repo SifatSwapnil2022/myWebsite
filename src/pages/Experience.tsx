@@ -1,50 +1,66 @@
-import { useEffect, useRef, useState } from 'react';
-import { Mail, ExternalLink, Award } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { motion } from 'motion/react';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Award,
+  BriefcaseBusiness,
+  Building2,
+  Check,
+  Clock3,
+  Copy,
+  ExternalLink,
+  GraduationCap,
+  Mail,
+  MapPin,
+  Sparkles,
+} from 'lucide-react';
 import { EXPERIENCES } from '../data/portfolioData';
 
-// Deterministic accent color per company, drawn from a small optimistic palette
-const LOGO_PALETTE = [
-  { bg: '#FF5A3C', fg: '#FFFFFF' }, // coral
-  { bg: '#0F6E63', fg: '#FFFFFF' }, // teal
-  { bg: '#16192B', fg: '#FFC94A' }, // ink with amber
-  { bg: '#FFC94A', fg: '#16192B' }, // amber
-];
+const INK = '#141414';
+const PAPER = '#F7F5EF';
+const PAPER_2 = '#EFEAE1';
+const WHITE = '#FFFFFF';
+const MUTED = '#716F69';
+const LINE = '#E3DED4';
+const ACCENT = '#E5533D';
+const AMBER = '#F0A54A';
+const TEAL = '#1D7A70';
 
-// Real company logo images. The key MUST match the `company` string exactly
-// as it appears in EXPERIENCES (portfolioData) — case and punctuation
-// included — or the lookup silently misses and falls back to initials.
-// Files must live in public/files/ (i.e. public/files/syntax-solution-logo.png)
-// — you said the 3 images are already at D:\My-Portfolio\public\files, so
-// either rename them to the filenames below, or edit these three paths to
-// match whatever you actually saved them as.
+const EMAIL = 'mdsifatullahsheikh@gmail.com';
+
+const GOOGLE_MAPS_API_KEY = (import.meta as any).env?.VITE_GOOGLE_MAPS_API_KEY as
+  | string
+  | undefined;
+
 const LOGO_IMAGES: Record<string, string> = {
   'Syntax Solution Limited': '/files/syntax_solution_limited_logo.jpeg',
-  'Banglalink': '/files/bangalink.png',
+  Banglalink: '/files/bangalink.png',
   'East West University': '/files/EWU.png',
 };
 
-function getInitials(name = '') {
-  const words = name.replace(/[().]/g, '').split(' ').filter(Boolean);
-  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
-  return (words[0][0] + words[1][0]).toUpperCase();
-}
-
-function getLogoColors(name = '') {
-  const sum = [...name].reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
-  return LOGO_PALETTE[sum % LOGO_PALETTE.length];
-}
-
-/* ─── Motion primitives (hooks + CSS only, no new dependencies) ─────────── */
+const COMPANY_ACCENTS = [
+  ACCENT,
+  TEAL,
+  '#253A78',
+  AMBER,
+];
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
+
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     setReduced(mq.matches);
-    const h = (e: MediaQueryListEvent) => setReduced(e.matches);
-    mq.addEventListener('change', h);
-    return () => mq.removeEventListener('change', h);
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      setReduced(event.matches);
+    };
+
+    mq.addEventListener('change', handleChange);
+    return () => mq.removeEventListener('change', handleChange);
   }, []);
+
   return reduced;
 }
 
@@ -57,84 +73,130 @@ function Reveal({
   delay?: number;
   className?: string;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  const reduced = usePrefersReducedMotion();
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const io = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setVisible(true); io.disconnect(); } },
-      { threshold: 0.1 }
-    );
-    io.observe(node);
-    return () => io.disconnect();
-  }, []);
-
-  const shown = visible || reduced;
+  const reducedMotion = usePrefersReducedMotion();
 
   return (
-    <div
-      ref={ref}
+    <motion.div
       className={className}
-      style={{
-        opacity: shown ? 1 : 0,
-        transform: shown ? 'translateY(0)' : 'translateY(20px)',
-        transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms`,
+      initial={reducedMotion ? false : { opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.12 }}
+      transition={{
+        duration: reducedMotion ? 0 : 0.64,
+        delay: reducedMotion ? 0 : delay / 1000,
+        ease: [0.2, 0.7, 0.2, 1],
       }}
     >
       {children}
+    </motion.div>
+  );
+}
+
+function SectionHeader({
+  number,
+  eyebrow,
+  title,
+  description,
+}: {
+  number: string;
+  eyebrow: string;
+  title: string;
+  description?: string;
+}) {
+  return (
+    <div
+      className="grid gap-5 border-b pb-6 md:grid-cols-12 md:items-end"
+      style={{ borderColor: LINE }}
+    >
+      <div className="md:col-span-3">
+        <div className="flex items-center gap-3">
+          <span
+            className="flex h-8 min-w-8 items-center justify-center rounded-full px-2 text-[9px] font-semibold tabular-nums"
+            style={{
+              backgroundColor: WHITE,
+              border: `1px solid ${LINE}`,
+              color: MUTED,
+            }}
+          >
+            {number}
+          </span>
+
+          <span
+            className="text-[10px] font-semibold uppercase tracking-[0.16em]"
+            style={{ color: MUTED }}
+          >
+            {eyebrow}
+          </span>
+        </div>
+      </div>
+
+      <div className="md:col-span-6">
+        <h2 className="experience-section-title text-3xl font-semibold leading-[1.02] md:text-4xl">
+          {title}
+        </h2>
+      </div>
+
+      {description && (
+        <div className="md:col-span-3">
+          <p className="text-sm leading-6" style={{ color: MUTED }}>
+            {description}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
 
-/**
- * Company logo badge. Renders the real logo image when one is mapped in
- * LOGO_IMAGES and it loads successfully; otherwise falls back to the
- * colored-initials badge so the layout never shows a broken image icon.
- * `className` controls size, rounding, position, and display (flex/hidden) —
- * this component only adds centering/overflow, never its own display class,
- * so it can't fight a caller's "hidden md:flex" pattern.
- */
-function CompanyBadge({
+function getInitials(name = '') {
+  const words = name.replace(/[().]/g, '').split(' ').filter(Boolean);
+
+  if (words.length === 1) {
+    return words[0].slice(0, 2).toUpperCase();
+  }
+
+  return (words[0][0] + words[1][0]).toUpperCase();
+}
+
+function CompanyLogo({
   company,
-  bg,
-  fg,
-  className = '',
-  textSizeClass = 'text-lg',
-  pulse = false,
+  accent,
+  size = 'lg',
 }: {
   company: string;
-  bg: string;
-  fg: string;
-  className?: string;
-  textSizeClass?: string;
-  pulse?: boolean;
+  accent: string;
+  size?: 'sm' | 'lg';
 }) {
-  const [imgFailed, setImgFailed] = useState(false);
+  const [failed, setFailed] = useState(false);
   const src = LOGO_IMAGES[company];
-  const showImage = Boolean(src) && !imgFailed;
+  const showImage = Boolean(src) && !failed;
+
+  const dimension =
+    size === 'lg'
+      ? 'h-20 w-20 sm:h-24 sm:w-24'
+      : 'h-11 w-11';
 
   return (
     <div
-      className={`${className} items-center justify-center overflow-hidden shrink-0`}
+      className={`company-logo flex ${dimension} shrink-0 items-center justify-center overflow-hidden rounded-[20px]`}
       style={{
-        backgroundColor: showImage ? '#ffffff' : bg,
-        border: showImage ? '1px solid rgba(22,25,43,0.08)' : undefined,
-        animation: pulse ? 'pulse-dot 2.4s infinite' : undefined,
+        backgroundColor: showImage ? WHITE : accent,
+        border: `1px solid ${showImage ? LINE : 'transparent'}`,
+        boxShadow: '0 12px 28px rgba(20,20,20,.08)',
       }}
     >
       {showImage ? (
         <img
           src={src}
           alt={`${company} logo`}
-          className="w-full h-full object-contain p-2"
+          className="max-h-full max-w-full object-contain p-2"
           referrerPolicy="no-referrer"
-          onError={() => setImgFailed(true)}
+          onError={() => setFailed(true)}
         />
       ) : (
-        <span className={`font-bold ${textSizeClass}`} style={{ color: fg }}>
+        <span
+          className={size === 'lg' ? 'text-lg font-bold' : 'text-xs font-bold'}
+          style={{ color: WHITE }}
+        >
           {getInitials(company)}
         </span>
       )}
@@ -142,195 +204,1111 @@ function CompanyBadge({
   );
 }
 
-export default function Experience() {
-  const reducedMotion = usePrefersReducedMotion();
+function experienceMapSrc(company: string, location: string) {
+  const query = `${company}, ${location}`;
+
+  return GOOGLE_MAPS_API_KEY
+    ? `https://www.google.com/maps/embed/v1/search?key=${GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(
+        query
+      )}&zoom=13`
+    : `https://www.google.com/maps?q=${encodeURIComponent(
+        query
+      )}&z=13&output=embed`;
+}
+
+function ExperienceMap({
+  company,
+  location,
+  accent,
+}: {
+  company: string;
+  location: string;
+  accent: string;
+}) {
+  return (
+    <div
+      className="experience-map relative overflow-hidden rounded-[22px]"
+      style={{
+        height: 220,
+        backgroundColor: PAPER_2,
+        border: `1px solid ${LINE}`,
+      }}
+    >
+      <iframe
+        title={`${company} location`}
+        src={experienceMapSrc(company, location)}
+        width="100%"
+        height="100%"
+        loading="lazy"
+        allowFullScreen
+        referrerPolicy="no-referrer-when-downgrade"
+        style={{
+          border: 0,
+          display: 'block',
+          width: '100%',
+          height: '100%',
+        }}
+      />
+
+      <div
+        className="experience-map-badge pointer-events-none absolute bottom-3 left-3 right-3 flex items-center gap-3 rounded-xl px-3 py-2.5"
+        style={{
+          backgroundColor: 'rgba(255,255,255,.92)',
+          border: '1px solid rgba(255,255,255,.74)',
+          boxShadow: '0 10px 24px rgba(20,20,20,.10)',
+          WebkitBackdropFilter: 'blur(10px)',
+          backdropFilter: 'blur(10px)',
+        }}
+      >
+        <span
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+          style={{
+            backgroundColor: `${accent}12`,
+            color: accent,
+          }}
+        >
+          <MapPin className="h-4 w-4" />
+        </span>
+
+        <div className="min-w-0">
+          <p className="truncate text-[10px] font-semibold">{company}</p>
+          <p
+            className="mt-0.5 truncate text-[9px]"
+            style={{ color: MUTED }}
+          >
+            {location}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CopyEmail() {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      window.location.href = `mailto:${EMAIL}`;
+    }
+  };
 
   return (
-    <div className="space-y-16 md:space-y-20 py-8 md:py-12" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <button
+      type="button"
+      onClick={handleCopy}
+      className="experience-copy inline-flex min-h-[44px] items-center gap-2 rounded-xl px-3.5 text-xs font-semibold"
+      style={{
+        backgroundColor: 'rgba(255,255,255,.06)',
+        border: '1px solid rgba(255,255,255,.11)',
+        color: '#fff',
+      }}
+    >
+      {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+      {copied ? 'Copied' : 'Copy email'}
+    </button>
+  );
+}
+
+export default function Experience() {
+  const heroRef = useRef<HTMLElement>(null);
+  const reducedMotion = usePrefersReducedMotion();
+
+  const currentExperiences = useMemo(
+    () =>
+      EXPERIENCES.filter((experience) =>
+        /present|current|ongoing/i.test(experience.period)
+      ),
+    []
+  );
+
+  const totalResponsibilities = useMemo(
+    () =>
+      EXPERIENCES.reduce(
+        (total, experience) => total + (experience.bullets?.length || 0),
+        0
+      ),
+    []
+  );
+
+  useEffect(() => {
+    const node = heroRef.current;
+    if (!node || reducedMotion) return;
+
+    const onPointerMove = (event: PointerEvent) => {
+      const rect = node.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+      node.style.setProperty('--experience-x', `${x}%`);
+      node.style.setProperty('--experience-y', `${y}%`);
+    };
+
+    node.addEventListener('pointermove', onPointerMove);
+    return () => node.removeEventListener('pointermove', onPointerMove);
+  }, [reducedMotion]);
+
+  return (
+    <main
+      className="experience-pro overflow-hidden"
+      style={{
+        color: INK,
+        backgroundColor: PAPER,
+        fontFamily:
+          'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      }}
+    >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap');
-        .display-font { font-family: 'Space Grotesk', sans-serif; }
-        @keyframes pulse-dot {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(255,90,60,0.35); }
-          50% { box-shadow: 0 0 0 8px rgba(255,90,60,0); }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        .experience-page-width {
+          width: min(1420px, calc(100% - 24px));
+          margin-inline: auto;
         }
-        @keyframes driftA {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(18px, -14px) scale(1.05); }
+
+        .experience-display {
+          letter-spacing: -0.062em;
         }
-        @keyframes driftB {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(-16px, 12px) scale(1.04); }
+
+        .experience-section-title {
+          letter-spacing: -0.045em;
+        }
+
+        .experience-hero {
+          --experience-x: 80%;
+          --experience-y: 20%;
+        }
+
+        .experience-hero::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background:
+            radial-gradient(
+              circle at var(--experience-x) var(--experience-y),
+              rgba(229,83,61,.11),
+              transparent 24%
+            );
+          opacity: .84;
+        }
+
+        .experience-grid {
+          background-image:
+            linear-gradient(rgba(20,20,20,.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(20,20,20,.035) 1px, transparent 1px);
+          background-size: 32px 32px;
+          mask-image: linear-gradient(to bottom, rgba(0,0,0,.92), transparent 96%);
+        }
+
+        .company-logo img {
+          transition: transform .5s cubic-bezier(.2,.7,.2,1);
+        }
+
+        .experience-card:hover .company-logo img {
+          transform: scale(1.05);
+        }
+
+        .experience-card {
+          transition:
+            transform .38s cubic-bezier(.2,.7,.2,1),
+            box-shadow .38s ease,
+            border-color .3s ease;
+        }
+
+        .experience-card:hover {
+          transform: translateY(-5px);
+          border-color: #D8D1C5;
+          box-shadow: 0 28px 70px rgba(20,20,20,.09) !important;
+        }
+
+        .responsibility-card {
+          transition:
+            transform .3s cubic-bezier(.2,.7,.2,1),
+            background-color .25s ease,
+            border-color .25s ease;
+        }
+
+        .responsibility-card:hover {
+          transform: translateY(-3px);
+          background-color: #fff;
+          border-color: #D8D1C5;
+        }
+
+        .experience-map iframe {
+          filter: grayscale(1) saturate(.45) contrast(.93) brightness(1.04);
+          transition:
+            filter .6s ease,
+            transform .75s cubic-bezier(.2,.7,.2,1);
+        }
+
+        .experience-map:hover iframe {
+          filter: grayscale(.15) saturate(.82) contrast(.97) brightness(1);
+          transform: scale(1.01);
+        }
+
+        .experience-link {
+          position: relative;
+          width: fit-content;
+        }
+
+        .experience-link::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: -4px;
+          width: 100%;
+          height: 1px;
+          background: currentColor;
+          transform: scaleX(0);
+          transform-origin: right;
+          transition: transform .3s cubic-bezier(.2,.7,.2,1);
+        }
+
+        .experience-link:hover::after {
+          transform: scaleX(1);
+          transform-origin: left;
+        }
+
+        .experience-dark-card {
+          position: relative;
+          overflow: hidden;
+          isolation: isolate;
+        }
+
+        .experience-dark-card::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: -1;
+          background:
+            radial-gradient(circle at 18% 18%, rgba(229,83,61,.18), transparent 28%),
+            radial-gradient(circle at 86% 76%, rgba(29,122,112,.14), transparent 30%);
+        }
+
+        @supports not ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
+          .experience-map-badge {
+            background-color: rgba(255,255,255,.98) !important;
+          }
+        }
+
+        @media (min-width: 640px) {
+          .experience-page-width {
+            width: min(1420px, calc(100% - 48px));
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .experience-page-width {
+            width: min(1420px, calc(100% - 64px));
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .company-logo img,
+          .experience-card,
+          .responsibility-card,
+          .experience-map iframe,
+          .experience-link::after {
+            transition: none !important;
+            transform: none !important;
+          }
         }
       `}</style>
 
-      {/* Header */}
-      <section className="relative overflow-hidden rounded-4xl p-2">
-        {/* Ambient drifting blobs — matches Home.tsx / About.tsx / Contact.tsx, disabled under reduced motion */}
+      {/* ================================================================ */}
+      {/* HERO                                                             */}
+      {/* ================================================================ */}
+      <section
+        ref={heroRef}
+        className="experience-hero relative overflow-hidden border-b"
+        style={{
+          borderColor: LINE,
+          background:
+            'linear-gradient(180deg, #F7F5EF 0%, #F1ECE3 100%)',
+        }}
+      >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -top-14 -right-10 w-56 h-56 md:w-72 md:h-72 rounded-full blur-[80px]"
-          style={{
-            backgroundColor: '#FF5A3C0F',
-            animation: reducedMotion ? undefined : 'driftA 15s ease-in-out infinite',
-          }}
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-16 -left-10 w-56 h-56 md:w-72 md:h-72 rounded-full blur-[80px]"
-          style={{
-            backgroundColor: '#0F6E630F',
-            animation: reducedMotion ? undefined : 'driftB 18s ease-in-out infinite',
-          }}
+          className="experience-grid pointer-events-none absolute inset-0 opacity-70"
         />
 
-        <Reveal className="relative">
-          <div className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-[#FF5A3C] uppercase mb-3">
-            <span className="w-6 h-px bg-[#FF5A3C]" />
-            Research & professional experience
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-28 -left-24 h-80 w-80 rounded-full blur-[120px]"
+          style={{ backgroundColor: 'rgba(29,122,112,.08)' }}
+        />
+
+        <div className="experience-page-width relative z-10 grid min-h-[650px] items-center gap-10 py-14 md:grid-cols-12 md:gap-10 md:py-20">
+          <div className="md:col-span-7">
+            <Reveal>
+              <div className="mb-5 flex items-center gap-3">
+                <span
+                  className="flex h-8 min-w-8 items-center justify-center rounded-full px-2 text-[9px] font-semibold"
+                  style={{
+                    backgroundColor: WHITE,
+                    border: `1px solid ${LINE}`,
+                    color: MUTED,
+                  }}
+                >
+                  E
+                </span>
+
+                <span
+                  className="text-[10px] font-semibold uppercase tracking-[0.17em]"
+                  style={{ color: MUTED }}
+                >
+                  Experience
+                </span>
+              </div>
+            </Reveal>
+
+            <Reveal delay={55}>
+              <h1 className="experience-display max-w-[880px] text-[clamp(3.5rem,8.4vw,7.4rem)] font-semibold leading-[0.84]">
+                Research,
+                <br />
+                industry &
+                <br />
+                <span style={{ color: ACCENT }}>teaching.</span>
+              </h1>
+            </Reveal>
+
+            <Reveal delay={105}>
+              <p
+                className="mt-8 max-w-[650px] text-[15px] leading-7 sm:text-base sm:leading-8"
+                style={{ color: MUTED }}
+              >
+                A timeline of machine learning, research, academic, and
+                professional work represented in my portfolio.
+              </p>
+            </Reveal>
+
+            <Reveal delay={145}>
+              <div className="mt-8 grid max-w-[720px] grid-cols-1 gap-3 sm:grid-cols-3">
+                <div
+                  className="rounded-2xl p-4"
+                  style={{
+                    backgroundColor: 'rgba(255,255,255,.60)',
+                    border: `1px solid ${LINE}`,
+                  }}
+                >
+                  <p
+                    className="text-[9px] font-semibold uppercase tracking-[0.14em]"
+                    style={{ color: MUTED }}
+                  >
+                    Roles listed
+                  </p>
+                  <p className="mt-2 text-xl font-semibold">
+                    {EXPERIENCES.length}
+                  </p>
+                </div>
+
+                <div
+                  className="rounded-2xl p-4"
+                  style={{
+                    backgroundColor: 'rgba(255,255,255,.60)',
+                    border: `1px solid ${LINE}`,
+                  }}
+                >
+                  <p
+                    className="text-[9px] font-semibold uppercase tracking-[0.14em]"
+                    style={{ color: MUTED }}
+                  >
+                    Current
+                  </p>
+                  <p className="mt-2 text-xl font-semibold">
+                    {currentExperiences.length}
+                  </p>
+                </div>
+
+                <div
+                  className="rounded-2xl p-4"
+                  style={{
+                    backgroundColor: 'rgba(255,255,255,.60)',
+                    border: `1px solid ${LINE}`,
+                  }}
+                >
+                  <p
+                    className="text-[9px] font-semibold uppercase tracking-[0.14em]"
+                    style={{ color: MUTED }}
+                  >
+                    Responsibility points
+                  </p>
+                  <p className="mt-2 text-xl font-semibold">
+                    {totalResponsibilities}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
           </div>
-          <h1 className="display-font text-3xl sm:text-4xl md:text-6xl font-bold text-[#16192B] leading-[1.05]">
-            Where I've worked
-          </h1>
-          <p className="text-[#16192B]/60 text-base md:text-lg max-w-xl leading-relaxed mt-5">
-            A timeline of research assistantships and academic work, from my undergraduate degree onward.
-          </p>
-        </Reveal>
+
+          <Reveal delay={115} className="md:col-span-5">
+            <div
+              className="experience-dark-card rounded-[28px] p-6 sm:p-8"
+              style={{
+                background:
+                  'linear-gradient(145deg, #171717 0%, #25231F 100%)',
+                color: '#fff',
+                boxShadow: '0 28px 75px rgba(20,20,20,.16)',
+              }}
+            >
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p
+                    className="text-[9px] font-semibold uppercase tracking-[0.16em]"
+                    style={{ color: 'rgba(255,255,255,.40)' }}
+                  >
+                    Career timeline
+                  </p>
+                  <h2 className="mt-2 text-2xl font-semibold tracking-[-0.035em]">
+                    Roles at a glance
+                  </h2>
+                </div>
+
+                <BriefcaseBusiness className="h-5 w-5" style={{ color: AMBER }} />
+              </div>
+
+              <div className="mt-6 space-y-1">
+                {EXPERIENCES.map((experience, index) => {
+                  const accent =
+                    COMPANY_ACCENTS[index % COMPANY_ACCENTS.length];
+
+                  return (
+                    <a
+                      key={experience.id}
+                      href={`#experience-${experience.id}`}
+                      className="group grid grid-cols-[42px_1fr_auto] items-center gap-3 border-b py-4"
+                      style={{ borderColor: 'rgba(255,255,255,.08)' }}
+                    >
+                      <CompanyLogo
+                        company={experience.company}
+                        accent={accent}
+                        size="sm"
+                      />
+
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold">
+                          {experience.role}
+                        </p>
+                        <p
+                          className="mt-1 truncate text-[10px]"
+                          style={{ color: 'rgba(255,255,255,.45)' }}
+                        >
+                          {experience.company}
+                        </p>
+                      </div>
+
+                      <ArrowRight className="h-4 w-4 opacity-45 transition-transform duration-300 group-hover:translate-x-1" />
+                    </a>
+                  );
+                })}
+              </div>
+
+              <a
+                href="#timeline"
+                className="mt-6 inline-flex items-center gap-2 text-xs font-semibold"
+              >
+                Full timeline
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
-      {/* Timeline */}
-      <div className="relative">
-        {/* connecting pulse line */}
-        <div
-          className="absolute left-6.75 top-3 bottom-3 w-0.5 hidden md:block"
-          style={{ background: 'linear-gradient(to bottom, #FF5A3C, #FFC94A)' }}
-        />
+      {/* ================================================================ */}
+      {/* EXPERIENCE TIMELINE                                              */}
+      {/* ================================================================ */}
+      <section id="timeline" className="experience-page-width py-20 md:py-28">
+        <Reveal>
+          <SectionHeader
+            number="01"
+            eyebrow="Career timeline"
+            title="The work, responsibilities, and places."
+            description="Each entry uses the role, company, period, location, and responsibilities already stored in the portfolio."
+          />
+        </Reveal>
 
-        <div className="space-y-12 md:space-y-16">
-          {EXPERIENCES.map((exp, i) => {
-            const logo = getLogoColors(exp.company);
+        <div className="relative mt-10 space-y-7">
+          <div
+            aria-hidden="true"
+            className="absolute bottom-10 left-[23px] top-10 hidden w-px lg:block"
+            style={{
+              background:
+                'linear-gradient(to bottom, #E5533D, #1D7A70 48%, #253A78)',
+            }}
+          />
+
+          {EXPERIENCES.map((experience, index) => {
+            const accent =
+              COMPANY_ACCENTS[index % COMPANY_ACCENTS.length];
+            const isCurrent = /present|current|ongoing/i.test(
+              experience.period
+            );
+
             return (
-              <Reveal key={exp.id} delay={i * 90}>
-                <div className="relative md:pl-20 group">
-                  {/* node (desktop) */}
-                  <CompanyBadge
-                    company={exp.company}
-                    bg={logo.bg}
-                    fg={logo.fg}
-                    className="hidden md:flex absolute left-0 top-1 w-14 h-14 rounded-2xl z-10 transition-transform duration-300 group-hover:scale-105"
-                    textSizeClass="text-lg"
-                    pulse={i === 0 && !reducedMotion}
-                  />
+              <div
+                key={experience.id}
+                id={`experience-${experience.id}`}
+                className="relative scroll-mt-28 lg:pl-16"
+              >
+                <span
+                  aria-hidden="true"
+                  className="absolute left-[17px] top-10 z-10 hidden h-3 w-3 rounded-full lg:block"
+                  style={{
+                    backgroundColor: accent,
+                    boxShadow: `0 0 0 8px ${PAPER}`,
+                  }}
+                />
 
-                  <div className="space-y-6">
-                    {/* Header */}
-                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                      <div className="flex items-start gap-4 md:hidden">
-                        <CompanyBadge
-                          company={exp.company}
-                          bg={logo.bg}
-                          fg={logo.fg}
-                          className="flex w-11 h-11 rounded-xl"
-                          textSizeClass="text-sm"
-                        />
-                      </div>
-                      <div>
-                        <h2 className="display-font text-xl sm:text-2xl md:text-3xl font-bold text-[#16192B] leading-tight">
-                          {exp.role}
-                        </h2>
-                        <p className="text-base font-semibold mt-1" style={{ color: logo.bg === '#FFC94A' ? '#8A6300' : logo.bg }}>
-                          {exp.company}
-                        </p>
-                        <p className="text-sm text-[#16192B]/45 mt-0.5">
-                          {exp.location}
-                        </p>
-                      </div>
+                <Reveal delay={index * 70}>
+                  <article
+                    className="experience-card overflow-hidden rounded-[30px]"
+                    style={{
+                      backgroundColor: WHITE,
+                      border: `1px solid ${LINE}`,
+                      boxShadow: '0 22px 58px rgba(20,20,20,.055)',
+                    }}
+                  >
+                    <div
+                      aria-hidden="true"
+                      className="h-[3px] w-full"
+                      style={{
+                        background: `linear-gradient(90deg, ${accent}, transparent 74%)`,
+                      }}
+                    />
 
-                      <span className="inline-flex items-center bg-[#16192B] text-white text-xs font-semibold tracking-wide px-4 py-2 rounded-full w-fit shrink-0">
-                        {exp.period}
-                      </span>
-                    </div>
-
-                    {/* Bullets */}
-                    <ul className="space-y-3">
-                      {exp.bullets.map((bullet, idx) => (
-                        <li
-                          key={idx}
-                          className="flex items-start gap-3 text-[15px] md:text-base text-[#16192B]/80 leading-relaxed"
-                        >
-                          <span
-                            className="w-1.5 h-1.5 rounded-full shrink-0 mt-2.5"
-                            style={{ backgroundColor: logo.bg === '#FFC94A' ? '#FFC94A' : logo.bg }}
+                    <div className="grid lg:grid-cols-[1fr_360px]">
+                      {/* main */}
+                      <div className="p-5 sm:p-7 md:p-8">
+                        <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+                          <CompanyLogo
+                            company={experience.company}
+                            accent={accent}
+                            size="lg"
                           />
-                          <span>{bullet}</span>
-                        </li>
-                      ))}
-                    </ul>
 
-                    {/* Supervisor */}
-                    {exp.supervisor && (
-                      <div className="border-l-2 border-[#FFC94A] pl-5 py-1 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <Award className="w-4 h-4 text-[#FF5A3C]" />
-                            <span className="text-[11px] font-semibold tracking-widest uppercase text-[#16192B]/45">
-                              Supervised by
-                            </span>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span
+                                className="inline-flex min-h-[30px] items-center rounded-full px-3 text-[9px] font-semibold uppercase tracking-[0.14em]"
+                                style={{
+                                  backgroundColor: `${accent}10`,
+                                  border: `1px solid ${accent}1F`,
+                                  color: accent,
+                                }}
+                              >
+                                {experience.period}
+                              </span>
+
+                              {isCurrent && (
+                                <span
+                                  className="inline-flex min-h-[30px] items-center gap-2 rounded-full px-3 text-[9px] font-semibold uppercase tracking-[0.14em]"
+                                  style={{
+                                    backgroundColor: 'rgba(29,122,112,.08)',
+                                    border: '1px solid rgba(29,122,112,.14)',
+                                    color: TEAL,
+                                  }}
+                                >
+                                  <span
+                                    className="h-1.5 w-1.5 rounded-full"
+                                    style={{
+                                      backgroundColor: TEAL,
+                                      boxShadow:
+                                        '0 0 0 5px rgba(29,122,112,.08)',
+                                    }}
+                                  />
+                                  Current
+                                </span>
+                              )}
+                            </div>
+
+                            <h2 className="mt-4 text-2xl font-semibold leading-[1.04] tracking-[-0.035em] md:text-3xl">
+                              {experience.role}
+                            </h2>
+
+                            <p
+                              className="mt-3 text-base font-semibold"
+                              style={{ color: accent }}
+                            >
+                              {experience.company}
+                            </p>
+
+                            <div className="mt-4 flex items-start gap-2">
+                              <MapPin
+                                className="mt-0.5 h-4 w-4 shrink-0"
+                                style={{ color: MUTED }}
+                              />
+                              <p
+                                className="text-sm leading-6"
+                                style={{ color: MUTED }}
+                              >
+                                {experience.location}
+                              </p>
+                            </div>
                           </div>
-                          <p className="display-font text-lg font-bold text-[#16192B]">
-                            {exp.supervisor.name}
-                          </p>
-                          <p className="text-sm text-[#16192B]/55">
-                            {exp.supervisor.title} · Department of CSE, East West University
-                          </p>
                         </div>
 
-                        {exp.supervisor.profileUrl && (
-                          <a
-                            href={exp.supervisor.profileUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-sm font-semibold text-[#0F6E63] hover:text-[#FF5A3C] transition-colors w-fit shrink-0"
+                        <div
+                          className="my-7 h-px"
+                          style={{ backgroundColor: LINE }}
+                        />
+
+                        <div className="flex items-end justify-between gap-4">
+                          <div>
+                            <p
+                              className="text-[9px] font-semibold uppercase tracking-[0.16em]"
+                              style={{ color: MUTED }}
+                            >
+                              Responsibilities
+                            </p>
+                            <h3 className="mt-2 text-xl font-semibold tracking-[-0.025em]">
+                              What I worked on
+                            </h3>
+                          </div>
+
+                          <span
+                            className="hidden rounded-full px-3 py-1.5 text-[9px] font-semibold sm:block"
+                            style={{
+                              backgroundColor: PAPER,
+                              border: `1px solid ${LINE}`,
+                              color: MUTED,
+                            }}
                           >
-                            Faculty profile
-                            <ExternalLink className="w-3.5 h-3.5" />
-                          </a>
+                            {experience.bullets.length}{' '}
+                            {experience.bullets.length === 1
+                              ? 'item'
+                              : 'items'}
+                          </span>
+                        </div>
+
+                        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                          {experience.bullets.map((bullet, bulletIndex) => (
+                            <motion.div
+                              key={bulletIndex}
+                              className="responsibility-card rounded-2xl p-4"
+                              style={{
+                                backgroundColor: PAPER,
+                                border: `1px solid ${LINE}`,
+                              }}
+                              initial={
+                                reducedMotion
+                                  ? false
+                                  : { opacity: 0, y: 10 }
+                              }
+                              whileInView={{ opacity: 1, y: 0 }}
+                              viewport={{ once: true, amount: 0.2 }}
+                              transition={{
+                                delay: reducedMotion
+                                  ? 0
+                                  : bulletIndex * 0.035,
+                                duration: reducedMotion ? 0 : 0.4,
+                              }}
+                            >
+                              <div className="flex items-start gap-3">
+                                <span
+                                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-[9px] font-semibold"
+                                  style={{
+                                    backgroundColor: `${accent}10`,
+                                    color: accent,
+                                  }}
+                                >
+                                  {String(bulletIndex + 1).padStart(2, '0')}
+                                </span>
+
+                                <p
+                                  className="text-sm leading-6"
+                                  style={{ color: MUTED }}
+                                >
+                                  {bullet}
+                                </p>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+
+                        {experience.supervisor && (
+                          <div
+                            className="mt-7 rounded-[20px] p-5"
+                            style={{
+                              background:
+                                'linear-gradient(145deg, rgba(240,165,74,.11), rgba(255,255,255,.72))',
+                              border: '1px solid rgba(240,165,74,.18)',
+                            }}
+                          >
+                            <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                              <div className="flex items-start gap-3">
+                                <span
+                                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
+                                  style={{
+                                    backgroundColor: 'rgba(240,165,74,.13)',
+                                    color: '#9A651A',
+                                  }}
+                                >
+                                  <GraduationCap className="h-5 w-5" />
+                                </span>
+
+                                <div>
+                                  <p
+                                    className="text-[9px] font-semibold uppercase tracking-[0.14em]"
+                                    style={{ color: MUTED }}
+                                  >
+                                    Supervisor
+                                  </p>
+
+                                  <p className="mt-1 text-sm font-semibold">
+                                    {experience.supervisor.name}
+                                  </p>
+
+                                  <p
+                                    className="mt-1 text-xs leading-5"
+                                    style={{ color: MUTED }}
+                                  >
+                                    {experience.supervisor.title}
+                                  </p>
+                                </div>
+                              </div>
+
+                              {experience.supervisor.profileUrl && (
+                                <a
+                                  href={experience.supervisor.profileUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="experience-link inline-flex items-center gap-2 text-xs font-semibold"
+                                  style={{ color: TEAL }}
+                                >
+                                  Faculty profile
+                                  <ExternalLink className="h-4 w-4" />
+                                </a>
+                              )}
+                            </div>
+                          </div>
                         )}
                       </div>
-                    )}
-                  </div>
-                </div>
-              </Reveal>
+
+                      {/* map sidebar */}
+                      <aside
+                        className="border-t p-4 lg:border-l lg:border-t-0"
+                        style={{
+                          borderColor: LINE,
+                          backgroundColor: PAPER,
+                        }}
+                      >
+                        <div className="lg:sticky lg:top-24">
+                          <ExperienceMap
+                            company={experience.company}
+                            location={experience.location}
+                            accent={accent}
+                          />
+
+                          <div
+                            className="mt-4 rounded-[20px] p-4"
+                            style={{
+                              backgroundColor: WHITE,
+                              border: `1px solid ${LINE}`,
+                            }}
+                          >
+                            <div className="flex items-center gap-3">
+                              <span
+                                className="flex h-9 w-9 items-center justify-center rounded-xl"
+                                style={{
+                                  backgroundColor: `${accent}10`,
+                                  color: accent,
+                                }}
+                              >
+                                <Building2 className="h-4 w-4" />
+                              </span>
+
+                              <div>
+                                <p
+                                  className="text-[9px] font-semibold uppercase tracking-[0.14em]"
+                                  style={{ color: MUTED }}
+                                >
+                                  Organization
+                                </p>
+                                <p className="mt-1 text-sm font-semibold">
+                                  {experience.company}
+                                </p>
+                              </div>
+                            </div>
+
+                            <div
+                              className="mt-4 grid grid-cols-2 gap-3 border-t pt-4"
+                              style={{ borderColor: LINE }}
+                            >
+                              <div>
+                                <p
+                                  className="text-[9px] uppercase tracking-[0.13em]"
+                                  style={{ color: MUTED }}
+                                >
+                                  Period
+                                </p>
+                                <p className="mt-1 text-xs font-semibold">
+                                  {experience.period}
+                                </p>
+                              </div>
+
+                              <div>
+                                <p
+                                  className="text-[9px] uppercase tracking-[0.13em]"
+                                  style={{ color: MUTED }}
+                                >
+                                  Points
+                                </p>
+                                <p className="mt-1 text-xs font-semibold">
+                                  {experience.bullets.length}
+                                </p>
+                              </div>
+                            </div>
+
+                            <a
+                              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                                `${experience.company}, ${experience.location}`
+                              )}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="experience-link mt-5 inline-flex items-center gap-2 text-xs font-semibold"
+                            >
+                              Open location
+                              <ArrowUpRight className="h-4 w-4" />
+                            </a>
+                          </div>
+                        </div>
+                      </aside>
+                    </div>
+                  </article>
+                </Reveal>
+              </div>
             );
           })}
         </div>
-      </div>
+      </section>
 
-      {/* Contact */}
-      <Reveal>
-        <section
-          className="rounded-4xl p-6 sm:p-8 md:p-12 flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-8 transition-all duration-300 hover:shadow-xl"
-          style={{ backgroundColor: '#16192B' }}
-        >
-          <div>
-            <h3 className="display-font text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
-              <Mail className="w-6 h-6 text-[#FFC94A]" />
-              Let's talk research
-            </h3>
-            <p className="text-white/60 text-sm md:text-base leading-relaxed mt-3 max-w-md">
-              I'm currently applying to PhD programs and open to research collaborations.
-              Transcript, recommendation letters, and research statement available on request.
-            </p>
+      {/* ================================================================ */}
+      {/* SUMMARY STRIP                                                    */}
+      {/* ================================================================ */}
+      <section
+        className="border-y py-20 md:py-24"
+        style={{
+          borderColor: LINE,
+          background:
+            'linear-gradient(180deg, #F1ECE3 0%, #F7F5EF 100%)',
+        }}
+      >
+        <div className="experience-page-width">
+          <Reveal>
+            <SectionHeader
+              number="02"
+              eyebrow="Overview"
+              title="A compact view of the timeline."
+              description="The cards below are generated directly from the experience entries."
+            />
+          </Reveal>
+
+          <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {EXPERIENCES.map((experience, index) => {
+              const accent =
+                COMPANY_ACCENTS[index % COMPANY_ACCENTS.length];
+
+              return (
+                <Reveal key={experience.id} delay={index * 50}>
+                  <a
+                    href={`#experience-${experience.id}`}
+                    className="group block h-full rounded-[24px] p-5"
+                    style={{
+                      backgroundColor: WHITE,
+                      border: `1px solid ${LINE}`,
+                    }}
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <CompanyLogo
+                        company={experience.company}
+                        accent={accent}
+                        size="sm"
+                      />
+
+                      <span
+                        className="rounded-full px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.12em]"
+                        style={{
+                          backgroundColor: PAPER,
+                          border: `1px solid ${LINE}`,
+                          color: MUTED,
+                        }}
+                      >
+                        {experience.period}
+                      </span>
+                    </div>
+
+                    <h3 className="mt-5 text-lg font-semibold tracking-[-0.025em]">
+                      {experience.role}
+                    </h3>
+
+                    <p
+                      className="mt-2 text-sm font-semibold"
+                      style={{ color: accent }}
+                    >
+                      {experience.company}
+                    </p>
+
+                    <div className="mt-5 flex items-center justify-between">
+                      <span
+                        className="text-[10px]"
+                        style={{ color: MUTED }}
+                      >
+                        {experience.location}
+                      </span>
+
+                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </div>
+                  </a>
+                </Reveal>
+              );
+            })}
           </div>
-          <a
-            href="mailto:mdsifatullahsheikh@gmail.com"
-            className="inline-flex items-center justify-center gap-2 bg-[#FF5A3C] hover:bg-[#FFC94A] hover:text-[#16192B] text-white font-semibold text-sm px-6 py-3.5 rounded-full transition-all duration-300 hover:-translate-y-0.5 w-full sm:w-fit shrink-0"
+        </div>
+      </section>
+
+      {/* ================================================================ */}
+      {/* CONTACT                                                          */}
+      {/* ================================================================ */}
+      <section className="experience-page-width py-20 md:py-28">
+        <Reveal>
+          <div
+            className="experience-dark-card grid overflow-hidden rounded-[30px] md:grid-cols-[1.1fr_.9fr]"
+            style={{
+              background:
+                'linear-gradient(145deg, #171717 0%, #24231F 100%)',
+              color: '#fff',
+              boxShadow: '0 26px 70px rgba(20,20,20,.14)',
+            }}
           >
-            mdsifatullahsheikh@gmail.com
-            <Mail className="w-4 h-4" />
+            <div className="p-6 sm:p-8 md:p-10">
+              <p
+                className="text-[9px] font-semibold uppercase tracking-[0.16em]"
+                style={{ color: 'rgba(255,255,255,.40)' }}
+              >
+                Contact
+              </p>
+
+              <h2 className="mt-4 text-4xl font-semibold leading-[.98] tracking-[-0.05em] sm:text-5xl">
+                Work,
+                <br />
+                research,
+                <br />
+                conversation.
+              </h2>
+
+              <p
+                className="mt-5 max-w-md text-sm leading-7"
+                style={{ color: 'rgba(255,255,255,.54)' }}
+              >
+                For professional or research-related inquiries, email is the
+                simplest way to reach me.
+              </p>
+            </div>
+
+            <div
+              className="flex flex-col justify-center border-t p-6 sm:p-8 md:border-l md:border-t-0 md:p-10"
+              style={{ borderColor: 'rgba(255,255,255,.10)' }}
+            >
+              <a
+                href={`mailto:${EMAIL}`}
+                className="group flex min-h-[60px] items-center justify-between rounded-2xl px-4"
+                style={{
+                  backgroundColor: '#fff',
+                  color: INK,
+                }}
+              >
+                <span className="min-w-0">
+                  <span
+                    className="block text-[9px] font-semibold uppercase tracking-[0.13em]"
+                    style={{ color: MUTED }}
+                  >
+                    Email
+                  </span>
+                  <span className="mt-1 block truncate text-sm font-semibold">
+                    {EMAIL}
+                  </span>
+                </span>
+
+                <Mail className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </a>
+
+              <div className="mt-3">
+                <CopyEmail />
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ================================================================ */}
+      {/* END STRIP                                                        */}
+      {/* ================================================================ */}
+      <section
+        className="border-t"
+        style={{ borderColor: LINE, backgroundColor: PAPER_2 }}
+      >
+        <div className="experience-page-width grid sm:grid-cols-3">
+          <a
+            href="#/about"
+            className="group flex min-h-[76px] items-center justify-between px-4 sm:border-r"
+            style={{ borderColor: LINE }}
+          >
+            <span>
+              <span
+                className="block text-[9px] uppercase tracking-[0.13em]"
+                style={{ color: MUTED }}
+              >
+                Previous
+              </span>
+              <span className="mt-1 block text-sm font-semibold">About</span>
+            </span>
+
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </a>
-        </section>
-      </Reveal>
-    </div>
+
+          <a
+            href="#/research"
+            className="group flex min-h-[76px] items-center justify-between border-t px-4 sm:border-r sm:border-t-0"
+            style={{ borderColor: LINE }}
+          >
+            <span>
+              <span
+                className="block text-[9px] uppercase tracking-[0.13em]"
+                style={{ color: MUTED }}
+              >
+                Continue
+              </span>
+              <span className="mt-1 block text-sm font-semibold">Research</span>
+            </span>
+
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </a>
+
+          <a
+            href="#/projects"
+            className="group flex min-h-[76px] items-center justify-between border-t px-4 sm:border-t-0"
+            style={{ borderColor: LINE }}
+          >
+            <span>
+              <span
+                className="block text-[9px] uppercase tracking-[0.13em]"
+                style={{ color: MUTED }}
+              >
+                Continue
+              </span>
+              <span className="mt-1 block text-sm font-semibold">Projects</span>
+            </span>
+
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </a>
+        </div>
+      </section>
+    </main>
   );
 }

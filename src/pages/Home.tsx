@@ -1,58 +1,107 @@
-import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, GraduationCap, ChevronRight, Linkedin, Github, Mail, FileDown } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { motion } from 'motion/react';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Clock3,
+  Copy,
+  Check,
+  FileDown,
+  Github,
+  GraduationCap,
+  Linkedin,
+  Mail,
+  MapPin,
+  Sparkles,
+} from 'lucide-react';
 import { PROJECTS, NEWS } from '../data/portfolioData';
 import { getIcon } from '../components/ProjectModal';
 
-// TODO: replace with your real profile photo.
-// Put the image file in src/assets/ (e.g. src/assets/profile.jpg) and update the import below.
-// import profilePhoto from '../assets/profile.jpg';
+const INK = '#141414';
+const PAPER = '#F7F5EF';
+const PAPER_2 = '#EFEAE1';
+const WHITE = '#FFFFFF';
+const MUTED = '#716F69';
+const LINE = '#E3DED4';
+const ACCENT = '#E5533D';
+const AMBER = '#F0A54A';
+const TEAL = '#1D7A70';
 
-const SOCIAL_LINKS = [
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mdsifatullahsheikh', icon: Linkedin },
-  { label: 'GitHub', href: 'https://github.com/SifatSwapnil2022', icon: Github },
-  // TODO: replace with your real Google Scholar profile URL
-  { label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=REPLACE_ME', icon: GraduationCap },
-  { label: 'Email', href: 'mailto:mdsifatullahsheikh@gmail.com', icon: Mail },
-];
-
-// FIXED: was "D:/My-Portfolio/files/CV_Sifat_Sheikh.pdf" — a local drive path.
-// Browsers cannot resolve D:/ paths; this would 404 for every visitor,
-// including you outside this exact machine, and file:// access from an
-// http(s):// page is blocked by browsers regardless.
-// Must be root-relative, pointing at a file inside your project's public/
-// folder, e.g. public/cv/CV_Sifat_Sheikh.pdf.
-// NOTE: Navbar.tsx currently links its own CV button to /resume.pdf — make
-// sure both files point at the same path, or one "Download CV" button 404s.
+const EMAIL = 'mdsifatullahsheikh@gmail.com';
 const CV_PATH = '/files/CV_Sifat_Sheikh.pdf';
 
-const CORAL = '#FF5A3C';
-const AMBER = '#FFC94A';
-const TEAL  = '#0F6E63';
-const INK   = '#16192B';
-const PAPER = '#FAFAF7';
+const GOOGLE_MAPS_API_KEY = (import.meta as any).env?.VITE_GOOGLE_MAPS_API_KEY as
+  | string
+  | undefined;
 
-const RESEARCH_INTERESTS = [
-  'Machine learning systems & AI-enabled autonomy',
-  'Computer vision & multimodal AI',
-  'Robotics & multi-agent systems',
-  'Trustworthy, interpretable AI for real-world decision-making',
+const GOOGLE_MAP_SRC = GOOGLE_MAPS_API_KEY
+  ? `https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}&q=Dhaka%2CBangladesh&zoom=11&maptype=roadmap`
+  : 'https://www.google.com/maps?q=Dhaka%2C%20Bangladesh&z=11&output=embed';
+
+const SOCIAL_LINKS = [
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/mdsifatullahsheikh',
+    icon: Linkedin,
+  },
+  {
+    label: 'GitHub',
+    href: 'https://github.com/SifatSwapnil2022',
+    icon: Github,
+  },
+  {
+    label: 'Google Scholar',
+    href: 'https://scholar.google.com/citations?user=7m3g1cEAAAAJ',
+    icon: GraduationCap,
+  },
+  {
+    label: 'Email',
+    href: `mailto:${EMAIL}`,
+    icon: Mail,
+  },
 ];
-
-/* ─── Motion primitives (no new dependencies — hooks + CSS only) ────────── */
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
+
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReduced(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduced(media.matches);
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      setReduced(event.matches);
+    };
+
+    media.addEventListener('change', handleChange);
+    return () => media.removeEventListener('change', handleChange);
   }, []);
+
   return reduced;
 }
 
-/** Fades + lifts a block into place once it scrolls into view. */
+function LocalTime() {
+  const [time, setTime] = useState('');
+
+  useEffect(() => {
+    const update = () => {
+      setTime(
+        new Intl.DateTimeFormat('en-US', {
+          timeZone: 'Asia/Dhaka',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true,
+        }).format(new Date())
+      );
+    };
+
+    update();
+    const timer = window.setInterval(update, 30_000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return <>{time || '--:--'} UTC+6</>;
+}
+
 function Reveal({
   children,
   delay = 0,
@@ -62,470 +111,1344 @@ function Reveal({
   delay?: number;
   className?: string;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  const reduced = usePrefersReducedMotion();
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.12 }
-    );
-    io.observe(node);
-    return () => io.disconnect();
-  }, []);
-
-  const shown = visible || reduced;
+  const reducedMotion = usePrefersReducedMotion();
 
   return (
-    <div
-      ref={ref}
+    <motion.div
       className={className}
-      style={{
-        opacity: shown ? 1 : 0,
-        transform: shown ? 'translateY(0)' : 'translateY(24px)',
-        transition: `opacity 0.6s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.6s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+      initial={reducedMotion ? false : { opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.12 }}
+      transition={{
+        duration: reducedMotion ? 0 : 0.66,
+        delay: reducedMotion ? 0 : delay / 1000,
+        ease: [0.2, 0.7, 0.2, 1],
       }}
     >
       {children}
+    </motion.div>
+  );
+}
+
+function SectionHeader({
+  index,
+  eyebrow,
+  title,
+  description,
+}: {
+  index: string;
+  eyebrow: string;
+  title: string;
+  description?: string;
+}) {
+  return (
+    <div className="grid gap-5 border-b pb-6 md:grid-cols-12 md:items-end" style={{ borderColor: LINE }}>
+      <div className="md:col-span-3">
+        <div className="flex items-center gap-3">
+          <span
+            className="flex h-8 min-w-8 items-center justify-center rounded-full px-2 text-[9px] font-semibold tabular-nums"
+            style={{
+              backgroundColor: WHITE,
+              border: `1px solid ${LINE}`,
+              color: MUTED,
+            }}
+          >
+            {index}
+          </span>
+          <span
+            className="text-[10px] font-semibold uppercase tracking-[0.16em]"
+            style={{ color: MUTED }}
+          >
+            {eyebrow}
+          </span>
+        </div>
+      </div>
+
+      <div className="md:col-span-6">
+        <h2 className="home-section-title text-3xl font-semibold leading-[1.02] md:text-4xl">
+          {title}
+        </h2>
+      </div>
+
+      {description && (
+        <div className="md:col-span-3">
+          <p className="text-sm leading-6" style={{ color: MUTED }}>
+            {description}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
 
-/** Gentle pointer-driven tilt for the hero photo — subtle, capped, disabled under reduced motion. */
-function TiltPhoto({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduced = usePrefersReducedMotion();
-  const [style, setStyle] = useState<React.CSSProperties>({
-    transform: 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)',
-    transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
-  });
-
-  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (reduced || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const px = (e.clientX - rect.left) / rect.width;
-    const py = (e.clientY - rect.top) / rect.height;
-    const rotateY = (px - 0.5) * 10;
-    const rotateX = (0.5 - py) * 10;
-    setStyle({
-      transform: `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02,1.02,1.02)`,
-      transition: 'transform 0.15s ease-out',
-    });
-  };
-
-  const handleLeave = () => {
-    setStyle({
-      transform: 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)',
-      transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
-    });
-  };
+function BankStyleSignature() {
+  const reducedMotion = usePrefersReducedMotion();
 
   return (
     <div
-      ref={ref}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-      style={{ ...style, willChange: 'transform' }}
-      className="transform-3d"
+      className="signature-demo"
+      aria-label="Stylized Sifat signature"
+      title="Stylized signature wordmark"
     >
-      {children}
+      <svg
+        viewBox="0 0 270 92"
+        className="block h-auto w-[190px] sm:w-[220px]"
+        role="img"
+        aria-label="Sifat signature"
+      >
+        <g transform="translate(4 2) rotate(-4 120 40) skewX(-8)">
+          <text
+            x="8"
+            y="58"
+            fontFamily="'Allura', cursive"
+            fontSize="64"
+            fill={INK}
+            style={{ letterSpacing: '-1px' }}
+          >
+            Sifat
+          </text>
+
+          <motion.path
+            d="M28 70 C72 79, 128 79, 203 67 C222 64, 238 66, 251 71"
+            fill="none"
+            stroke={ACCENT}
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            initial={reducedMotion ? false : { pathLength: 0, opacity: 0 }}
+            whileInView={{ pathLength: 1, opacity: 0.86 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: reducedMotion ? 0 : 1.1,
+              delay: reducedMotion ? 0 : 0.35,
+              ease: [0.2, 0.7, 0.2, 1],
+            }}
+          />
+
+          <motion.path
+            d="M171 72 C205 90, 239 88, 260 75"
+            fill="none"
+            stroke={INK}
+            strokeWidth="1.25"
+            strokeLinecap="round"
+            opacity="0.58"
+            initial={reducedMotion ? false : { pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: reducedMotion ? 0 : 0.9,
+              delay: reducedMotion ? 0 : 0.6,
+            }}
+          />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+function CopyEmail() {
+  const [copied, setCopied] = useState(false);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      window.location.href = `mailto:${EMAIL}`;
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={copy}
+      className="home-mini-action inline-flex min-h-[44px] items-center gap-2 rounded-xl px-3.5 text-xs font-semibold"
+      style={{
+        backgroundColor: WHITE,
+        border: `1px solid ${LINE}`,
+        color: INK,
+      }}
+      aria-label="Copy email address"
+    >
+      {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+      {copied ? 'Copied' : 'Copy email'}
+    </button>
+  );
+}
+
+function GoogleMapCard() {
+  return (
+    <div
+      className="home-map relative overflow-hidden rounded-[26px]"
+      style={{
+        backgroundColor: WHITE,
+        border: `1px solid ${LINE}`,
+        boxShadow: '0 22px 60px rgba(20,20,20,.06)',
+      }}
+    >
+      <div
+        className="relative overflow-hidden"
+        style={{ height: 'clamp(300px, 38vw, 430px)' }}
+      >
+        <iframe
+          title="Dhaka, Bangladesh — Google Maps"
+          src={GOOGLE_MAP_SRC}
+          width="100%"
+          height="100%"
+          loading="lazy"
+          allowFullScreen
+          referrerPolicy="no-referrer-when-downgrade"
+          style={{
+            border: 0,
+            display: 'block',
+            width: '100%',
+            height: '100%',
+          }}
+        />
+
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-24"
+          style={{
+            background:
+              'linear-gradient(to bottom, rgba(247,245,239,.74), transparent)',
+          }}
+        />
+
+        <div
+          className="home-map-badge absolute bottom-4 left-4 flex items-center gap-3 rounded-2xl px-4 py-3"
+          style={{
+            backgroundColor: 'rgba(255,255,255,.90)',
+            border: '1px solid rgba(255,255,255,.72)',
+            boxShadow: '0 12px 30px rgba(20,20,20,.10)',
+            WebkitBackdropFilter: 'blur(12px)',
+            backdropFilter: 'blur(12px)',
+          }}
+        >
+          <span
+            className="flex h-9 w-9 items-center justify-center rounded-xl"
+            style={{
+              backgroundColor: 'rgba(229,83,61,.10)',
+              color: ACCENT,
+            }}
+          >
+            <MapPin className="h-4 w-4" />
+          </span>
+          <div>
+            <p
+              className="text-[9px] font-semibold uppercase tracking-[0.14em]"
+              style={{ color: MUTED }}
+            >
+              Based in
+            </p>
+            <p className="mt-0.5 text-sm font-semibold">Dhaka, Bangladesh</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 divide-x" style={{ borderTop: `1px solid ${LINE}`, borderColor: LINE }}>
+        <div className="p-4">
+          <p className="text-[9px] uppercase tracking-[0.14em]" style={{ color: MUTED }}>
+            Local time
+          </p>
+          <p className="mt-1.5 text-sm font-semibold">
+            <LocalTime />
+          </p>
+        </div>
+
+        <div className="p-4">
+          <p className="text-[9px] uppercase tracking-[0.14em]" style={{ color: MUTED }}>
+            Map
+          </p>
+          <p className="mt-1.5 text-sm font-semibold">Google Maps</p>
+        </div>
+      </div>
     </div>
   );
 }
 
 export default function Home() {
-  const latestNews = NEWS.slice(0, 2);
   const featuredProject = PROJECTS[0];
+  const secondaryProjects = PROJECTS.slice(1, 3);
+  const latestNews = NEWS.slice(0, 3);
+
+  const heroRef = useRef<HTMLElement>(null);
   const reducedMotion = usePrefersReducedMotion();
 
+  const projectCount = useMemo(() => PROJECTS.length, []);
+
+  useEffect(() => {
+    const node = heroRef.current;
+    if (!node || reducedMotion) return;
+
+    const onMove = (event: PointerEvent) => {
+      const rect = node.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+      node.style.setProperty('--spot-x', `${x}%`);
+      node.style.setProperty('--spot-y', `${y}%`);
+    };
+
+    node.addEventListener('pointermove', onMove);
+    return () => node.removeEventListener('pointermove', onMove);
+  }, [reducedMotion]);
+
   return (
-    <div className="space-y-16 md:space-y-24 py-8 md:py-12" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <main
+      className="home-pro overflow-hidden"
+      style={{
+        color: INK,
+        backgroundColor: PAPER,
+        fontFamily:
+          'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      }}
+    >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap');
-        .dsp { font-family: 'Space Grotesk', sans-serif; }
-        @keyframes driftA {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(24px, -18px) scale(1.06); }
+        @import url('https://fonts.googleapis.com/css2?family=Allura&family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+          --home-safe-bottom: env(safe-area-inset-bottom, 0px);
         }
-        @keyframes driftB {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(-20px, 16px) scale(1.05); }
+
+        .home-pro {
+          isolation: isolate;
         }
-        @keyframes softPulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.45; }
+
+        .home-page-width {
+          width: min(1420px, calc(100% - 24px));
+          margin-inline: auto;
+        }
+
+        .home-display {
+          letter-spacing: -0.065em;
+        }
+
+        .home-section-title {
+          letter-spacing: -0.045em;
+        }
+
+        .home-hero {
+          --spot-x: 76%;
+          --spot-y: 18%;
+          position: relative;
+        }
+
+        .home-hero::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background:
+            radial-gradient(
+              circle at var(--spot-x) var(--spot-y),
+              rgba(229,83,61,.11),
+              transparent 23%
+            );
+          opacity: .8;
+          z-index: 0;
+        }
+
+        .home-soft-grid {
+          background-image:
+            linear-gradient(rgba(20,20,20,.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(20,20,20,.035) 1px, transparent 1px);
+          background-size: 32px 32px;
+          mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), transparent 94%);
+        }
+
+        .home-hero-photo {
+          transition:
+            transform .65s cubic-bezier(.2,.7,.2,1),
+            filter .45s ease;
+        }
+
+        .home-photo-shell:hover .home-hero-photo {
+          transform: scale(1.018);
+        }
+
+        .home-photo-shell {
+          position: relative;
+        }
+
+        .home-photo-shell::after {
+          content: "";
+          position: absolute;
+          inset: 12px -12px -12px 12px;
+          border: 1px solid ${LINE};
+          border-radius: 24px;
+          z-index: -1;
+        }
+
+        .home-primary-link {
+          position: relative;
+          overflow: hidden;
+          -webkit-tap-highlight-color: transparent;
+        }
+
+        .home-primary-link::after {
+          content: "";
+          position: absolute;
+          inset: -40%;
+          background: linear-gradient(
+            120deg,
+            transparent 38%,
+            rgba(255,255,255,.18) 50%,
+            transparent 62%
+          );
+          transform: translateX(-120%) rotate(8deg);
+          transition: transform .72s cubic-bezier(.2,.7,.2,1);
+        }
+
+        .home-primary-link:hover::after {
+          transform: translateX(120%) rotate(8deg);
+        }
+
+        .home-secondary-link {
+          position: relative;
+          width: fit-content;
+        }
+
+        .home-secondary-link::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: -4px;
+          width: 100%;
+          height: 1px;
+          background: currentColor;
+          transform: scaleX(0);
+          transform-origin: right;
+          transition: transform .3s cubic-bezier(.2,.7,.2,1);
+        }
+
+        .home-secondary-link:hover::after {
+          transform: scaleX(1);
+          transform-origin: left;
+        }
+
+        .home-quick-card {
+          transition:
+            transform .35s cubic-bezier(.2,.7,.2,1),
+            box-shadow .35s ease,
+            border-color .3s ease;
+        }
+
+        .home-quick-card:hover {
+          transform: translateY(-4px);
+          border-color: #D8D1C5;
+          box-shadow: 0 16px 36px rgba(20,20,20,.07);
+        }
+
+        .home-research-image,
+        .home-project-image {
+          transition: transform .8s cubic-bezier(.2,.7,.2,1);
+        }
+
+        .home-research-card:hover .home-research-image,
+        .home-project-card:hover .home-project-image {
+          transform: scale(1.025);
+        }
+
+        .home-project-card {
+          transition:
+            transform .38s cubic-bezier(.2,.7,.2,1),
+            box-shadow .35s ease;
+        }
+
+        .home-project-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 22px 50px rgba(20,20,20,.08);
+        }
+
+        .home-news-row {
+          transition:
+            padding-left .3s cubic-bezier(.2,.7,.2,1),
+            background-color .25s ease;
+        }
+
+        .home-news-row:hover {
+          padding-left: 10px;
+          background: rgba(255,255,255,.56);
+        }
+
+        .home-social-card {
+          transition:
+            transform .3s cubic-bezier(.2,.7,.2,1),
+            background-color .25s ease,
+            box-shadow .3s ease;
+        }
+
+        .home-social-card:hover {
+          transform: translateY(-3px);
+          background: #fff;
+          box-shadow: 0 14px 32px rgba(20,20,20,.06);
+        }
+
+        .home-map iframe {
+          filter: grayscale(1) saturate(.45) contrast(.92) brightness(1.03);
+          transition:
+            filter .6s ease,
+            transform .8s cubic-bezier(.2,.7,.2,1);
+        }
+
+        .home-map:hover iframe {
+          filter: grayscale(.2) saturate(.8) contrast(.96) brightness(1);
+          transform: scale(1.008);
+        }
+
+        .home-dark-card {
+          position: relative;
+          overflow: hidden;
+          isolation: isolate;
+        }
+
+        .home-dark-card::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: -1;
+          background:
+            radial-gradient(circle at 15% 18%, rgba(229,83,61,.18), transparent 28%),
+            radial-gradient(circle at 86% 78%, rgba(29,122,112,.14), transparent 30%);
+        }
+
+        .signature-demo {
+          width: fit-content;
+          transform-origin: left center;
+        }
+
+        @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+          .home-map-badge {
+            background-color: rgba(255,255,255,.98) !important;
+          }
+        }
+
+        @media (min-width: 640px) {
+          .home-page-width {
+            width: min(1420px, calc(100% - 48px));
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .home-page-width {
+            width: min(1420px, calc(100% - 64px));
+          }
+        }
+
+        @media (max-width: 390px) {
+          .home-display {
+            letter-spacing: -0.055em;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .home-hero-photo,
+          .home-primary-link::after,
+          .home-secondary-link::after,
+          .home-quick-card,
+          .home-research-image,
+          .home-project-image,
+          .home-project-card,
+          .home-news-row,
+          .home-social-card,
+          .home-map iframe {
+            transition: none !important;
+            transform: none !important;
+          }
         }
       `}</style>
 
-      {/* Hero */}
+      {/* ================================================================= */}
+      {/* HERO                                                              */}
+      {/* ================================================================= */}
       <section
-        className="relative overflow-hidden rounded-4xl md:rounded-4xl p-6 sm:p-10 md:p-16"
-        style={{ backgroundColor: PAPER, border: `1px solid ${INK}0D` }}
+        ref={heroRef}
+        className="home-hero relative border-b"
+        style={{
+          borderColor: LINE,
+          background:
+            'linear-gradient(180deg, #F7F5EF 0%, #F5F1E9 100%)',
+        }}
       >
-        {/* Ambient drifting gradient blobs — purely decorative, disabled under reduced motion */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -top-24 -right-16 w-72 h-72 md:w-96 md:h-96 rounded-full blur-[90px]"
-          style={{
-            backgroundColor: `${CORAL}14`,
-            animation: reducedMotion ? undefined : 'driftA 14s ease-in-out infinite',
-          }}
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-28 -left-20 w-72 h-72 md:w-104 md:h-104 rounded-full blur-[100px]"
-          style={{
-            backgroundColor: `${AMBER}14`,
-            animation: reducedMotion ? undefined : 'driftB 17s ease-in-out infinite',
-          }}
+          className="home-soft-grid pointer-events-none absolute inset-0 opacity-75"
         />
 
-        <div className="relative grid md:grid-cols-5 gap-10 md:gap-12 items-center">
-          {/* Text column */}
-          <div className="md:col-span-3 space-y-6 md:space-y-7">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -left-24 bottom-0 h-80 w-80 rounded-full blur-[120px]"
+          style={{ backgroundColor: 'rgba(29,122,112,.08)' }}
+        />
+
+        <div className="home-page-width relative z-10 grid min-h-[760px] items-center gap-12 py-12 md:grid-cols-12 md:gap-8 md:py-16 lg:min-h-[820px] lg:py-20">
+          {/* hero copy */}
+          <div className="md:col-span-8 lg:col-span-8">
             <Reveal>
-              <span
-                className="inline-flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase px-4 py-2 rounded-full"
-                style={{ backgroundColor: `${CORAL}14`, color: CORAL }}
-              >
+              <div className="mb-6 flex flex-wrap items-center gap-2">
                 <span
-                  className="w-1.5 h-1.5 rounded-full"
+                  className="inline-flex min-h-[34px] items-center gap-2 rounded-full px-3 text-[9px] font-semibold uppercase tracking-[0.15em]"
                   style={{
-                    backgroundColor: CORAL,
-                    animation: reducedMotion ? undefined : 'softPulse 2.6s ease-in-out infinite',
+                    backgroundColor: 'rgba(255,255,255,.66)',
+                    border: `1px solid ${LINE}`,
+                    color: MUTED,
                   }}
-                />
-                Open to research collaborations and full-time opportunities.
-              </span>
+                >
+                  <span
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{
+                      backgroundColor: TEAL,
+                      boxShadow: '0 0 0 5px rgba(29,122,112,.08)',
+                    }}
+                  />
+                  ML Engineer · Researcher
+                </span>
+
+                <span
+                  className="inline-flex min-h-[34px] items-center gap-2 rounded-full px-3 text-[9px] font-semibold uppercase tracking-[0.14em]"
+                  style={{
+                    backgroundColor: 'rgba(255,255,255,.46)',
+                    border: `1px solid ${LINE}`,
+                    color: MUTED,
+                  }}
+                >
+                  <Clock3 className="h-3.5 w-3.5" />
+                  <LocalTime />
+                </span>
+              </div>
             </Reveal>
 
-            <Reveal delay={60}>
-              <h1 className="dsp text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05]" style={{ color: INK }}>
-                Md Sifatullah <span style={{ color: CORAL }}>Sheikh</span>
+            <Reveal delay={55}>
+              <h1
+                className="home-display max-w-[920px] text-[clamp(3.6rem,9vw,8rem)] font-semibold leading-[0.82]"
+                style={{ color: INK }}
+              >
+                Md Sifatullah
+                <br />
+                Sheikh
               </h1>
             </Reveal>
 
             <Reveal delay={100}>
-              <p className="text-sm font-semibold tracking-wide uppercase" style={{ color: `${INK}66` }}>
-                Computer Science &amp; Engineering graduate · East West University
+              <div className="mt-5">
+                <BankStyleSignature />
+              </div>
+            </Reveal>
+
+            <Reveal delay={145}>
+              <p
+                className="mt-8 max-w-[620px] text-[15px] leading-7 sm:text-base sm:leading-8"
+                style={{ color: MUTED }}
+              >
+                Computer science graduate working on computer vision, multimodal
+                learning, and machine learning research.
               </p>
             </Reveal>
 
-            {/* Grounded summary — what I do, what problems it addresses, and the direction I'm headed */}
-            <Reveal delay={140}>
-              <p className="text-base md:text-lg leading-relaxed max-w-2xl" style={{ color: `${INK}99` }}>
-               I am a Computer Science graduate and Machine Learning researcher with experience in deep learning, computer vision,
-                multimodal AI, and trustworthy AI. My research has addressed real-world problems such as detecting manipulated media.
-                 I can develop and evaluate AI models for complex visual and multimodal tasks, with a focus on reliable and interpretable systems.
-                  Moving forward, I aim to work on machine learning systems,
-                AI-enabled autonomy, and multi-agent systems for safe and intelligent decision-making in real-world environments.  
-              </p>
-            </Reveal>
-
-            <Reveal delay={180}>
-              <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-2">
+            <Reveal delay={185}>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a
                   href="#/research"
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-full font-bold text-xs tracking-widest uppercase flex items-center justify-center gap-2 transition-all duration-300 shadow-sm hover:-translate-y-0.5 hover:shadow-md group"
-                  style={{ backgroundColor: INK, color: '#fff' }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = CORAL)}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = INK)}
+                  className="home-primary-link group inline-flex min-h-[50px] items-center justify-center gap-2 rounded-2xl px-5 text-xs font-semibold"
+                  style={{
+                    background:
+                      'linear-gradient(135deg, #151515 0%, #2B2926 100%)',
+                    color: '#fff',
+                    boxShadow:
+                      '0 12px 30px rgba(20,20,20,.14), inset 0 1px 0 rgba(255,255,255,.10)',
+                  }}
                 >
-                  Publications &amp; patents
-                  <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+                  <span className="relative z-10">Explore research</span>
+                  <ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </a>
+
                 <a
-                  href="#/about"
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-full font-bold text-xs tracking-widest uppercase flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5"
-                  style={{ backgroundColor: '#fff', border: `1px solid ${INK}1F`, color: INK }}
-                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = CORAL; e.currentTarget.style.color = CORAL; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = `${INK}1F`; e.currentTarget.style.color = INK; }}
+                  href="#/projects"
+                  className="home-mini-action inline-flex min-h-[50px] items-center justify-center gap-2 rounded-2xl px-5 text-xs font-semibold"
+                  style={{
+                    backgroundColor: WHITE,
+                    border: `1px solid ${LINE}`,
+                    color: INK,
+                  }}
                 >
-                  Academic background
+                  Selected projects
+                  <ArrowUpRight className="h-4 w-4" />
                 </a>
+
                 <a
                   href={CV_PATH}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-full font-bold text-xs tracking-widest uppercase flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5"
-                  style={{ backgroundColor: '#fff', border: `1px solid ${INK}1F`, color: INK }}
-                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = CORAL; e.currentTarget.style.color = CORAL; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = `${INK}1F`; e.currentTarget.style.color = INK; }}
+                  className="home-mini-action inline-flex min-h-[50px] items-center justify-center gap-2 rounded-2xl px-5 text-xs font-semibold"
+                  style={{
+                    backgroundColor: 'rgba(255,255,255,.52)',
+                    border: `1px solid ${LINE}`,
+                    color: INK,
+                  }}
                 >
-                  <FileDown className="w-4 h-4" /> Download CV
+                  <FileDown className="h-4 w-4" />
+                  CV
                 </a>
               </div>
             </Reveal>
 
-            {/* Social / contact row */}
-            <Reveal delay={220}>
-              <div className="flex flex-wrap gap-2.5 pt-2">
-                {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
-                  <a
+            <Reveal delay={225}>
+              <div className="mt-10 grid max-w-[720px] grid-cols-1 gap-3 sm:grid-cols-3">
+                {[
+                  ['Focus', 'Computer Vision'],
+                  ['Based in', 'Dhaka, Bangladesh'],
+                  ['Work', 'Research + Engineering'],
+                ].map(([label, value]) => (
+                  <div
                     key={label}
-                    href={href}
-                    target={href.startsWith('mailto:') ? undefined : '_blank'}
-                    rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-                    className="inline-flex items-center gap-2 text-xs font-semibold px-3.5 py-2 rounded-full transition-all duration-300 hover:-translate-y-0.5"
-                    style={{ backgroundColor: '#fff', border: `1px solid ${INK}1A`, color: `${INK}99` }}
-                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = CORAL; e.currentTarget.style.color = CORAL; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = `${INK}1A`; e.currentTarget.style.color = `${INK}99`; }}
+                    className="home-quick-card rounded-2xl p-4"
+                    style={{
+                      backgroundColor: 'rgba(255,255,255,.58)',
+                      border: `1px solid ${LINE}`,
+                    }}
                   >
-                    <Icon className="w-4 h-4" /> {label}
-                  </a>
+                    <p
+                      className="text-[9px] font-semibold uppercase tracking-[0.14em]"
+                      style={{ color: MUTED }}
+                    >
+                      {label}
+                    </p>
+                    <p className="mt-2 text-sm font-semibold">{value}</p>
+                  </div>
                 ))}
               </div>
             </Reveal>
           </div>
 
-          {/* Photo column */}
-          <Reveal delay={140} className="md:col-span-2 flex justify-center md:justify-end">
-            <TiltPhoto>
-              <div className="relative w-44 h-44 sm:w-56 sm:h-56 md:w-72 md:h-72">
-                <div
-                  className="absolute inset-0 rounded-4xl"
-                  style={{ border: `2px solid ${CORAL}33` }}
-                />
-                <div
-                  className="absolute inset-0 rounded-4xl overflow-hidden shadow-lg flex items-center justify-center"
-                  style={{ backgroundColor: INK, border: `1px solid ${INK}0D` }}
-                >
-                  {/* FIXED: was "D:\My-Portfolio\files\profile.png" — a local
-                      drive path using backslashes, which aren't valid URL path
-                      separators at all. Even setting the drive-letter problem
-                      aside, this string could never resolve as a URL. Must be
-                      root-relative, pointing at a file inside public/, e.g.
-                      public/profile.png. Swap the src below for your imported
-                      photo once it's in place, e.g. src={profilePhoto}. */}
-                  <img
-                    src="/files/profile.png"
-                    alt="Md Sifatullah Sheikh"
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      const fallback = e.currentTarget.nextElementSibling as HTMLElement | null;
-                      if (fallback) fallback.style.display = 'flex';
-                    }}
-                  />
+          {/* portrait */}
+          <div className="md:col-span-4 lg:col-span-4">
+            <Reveal delay={130}>
+              <div className="ml-auto w-full max-w-[300px] md:max-w-[250px] lg:max-w-[285px]">
+                <div className="home-photo-shell">
                   <div
-                    className="dsp hidden absolute inset-0 items-center justify-center text-4xl sm:text-5xl font-bold"
-                    style={{ color: AMBER }}
+                    className="overflow-hidden rounded-[24px]"
+                    style={{
+                      backgroundColor: WHITE,
+                      border: `1px solid ${LINE}`,
+                      boxShadow: '0 24px 70px rgba(20,20,20,.09)',
+                    }}
                   >
-                    SS
+                    <img
+                      src="/files/profile.png"
+                      alt="Md Sifatullah Sheikh"
+                      className="home-hero-photo aspect-[4/5] h-full w-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
                   </div>
                 </div>
+
+                <div className="mt-5 flex items-center justify-between gap-4">
+                  <div>
+                    <p
+                      className="text-[9px] uppercase tracking-[0.14em]"
+                      style={{ color: MUTED }}
+                    >
+                      Location
+                    </p>
+                    <p className="mt-1 text-xs font-semibold">
+                      Dhaka, Bangladesh
+                    </p>
+                  </div>
+
+                  <span
+                    className="flex h-10 w-10 items-center justify-center rounded-xl"
+                    style={{
+                      backgroundColor: 'rgba(229,83,61,.09)',
+                      color: ACCENT,
+                      border: '1px solid rgba(229,83,61,.12)',
+                    }}
+                  >
+                    <MapPin className="h-4 w-4" />
+                  </span>
+                </div>
+
+                <div className="mt-5 grid grid-cols-2 gap-2">
+                  {SOCIAL_LINKS.slice(0, 4).map(({ label, href, icon: Icon }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target={href.startsWith('mailto:') ? undefined : '_blank'}
+                      rel={
+                        href.startsWith('mailto:')
+                          ? undefined
+                          : 'noopener noreferrer'
+                      }
+                      className="home-social-card flex min-h-[46px] items-center gap-2 rounded-xl px-3 text-[10px] font-semibold"
+                      style={{
+                        backgroundColor: 'rgba(255,255,255,.58)',
+                        border: `1px solid ${LINE}`,
+                        color: MUTED,
+                      }}
+                    >
+                      <Icon className="h-3.5 w-3.5" />
+                      {label}
+                    </a>
+                  ))}
+                </div>
               </div>
-            </TiltPhoto>
+            </Reveal>
+          </div>
+        </div>
+
+        {/* section index */}
+        <div
+          className="home-page-width relative z-10 grid border-t sm:grid-cols-4"
+          style={{ borderColor: LINE }}
+        >
+          {[
+            ['01', 'Research', '#research-home'],
+            ['02', 'Projects', '#projects-home'],
+            ['03', 'Recent', '#recent-home'],
+            ['04', 'Location', '#location-home'],
+          ].map(([index, label, href]) => (
+            <a
+              key={label}
+              href={href}
+              className="group flex min-h-[64px] items-center justify-between px-4 text-xs font-semibold sm:border-l sm:first:border-l-0"
+              style={{
+                borderColor: LINE,
+                color: MUTED,
+              }}
+            >
+              <span>
+                <span className="mr-3 text-[9px]" style={{ color: '#AAA59D' }}>
+                  {index}
+                </span>
+                {label}
+              </span>
+              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+            </a>
+          ))}
+        </div>
+      </section>
+
+      {/* ================================================================= */}
+      {/* RESEARCH                                                          */}
+      {/* ================================================================= */}
+      <section id="research-home" className="home-page-width py-20 md:py-28">
+        <Reveal>
+          <SectionHeader
+            index="01"
+            eyebrow="Selected research"
+            title="Research presented as work, not a wall of text."
+            description="A concise view of one publication, with the full research archive one click away."
+          />
+        </Reveal>
+
+        <Reveal delay={70}>
+          <div
+            className="home-dark-card home-research-card mt-8 grid overflow-hidden rounded-[30px] lg:grid-cols-[1.14fr_.86fr]"
+            style={{
+              background:
+                'linear-gradient(145deg, #171717 0%, #23221F 100%)',
+              color: '#fff',
+              boxShadow: '0 26px 70px rgba(20,20,20,.14)',
+            }}
+          >
+            <div className="relative min-h-[330px] overflow-hidden sm:min-h-[410px]">
+              <img
+                src="/files/framework.png"
+                alt="DeFaX architecture framework"
+                className="home-research-image absolute inset-0 h-full w-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    'linear-gradient(90deg, rgba(20,20,20,.12), rgba(20,20,20,.42))',
+                }}
+              />
+
+              <div
+                className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-xl px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.13em]"
+                style={{
+                  backgroundColor: 'rgba(20,20,20,.58)',
+                  border: '1px solid rgba(255,255,255,.14)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  backdropFilter: 'blur(10px)',
+                }}
+              >
+                IEEE Access · 2025
+              </div>
+            </div>
+
+            <div className="flex flex-col justify-between p-6 sm:p-8 lg:p-10">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: ACCENT }} />
+                  <p
+                    className="text-[9px] font-semibold uppercase tracking-[0.16em]"
+                    style={{ color: 'rgba(255,255,255,.46)' }}
+                  >
+                    Featured publication
+                  </p>
+                </div>
+
+                <h3 className="mt-5 text-3xl font-semibold leading-[1.05] tracking-[-0.04em]">
+                  DeFaX: A Cross-Attention Fusion Framework for Robust and
+                  Explainable Deepfake Detection
+                </h3>
+
+                <p
+                  className="mt-5 text-sm leading-7"
+                  style={{ color: 'rgba(255,255,255,.58)' }}
+                >
+                  Deepfake detection using cross-attention fusion with Grad-CAM
+                  and LIME based explainability.
+                </p>
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href="https://ieeexplore.ieee.org/abstract/document/11303744"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex min-h-[46px] items-center gap-2 rounded-xl px-4 text-xs font-semibold"
+                  style={{
+                    backgroundColor: '#fff',
+                    color: INK,
+                  }}
+                >
+                  View publication
+                  <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </a>
+
+                <a
+                  href="#/research"
+                  className="inline-flex min-h-[46px] items-center gap-2 rounded-xl px-4 text-xs font-semibold"
+                  style={{
+                    backgroundColor: 'rgba(255,255,255,.06)',
+                    border: '1px solid rgba(255,255,255,.12)',
+                    color: '#fff',
+                  }}
+                >
+                  All research
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ================================================================= */}
+      {/* PROJECTS                                                          */}
+      {/* ================================================================= */}
+      <section
+        id="projects-home"
+        className="border-y py-20 md:py-28"
+        style={{
+          borderColor: LINE,
+          background:
+            'linear-gradient(180deg, #F1ECE3 0%, #F7F5EF 100%)',
+        }}
+      >
+        <div className="home-page-width">
+          <Reveal>
+            <SectionHeader
+              index="02"
+              eyebrow="Selected projects"
+              title="A small project shelf instead of a résumé grid."
+              description={`${projectCount} project${projectCount === 1 ? '' : 's'} currently in the portfolio.`}
+            />
+          </Reveal>
+
+          <Reveal delay={60}>
+            <a
+              href="#/projects"
+              className="home-project-card group mt-8 grid overflow-hidden rounded-[28px] lg:grid-cols-[1.08fr_.92fr]"
+              style={{
+                backgroundColor: WHITE,
+                border: `1px solid ${LINE}`,
+              }}
+            >
+              <div className="overflow-hidden">
+                <img
+                  src={featuredProject.image}
+                  alt={featuredProject.title}
+                  className="home-project-image aspect-[16/10] h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+
+              <div className="flex flex-col justify-between border-t p-6 lg:border-l lg:border-t-0 lg:p-9">
+                <div>
+                  <div
+                    className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.15em]"
+                    style={{ color: MUTED }}
+                  >
+                    {getIcon(featuredProject.iconName)}
+                    {featuredProject.tag}
+                  </div>
+
+                  <h3 className="mt-5 text-3xl font-semibold leading-[1.05] tracking-[-0.04em]">
+                    {featuredProject.title}
+                  </h3>
+
+                  <p
+                    className="mt-5 text-sm leading-7"
+                    style={{
+                      color: MUTED,
+                      display: '-webkit-box',
+                      WebkitLineClamp: 4,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {featuredProject.description}
+                  </p>
+
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {featuredProject.tech.slice(0, 5).map((tech) => (
+                      <span
+                        key={tech}
+                        className="rounded-lg px-2.5 py-1.5 text-[9px] font-semibold uppercase tracking-[0.11em]"
+                        style={{
+                          backgroundColor: PAPER,
+                          border: `1px solid ${LINE}`,
+                          color: MUTED,
+                        }}
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-8 flex items-center justify-between">
+                  <span className="text-xs font-semibold">Open project</span>
+                  <span
+                    className="flex h-10 w-10 items-center justify-center rounded-xl transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    style={{
+                      backgroundColor: INK,
+                      color: '#fff',
+                    }}
+                  >
+                    <ArrowUpRight className="h-4 w-4" />
+                  </span>
+                </div>
+              </div>
+            </a>
+          </Reveal>
+
+          {secondaryProjects.length > 0 && (
+            <div className="mt-5 grid gap-5 md:grid-cols-2">
+              {secondaryProjects.map((project, index) => (
+                <Reveal key={project.id} delay={100 + index * 55}>
+                  <a
+                    href="#/projects"
+                    className="home-project-card group block overflow-hidden rounded-[24px]"
+                    style={{
+                      backgroundColor: WHITE,
+                      border: `1px solid ${LINE}`,
+                    }}
+                  >
+                    <div className="overflow-hidden">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="home-project-image aspect-[16/9] w-full object-cover"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+
+                    <div className="flex items-end justify-between gap-6 p-5 sm:p-6">
+                      <div>
+                        <p
+                          className="text-[9px] font-semibold uppercase tracking-[0.14em]"
+                          style={{ color: MUTED }}
+                        >
+                          {project.tag}
+                        </p>
+                        <h4 className="mt-2 text-lg font-semibold tracking-[-0.025em]">
+                          {project.title}
+                        </h4>
+                      </div>
+
+                      <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </div>
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+          )}
+
+          <Reveal delay={120}>
+            <div className="mt-7 flex justify-end">
+              <a
+                href="#/projects"
+                className="home-secondary-link inline-flex items-center gap-2 text-xs font-semibold"
+              >
+                View all projects
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Featured Publication — framed around the problem and why it matters, not just the metrics */}
-      <Reveal>
-        <section className="grid md:grid-cols-5 gap-10 md:gap-12 items-start">
-          <div className="md:col-span-3 space-y-5">
-            <div className="text-[11px] font-bold tracking-widest uppercase" style={{ color: CORAL }}>
-              Featured publication
-            </div>
-            <h2 className="dsp text-2xl md:text-3xl font-bold leading-tight" style={{ color: INK }}>
-              DeFaX: a cross-attention framework for explainable deepfake detection
-            </h2>
-            <p className="text-sm font-semibold" style={{ color: `${INK}66` }}>
-              IEEE Access (SCI, Q1 journal), 2025
-            </p>
+      {/* ================================================================= */}
+      {/* RECENT                                                            */}
+      {/* ================================================================= */}
+      <section id="recent-home" className="home-page-width py-20 md:py-28">
+        <Reveal>
+          <SectionHeader
+            index="03"
+            eyebrow="Recent"
+            title="Updates without turning the homepage into another CV."
+            description="A short timeline of recent academic, research, and professional activity."
+          />
+        </Reveal>
 
-            {/* Framework diagram */}
-            <div
-              className="rounded-2xl overflow-hidden transition-transform duration-500 hover:scale-[1.01]"
-              style={{ backgroundColor: `${INK}0D`, border: `1px solid ${INK}0D` }}
-            >
-              <img
-                src="/files/framework.png"
-                alt="DeFaX architecture: Swin Transformer and EfficientNet fused via cross-attention, with Grad-CAM/LIME explainability output"
-                className="w-full h-auto object-cover"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-
-            <div
-              className="p-5 rounded-xl text-sm leading-relaxed space-y-3"
-              style={{ backgroundColor: PAPER, borderLeft: `3px solid ${AMBER}`, color: `${INK}B3` }}
-            >
-              <p>
-                <span className="font-bold" style={{ color: '#8A6300' }}>The problem: </span>
-                manipulated video and image content is increasingly hard to tell apart from real
-                footage, and misuse — disinformation, fraud, non-consensual imagery — has real costs
-                for the people it targets. Detection tools that can't explain their reasoning are hard
-                to trust or audit in practice.
-              </p>
-              <p>
-                <span className="font-bold" style={{ color: '#8A6300' }}>The approach: </span>
-                DeFaX combines two vision architectures (Swin Transformer and EfficientNet) through a
-                cross-attention fusion mechanism, and pairs the detector with Grad-CAM and LIME so a
-                reviewer can see which regions of a face the model flagged as manipulated, not just a
-                yes/no score.
-              </p>
-            </div>
-
-            <a
-              href="https://ieeexplore.ieee.org/abstract/document/11303744"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs font-bold transition-colors duration-200"
-              style={{ color: CORAL }}
-            >
-              Read the full paper on IEEE Xplore <ChevronRight className="w-4 h-4" />
-            </a>
-          </div>
-
-          <div
-            className="md:col-span-2 rounded-3xl p-6 sm:p-8 space-y-6 flex flex-col justify-between h-full transition-shadow duration-300 hover:shadow-md"
-            style={{ backgroundColor: PAPER, border: `1px solid ${INK}0D` }}
-          >
-            <div>
-              <div className="text-[10px] font-bold tracking-widest uppercase mb-2" style={{ color: `${INK}50` }}>
-                Where I want to take this
-              </div>
-              <h3 className="dsp text-lg font-bold mb-4" style={{ color: INK }}>PhD research interests</h3>
-              <ul className="space-y-3">
-                {RESEARCH_INTERESTS.map((area) => (
-                  <li key={area} className="flex items-start gap-2.5 text-sm" style={{ color: `${INK}99` }}>
-                    <span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{ backgroundColor: TEAL }} />
-                    <span>{area}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <a
-              href="#/research"
-              className="w-full text-center py-3.5 rounded-xl text-xs font-bold tracking-widest uppercase transition-all duration-300 hover:-translate-y-0.5"
-              style={{ backgroundColor: INK, color: '#fff' }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = CORAL)}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = INK)}
-            >
-              All publications
-            </a>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* Featured Project */}
-      <Reveal>
-        <section className="space-y-6 md:space-y-8">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-3">
-            <div>
-              <div className="text-[11px] font-bold tracking-widest uppercase mb-2" style={{ color: CORAL }}>
-                Selected work
-              </div>
-              <h2 className="dsp text-2xl md:text-3xl font-bold" style={{ color: INK }}>Featured project</h2>
-            </div>
-            <a
-              href="#/projects"
-              className="text-xs font-bold transition-colors duration-200 flex items-center gap-1"
-              style={{ color: CORAL }}
-            >
-              All projects <ChevronRight className="w-4 h-4" />
-            </a>
-          </div>
-
-          <div
-            className="rounded-3xl p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center transition-all duration-300 hover:shadow-md hover:-translate-y-1"
-            style={{ backgroundColor: '#fff', border: `1px solid ${INK}0D` }}
-          >
-            <div
-              className="w-full md:w-1/3 aspect-4/3 rounded-2xl overflow-hidden shrink-0"
-              style={{ backgroundColor: `${INK}0D` }}
-            >
-              <img
-                src={featuredProject.image}
-                alt={featuredProject.title}
-                className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <div className="space-y-4 flex-1">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest" style={{ color: CORAL }}>
-                {getIcon(featuredProject.iconName)} {featuredProject.tag}
-              </div>
-              <h3 className="dsp text-xl md:text-2xl font-bold" style={{ color: INK }}>{featuredProject.title}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: `${INK}99` }}>
-                {featuredProject.description}
-              </p>
-              <div className="flex flex-wrap gap-2 pt-2">
-                {featuredProject.tech.slice(0, 5).map((t) => (
+        <div className="mt-6">
+          {latestNews.map((item, index) => (
+            <Reveal key={item.id} delay={index * 50}>
+              <div
+                className="home-news-row grid gap-4 border-b py-6 md:grid-cols-12 md:items-start md:gap-8"
+                style={{ borderColor: LINE }}
+              >
+                <div className="md:col-span-3">
                   <span
-                    key={t}
-                    className="text-[10px] font-bold px-2.5 py-1 rounded"
-                    style={{ backgroundColor: PAPER, border: `1px solid ${INK}14`, color: `${INK}80` }}
+                    className="inline-flex min-h-[30px] items-center rounded-full px-3 text-[9px] font-semibold uppercase tracking-[0.13em]"
+                    style={{
+                      backgroundColor: WHITE,
+                      border: `1px solid ${LINE}`,
+                      color: MUTED,
+                    }}
                   >
-                    {t}
+                    {item.date}
                   </span>
-                ))}
-              </div>
-              <div className="pt-2">
-                <a
-                  href="#/projects"
-                  className="inline-block px-6 py-2.5 rounded-xl text-xs font-bold tracking-widest uppercase transition-all duration-300 hover:-translate-y-0.5"
-                  style={{ backgroundColor: INK, color: '#fff' }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = CORAL)}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = INK)}
-                >
-                  View project details
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-      </Reveal>
+                </div>
 
-      {/* Latest News */}
-      <Reveal>
-        <section
-          className="rounded-4xl p-6 sm:p-8 md:p-12 space-y-6"
-          style={{ backgroundColor: PAPER, border: `1px solid ${INK}0D` }}
-        >
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-3">
-            <div>
-              <div className="text-[11px] font-bold tracking-widest uppercase mb-1" style={{ color: CORAL }}>
-                Timeline
+                <p className="max-w-[840px] text-sm leading-7 md:col-span-8">
+                  {item.content}
+                </p>
+
+                <div className="hidden justify-end md:col-span-1 md:flex">
+                  <span
+                    className="text-[10px] tabular-nums"
+                    style={{ color: '#AAA59D' }}
+                  >
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                </div>
               </div>
-              <h3 className="dsp text-xl md:text-2xl font-bold" style={{ color: INK }}>Recent updates</h3>
-            </div>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal delay={90}>
+          <div className="mt-7 flex justify-end">
             <a
               href="#/news"
-              className="text-xs font-bold transition-colors duration-200 flex items-center gap-1"
-              style={{ color: CORAL }}
+              className="home-secondary-link inline-flex items-center gap-2 text-xs font-semibold"
             >
-              Full timeline <ChevronRight className="w-4 h-4" />
+              Full timeline
+              <ArrowRight className="h-4 w-4" />
             </a>
           </div>
+        </Reveal>
+      </section>
 
-          <div className="space-y-6">
-            {latestNews.map((item, i) => (
-              <Reveal key={item.id} delay={i * 80}>
-                <div
-                  className="pl-5 py-1 transition-colors duration-200"
-                  style={{ borderLeft: `2px solid ${AMBER}` }}
-                >
-                  <div className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: `${INK}55` }}>
-                    {item.date}
+      {/* ================================================================= */}
+      {/* LOCATION + CONTACT                                                */}
+      {/* ================================================================= */}
+      <section
+        id="location-home"
+        className="border-t py-20 md:py-28"
+        style={{
+          borderColor: LINE,
+          background:
+            'linear-gradient(180deg, #F7F5EF 0%, #EFEAE1 100%)',
+        }}
+      >
+        <div className="home-page-width">
+          <Reveal>
+            <SectionHeader
+              index="04"
+              eyebrow="Location & contact"
+              title="Dhaka is home base."
+              description="Google Maps, local time, email, and the main places to find my work."
+            />
+          </Reveal>
+
+          <div className="mt-8 grid gap-6 lg:grid-cols-[1.15fr_.85fr]">
+            <Reveal>
+              <GoogleMapCard />
+            </Reveal>
+
+            <Reveal delay={70}>
+              <div
+                className="home-dark-card flex h-full min-h-[430px] flex-col justify-between rounded-[26px] p-6 sm:p-8"
+                style={{
+                  background:
+                    'linear-gradient(145deg, #171717 0%, #25231F 100%)',
+                  color: '#fff',
+                  boxShadow: '0 22px 60px rgba(20,20,20,.12)',
+                }}
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-4">
+                    <p
+                      className="text-[9px] font-semibold uppercase tracking-[0.16em]"
+                      style={{ color: 'rgba(255,255,255,.40)' }}
+                    >
+                      Contact
+                    </p>
+
+                    <Sparkles className="h-4 w-4" style={{ color: AMBER }} />
                   </div>
-                  <p className="text-sm leading-relaxed" style={{ color: `${INK}99` }}>{item.content}</p>
+
+                  <h3 className="mt-5 text-4xl font-semibold leading-[.98] tracking-[-0.05em] sm:text-5xl">
+                    Keep it simple.
+                    <br />
+                    Email works.
+                  </h3>
+
+                  <p
+                    className="mt-5 max-w-sm text-sm leading-7"
+                    style={{ color: 'rgba(255,255,255,.54)' }}
+                  >
+                    For research, project, or professional inquiries, email is the
+                    most direct way to reach me.
+                  </p>
+
+                  <a
+                    href={`mailto:${EMAIL}`}
+                    className="group mt-7 flex min-h-[58px] items-center justify-between rounded-2xl px-4"
+                    style={{
+                      backgroundColor: '#fff',
+                      color: INK,
+                    }}
+                  >
+                    <span className="min-w-0">
+                      <span
+                        className="block text-[9px] font-semibold uppercase tracking-[0.13em]"
+                        style={{ color: MUTED }}
+                      >
+                        Email
+                      </span>
+                      <span className="mt-1 block truncate text-sm font-semibold">
+                        {EMAIL}
+                      </span>
+                    </span>
+
+                    <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </a>
+
+                  <div className="mt-3">
+                    <CopyEmail />
+                  </div>
                 </div>
-              </Reveal>
-            ))}
+
+                <div
+                  className="mt-8 grid grid-cols-2 gap-2 border-t pt-5"
+                  style={{ borderColor: 'rgba(255,255,255,.10)' }}
+                >
+                  {SOCIAL_LINKS.slice(0, 4).map(({ label, href, icon: Icon }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target={href.startsWith('mailto:') ? undefined : '_blank'}
+                      rel={
+                        href.startsWith('mailto:')
+                          ? undefined
+                          : 'noopener noreferrer'
+                      }
+                      className="group flex min-h-[48px] items-center justify-between rounded-xl px-3 text-[10px] font-semibold"
+                      style={{
+                        backgroundColor: 'rgba(255,255,255,.055)',
+                        border: '1px solid rgba(255,255,255,.09)',
+                        color: 'rgba(255,255,255,.70)',
+                      }}
+                    >
+                      <span className="flex items-center gap-2">
+                        <Icon className="h-3.5 w-3.5" />
+                        {label}
+                      </span>
+                      <ArrowUpRight className="h-3.5 w-3.5 opacity-45 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
           </div>
-        </section>
-      </Reveal>
-    </div>
+        </div>
+      </section>
+
+      {/* ================================================================= */}
+      {/* PRE-FOOTER STRIP                                                  */}
+      {/* ================================================================= */}
+      <section
+        className="border-t"
+        style={{
+          borderColor: LINE,
+          backgroundColor: PAPER_2,
+          paddingBottom: 'max(0px, var(--home-safe-bottom))',
+        }}
+      >
+        <div className="home-page-width grid sm:grid-cols-3">
+          <a
+            href="#/about"
+            className="group flex min-h-[76px] items-center justify-between px-4 sm:border-r"
+            style={{ borderColor: LINE }}
+          >
+            <span>
+              <span
+                className="block text-[9px] uppercase tracking-[0.13em]"
+                style={{ color: MUTED }}
+              >
+                More
+              </span>
+              <span className="mt-1 block text-sm font-semibold">About</span>
+            </span>
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </a>
+
+          <a
+            href="#/experience"
+            className="group flex min-h-[76px] items-center justify-between border-t px-4 sm:border-r sm:border-t-0"
+            style={{ borderColor: LINE }}
+          >
+            <span>
+              <span
+                className="block text-[9px] uppercase tracking-[0.13em]"
+                style={{ color: MUTED }}
+              >
+                More
+              </span>
+              <span className="mt-1 block text-sm font-semibold">Experience</span>
+            </span>
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </a>
+
+          <a
+            href={CV_PATH}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex min-h-[76px] items-center justify-between border-t px-4 sm:border-t-0"
+            style={{ borderColor: LINE }}
+          >
+            <span>
+              <span
+                className="block text-[9px] uppercase tracking-[0.13em]"
+                style={{ color: MUTED }}
+              >
+                Document
+              </span>
+              <span className="mt-1 block text-sm font-semibold">Open CV</span>
+            </span>
+            <FileDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
+          </a>
+        </div>
+      </section>
+    </main>
   );
 }
