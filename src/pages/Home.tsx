@@ -794,9 +794,9 @@ robotics, with a long-term focus on safe, reliable decision-making in real-world
             <Reveal delay={225}>
               <div className="mt-10 grid max-w-[720px] grid-cols-1 gap-3 sm:grid-cols-3">
                 {[
-                  ['Focus', 'Computer Vision'],
-                  ['Based in', 'Dhaka, Bangladesh'],
-                  ['Next', 'PhD, Fall 2027'],
+                  ['Focus', 'AI / ML & Computer Vision'],
+  ['Based in', 'Dhaka, Bangladesh'],
+  ['Role', 'Machine Learning Engineer'],
                 ].map(([label, value]) => (
                   <div
                     key={label}
