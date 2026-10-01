@@ -35,10 +35,10 @@ const SCHOLAR_URL =
   'https://scholar.google.com/citations?view_op=list_works&hl=en&user=7m3g1cEAAAAJ';
 
 const CITATION_STATS = {
-  citations: 13,
+  citations: 16,
   hIndex: 2,
   i10Index: 0,
-  lastUpdated: 'Aug 2026',
+  lastUpdated: 'Sept 2026',
 };
 
 const SELF_NAME_PATTERN = /^(Md\.?\s*Sifatullah Sheikh)/i;

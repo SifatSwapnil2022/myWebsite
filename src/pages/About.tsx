@@ -1,4 +1,4 @@
-import { JSX, useEffect, useMemo, useRef, useState } from 'react';
+import { JSX, useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import {
   ArrowRight,
@@ -9,12 +9,14 @@ import {
   Check,
   Compass,
   Copy,
+  Dumbbell,
   ExternalLink,
   GraduationCap,
   Languages,
   MapPin,
   Sparkles,
   Target,
+  Trophy,
 } from 'lucide-react';
 import {
   SKILL_GROUPS,
@@ -95,27 +97,27 @@ const RESEARCH_INTERESTS = [
   {
     index: '01',
     title: 'Computer Vision',
-    desc: 'Visual learning for images, video, and real-world perception.',
+    desc: 'Most of my work so far: detecting fake faces and identifying plants from images.',
   },
   {
     index: '02',
     title: 'Machine Learning',
-    desc: 'Models that learn from data and generalize beyond the training set.',
+    desc: 'Training and testing models, and checking if results hold up on new data.',
   },
   {
     index: '03',
     title: 'Robotics & Autonomy',
-    desc: 'Intelligent systems that connect perception, reasoning, and action.',
+    desc: 'Newer for me. I am interested in models that turn what a robot sees into actions.',
   },
   {
     index: '04',
     title: 'Trustworthy AI',
-    desc: 'Reliable and interpretable systems for practical use.',
+    desc: 'Models that can show why they made a decision, like the heatmaps in DeFaX.',
   },
   {
     index: '05',
     title: 'Human–Computer Interaction',
-    desc: 'Interfaces and intelligent tools that remain usable for people.',
+    desc: 'AI tools that people can understand and use without guesswork.',
   },
 ];
 
@@ -479,6 +481,8 @@ function HobbyIcon({ name }: { name: string }) {
     Compass: <Compass className={cls} />,
     BookOpen: <BookOpen className={cls} />,
     Camera: <Camera className={cls} />,
+    Dumbbell: <Dumbbell className={cls} />,
+    Trophy: <Trophy className={cls} />,
   };
 
   return map[name] ?? <Sparkles className={cls} />;
@@ -487,8 +491,6 @@ function HobbyIcon({ name }: { name: string }) {
 export default function About() {
   const heroRef = useRef<HTMLElement>(null);
   const reducedMotion = usePrefersReducedMotion();
-
-  const awardsCount = useMemo(() => AWARDS.length, []);
 
   useEffect(() => {
     const node = heroRef.current;
@@ -732,8 +734,10 @@ export default function About() {
                 style={{ color: MUTED }}
               >
                 I studied Computer Science and Engineering at East West
-                University and work across machine learning, computer vision,
-                multimodal learning, and intelligent systems.
+                University and now work on machine learning at a company in
+                Dhaka. My research so far has been on deepfake detection and
+                medicinal plant identification. Next, I want to work on
+                robotics and on making AI systems more reliable.
               </p>
             </Reveal>
 
@@ -793,7 +797,7 @@ export default function About() {
                     className="text-[9px] font-semibold uppercase tracking-[0.17em]"
                     style={{ color: 'rgba(255,255,255,.42)' }}
                   >
-                    Research directions
+                    Research interests
                   </p>
 
                   <Sparkles className="h-4 w-4" style={{ color: AMBER }} />
@@ -830,7 +834,7 @@ export default function About() {
                   href="#education"
                   className="mt-6 inline-flex items-center gap-2 text-xs font-semibold"
                 >
-                  Education journey
+                  See education
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </div>
@@ -847,8 +851,8 @@ export default function About() {
           <SectionHeader
             number="01"
             eyebrow="Education"
-            title="Three stages. One academic journey."
-            description="From school in Old Dhaka to a B.Sc. in Computer Science and Engineering."
+            title="School, college, and university."
+            description="I did all my schooling in Dhaka, then studied CSE at East West University."
           />
         </Reveal>
 
@@ -929,9 +933,9 @@ export default function About() {
           <Reveal>
             <SectionHeader
               number="02"
-              eyebrow="Technical profile"
+              eyebrow="Skills"
               title="Coursework, tools, and frameworks."
-              description="A compact view of the technical areas represented in the portfolio."
+              description="Courses I took at university and the tools I use most."
             />
           </Reveal>
 
@@ -1031,7 +1035,7 @@ export default function About() {
             number="03"
             eyebrow="Beyond coursework"
             title="Teaching, leadership, and community."
-            description="Activities already represented in the portfolio data."
+            description="Mentoring, club work, and volunteering during university."
           />
         </Reveal>
 
@@ -1141,7 +1145,7 @@ export default function About() {
               number="04"
               eyebrow="Outside the lab"
               title="Interests, languages, and recognition."
-              description={`${awardsCount} honor${awardsCount === 1 ? '' : 's'} currently listed in the portfolio.`}
+              description="What I do outside work, and a few things I've been recognized for."
             />
           </Reveal>
 

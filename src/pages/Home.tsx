@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import {
   ArrowRight,
@@ -374,8 +374,6 @@ export default function Home() {
   const heroRef = useRef<HTMLElement>(null);
   const reducedMotion = usePrefersReducedMotion();
 
-  const projectCount = useMemo(() => PROJECTS.length, []);
-
   useEffect(() => {
     const node = heroRef.current;
     if (!node || reducedMotion) return;
@@ -701,7 +699,7 @@ export default function Home() {
                       boxShadow: '0 0 0 5px rgba(29,122,112,.08)',
                     }}
                   />
-                  ML Engineer · Researcher
+                  Junior ML Engineer
                 </span>
 
                 <span
@@ -740,8 +738,9 @@ export default function Home() {
                 className="mt-8 max-w-[620px] text-[15px] leading-7 sm:text-base sm:leading-8"
                 style={{ color: MUTED }}
               >
-                Computer science graduate working on computer vision, multimodal
-                learning, and machine learning research.
+                CSE graduate with one year of research experience in computer vision and Trustworthy AI, building interpretable systems for
+healthcare and biodiversity applications. Seeking to extend this work toward reinforcement learning, autonomy, and multi-agent
+robotics, with a long-term focus on safe, reliable decision-making in real-world environments
               </p>
             </Reveal>
 
@@ -758,7 +757,7 @@ export default function Home() {
                       '0 12px 30px rgba(20,20,20,.14), inset 0 1px 0 rgba(255,255,255,.10)',
                   }}
                 >
-                  <span className="relative z-10">Explore research</span>
+                  <span className="relative z-10">See my research</span>
                   <ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </a>
 
@@ -771,7 +770,7 @@ export default function Home() {
                     color: INK,
                   }}
                 >
-                  Selected projects
+                  Projects
                   <ArrowUpRight className="h-4 w-4" />
                 </a>
 
@@ -797,7 +796,7 @@ export default function Home() {
                 {[
                   ['Focus', 'Computer Vision'],
                   ['Based in', 'Dhaka, Bangladesh'],
-                  ['Work', 'Research + Engineering'],
+                  ['Next', 'PhD, Fall 2027'],
                 ].map(([label, value]) => (
                   <div
                     key={label}
@@ -935,8 +934,8 @@ export default function Home() {
           <SectionHeader
             index="01"
             eyebrow="Selected research"
-            title="Research presented as work, not a wall of text."
-            description="A concise view of one publication, with the full research archive one click away."
+            title="Research Highlights."
+            description="Published in IEEE Access in 2025. My other papers are on the Research page."
           />
         </Reveal>
 
@@ -1000,8 +999,9 @@ export default function Home() {
                   className="mt-5 text-sm leading-7"
                   style={{ color: 'rgba(255,255,255,.58)' }}
                 >
-                  Deepfake detection using cross-attention fusion with Grad-CAM
-                  and LIME based explainability.
+                  We combined a Swin Transformer and an EfficientNet to detect
+                  AI-generated faces, and used heatmaps to show what each
+                  prediction is based on.
                 </p>
               </div>
 
@@ -1016,7 +1016,7 @@ export default function Home() {
                     color: INK,
                   }}
                 >
-                  View publication
+                  Read the paper
                   <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </a>
 
@@ -1051,14 +1051,14 @@ export default function Home() {
         }}
       >
         <div className="home-page-width">
-          <Reveal>
-            <SectionHeader
-              index="02"
-              eyebrow="Selected projects"
-              title="A small project shelf instead of a résumé grid."
-              description={`${projectCount} project${projectCount === 1 ? '' : 's'} currently in the portfolio.`}
-            />
-          </Reveal>
+       <Reveal>
+  <SectionHeader
+    index="02"
+    eyebrow="Selected projects"
+    title="Things I have Built"
+    description="A selection of projects from my research, thesis, and engineering work."
+  />
+</Reveal>
 
           <Reveal delay={60}>
             <a
@@ -1198,14 +1198,14 @@ export default function Home() {
       {/* RECENT                                                            */}
       {/* ================================================================= */}
       <section id="recent-home" className="home-page-width py-20 md:py-28">
-        <Reveal>
-          <SectionHeader
-            index="03"
-            eyebrow="Recent"
-            title="Updates without turning the homepage into another CV."
-            description="A short timeline of recent academic, research, and professional activity."
-          />
-        </Reveal>
+       <Reveal>
+  <SectionHeader
+    index="03"
+    eyebrow="Recent"
+    title="Recent Updates"
+    description="Recent work, publications, and milestones."
+  />
+</Reveal>
 
         <div className="mt-6">
           {latestNews.map((item, index) => (
@@ -1250,7 +1250,7 @@ export default function Home() {
               href="#/news"
               className="home-secondary-link inline-flex items-center gap-2 text-xs font-semibold"
             >
-              Full timeline
+              All news
               <ArrowRight className="h-4 w-4" />
             </a>
           </div>
@@ -1274,8 +1274,8 @@ export default function Home() {
             <SectionHeader
               index="04"
               eyebrow="Location & contact"
-              title="Dhaka is home base."
-              description="Google Maps, local time, email, and the main places to find my work."
+              title="Based in Dhaka."
+              description="Where I am and how to reach me."
             />
           </Reveal>
 
@@ -1307,17 +1307,17 @@ export default function Home() {
                   </div>
 
                   <h3 className="mt-5 text-4xl font-semibold leading-[.98] tracking-[-0.05em] sm:text-5xl">
-                    Keep it simple.
+                    Feel free
                     <br />
-                    Email works.
+                    to email me.
                   </h3>
 
                   <p
                     className="mt-5 max-w-sm text-sm leading-7"
                     style={{ color: 'rgba(255,255,255,.54)' }}
                   >
-                    For research, project, or professional inquiries, email is the
-                    most direct way to reach me.
+                    I'm happy to talk about research, my projects, or work.
+                    Email is the easiest way to reach me.
                   </p>
 
                   <a

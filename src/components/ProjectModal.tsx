@@ -560,7 +560,7 @@ export default function ProjectModal({
                         className="text-[10px] font-semibold uppercase tracking-[0.17em]"
                         style={{ color: MUTED }}
                       >
-                        Project overview
+                        About this project
                       </p>
                     </div>
 
@@ -586,11 +586,11 @@ export default function ProjectModal({
                           className="text-[10px] font-semibold uppercase tracking-[0.17em]"
                           style={{ color: MUTED }}
                         >
-                          Key architecture &amp; features
+                          Details
                         </p>
 
                         <h3 className="mt-2 text-2xl font-semibold tracking-[-0.035em]">
-                          What the project includes
+                          What I built
                         </h3>
                       </div>
 
@@ -678,7 +678,7 @@ export default function ProjectModal({
                           className="text-[10px] font-semibold uppercase tracking-[0.16em]"
                           style={{ color: MUTED }}
                         >
-                          Technologies
+                          Built with
                         </p>
 
                         <span
@@ -810,7 +810,7 @@ export default function ProjectModal({
                           className="h-4 w-4"
                           style={{ color: AMBER }}
                         />
-                        <p className="text-xs font-semibold">Project details</p>
+                        <p className="text-xs font-semibold">At a glance</p>
                       </div>
 
                       <div className="mt-4 grid grid-cols-2 gap-3">
@@ -831,7 +831,7 @@ export default function ProjectModal({
                             className="text-[9px] uppercase tracking-[0.13em]"
                             style={{ color: MUTED }}
                           >
-                            Technologies
+                            Tools
                           </p>
                           <p className="mt-1 text-sm font-semibold">
                             {project.tech.length}

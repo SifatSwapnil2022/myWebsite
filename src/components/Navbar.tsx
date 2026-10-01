@@ -400,7 +400,7 @@ export default function Navbar({ currentPath }: NavbarProps) {
                 className="hidden text-[8px] font-medium uppercase tracking-[0.14em] sm:block"
                 style={{ color: MUTED }}
               >
-                ML Engineer · Researcher
+                Junior ML Engineer
               </span>
             </span>
           </a>
@@ -786,7 +786,7 @@ export default function Navbar({ currentPath }: NavbarProps) {
                         className="mt-3 text-xs leading-6"
                         style={{ color: 'rgba(255,255,255,.58)' }}
                       >
-                        Education, research, experience, publications, and projects.
+                        My education, work, papers, and projects in one PDF.
                       </p>
 
                       <a

@@ -5,19 +5,19 @@ export const PUBLICATIONS: Publication[] = [
     id: "01",
     title: "DeFaX: A Cross-Attention Fusion Framework for Robust and Explainable Deepfake Detection",
     authors: "Md Al-Imran, Md Sifatullah Sheikh, Urmi Kirtonia, Nuzath Tabassum Arthi, Shamim Ripon",
-    venue: "IEEE Access (SCI, Q1 Journal, Impact Factor 3.9)",
+    venue: "IEEE Access (Q1 Journal)",
     venueType: "journal",
     link: "https://ieeexplore.ieee.org/abstract/document/11303744",
-    highlight: "Built DeFaX, a system that combines two types of AI vision models (a Swin Transformer and an EfficientNet) to spot AI-generated fake face videos and photos. It correctly identified fakes 99.8% of the time on a 140,000-image test set, and — unlike most detection tools — it also shows a visual heatmap explaining exactly which part of the face made it flag something as fake.",
+    highlight: "We combined a Swin Transformer and an EfficientNet with cross-attention to detect AI-generated faces. The model reached 99.8% accuracy on a 140K-image dataset and uses Grad-CAM and LIME heatmaps to show which parts of the face each prediction was based on.",
     year: "2025"
   },
   {
     id: "02",
     title: "Medicinal Plant Leaf Image Dataset of 13 Species Collected in Bangladesh",
     authors: "Momena Khatun Zinia, Mahmudul Haque Sakib, Md Sifatullah Sheikh, Urmi Kirtonia, Bashirul Islam, Md Nawab Yousuf Ali",
-    venue: "Scientific Data, Nature Portfolio (Currently Under Review)",
+    venue: "Scientific Data, Nature Portfolio (Under Review)",
     venueType: "journal",
-    highlight: "Collected and organized a photo dataset of 13 medicinal plant species grown in Bangladesh. The manuscript describing this dataset is currently under review at Nature's Scientific Data; the dataset itself is already publicly available on Mendeley Data for other researchers to use.",
+    highlight: "A data paper describing the leaf images of 13 medicinal plant species we collected in Bangladesh. The paper is under review at Scientific Data, and the dataset is already public on Mendeley Data.",
     year: "2025"
   },
   {
@@ -27,7 +27,7 @@ export const PUBLICATIONS: Publication[] = [
     venue: "IEEE International Conference on Intelligent Big Data, Data Science and Artificial Intelligence (IBDAP), Thailand",
     venueType: "conference",
     link: "https://ieeexplore.ieee.org/abstract/document/11145852",
-    highlight: "Compared three different image-recognition AI models plus a newer 'Vision Transformer' model to see which best detects deepfakes. A lightweight version built on MobileNetV3 (named VFDNET) came out on top, achieving strong accuracy while staying efficient enough to run on limited hardware.",
+    highlight: "We compared three CNN models and a Vision Transformer for deepfake detection. Our lightweight MobileNetV3-based model, VFDNET, performed best while staying small enough to run on limited hardware.",
     year: "2025"
   },
   {
@@ -37,7 +37,7 @@ export const PUBLICATIONS: Publication[] = [
     venue: "Mendeley Data, Version 2 (DOI: 10.17632/9tdc9gbtgb.2)",
     venueType: "dataset",
     link: "https://data.mendeley.com/datasets/9tdc9gbtgb/2",
-    highlight: "The public, downloadable version of the medicinal plant photo dataset above — high-resolution images of 13 species, freely available so other researchers can build on it for plant science and biodiversity studies.",
+    highlight: "The public version of the dataset above: high-resolution leaf images of 13 species, free to download and use.",
     year: "2026"
   }
 ];
@@ -47,15 +47,15 @@ export const PROJECTS: Project[] = [
     id: "defax",
     title: "DeFaX Framework",
     tag: "AI Safety / Explainable AI",
-    description: "A deepfake-detection system, published in IEEE Access (Q1, Impact Factor 3.9), that doesn't just say 'fake' or 'real' — it also shows why, by highlighting exactly which parts of a face look manipulated.",
-    longDescription: "Most deepfake detectors work like a black box: they give you an answer with no explanation. DeFaX fixes that. It combines two AI vision models — a Swin Transformer and an EfficientNet — using a custom mechanism that lets them share information about the image. On top of accurate detection, it generates a visual 'heatmap' (using two explainability techniques, Grad-CAM and LIME) that shows a human reviewer exactly which facial region triggered the fake/real decision — useful for anyone who needs to verify or trust the result, not just receive it.",
+    description: "A deepfake detector published in IEEE Access. Along with the real or fake prediction, it shows which parts of the face the model focused on.",
+    longDescription: "Most deepfake detectors give a label with no explanation. In DeFaX, we combined a Swin Transformer, which looks at the face as a whole, with an EfficientNet, which picks up fine local details, and connected them with cross-attention so each model can use what the other sees. We then used Grad-CAM and LIME to produce heatmaps showing which facial regions led to each prediction, so a person can check the result instead of just trusting it.",
     features: [
-      "Combines two AI models (Swin Transformer + EfficientNet) so each one's strengths cover the other's blind spots",
-      "A custom 'cross-attention' mechanism that lets the two models compare notes across different zoom levels of the image",
-      "Visual explanations (via Grad-CAM and LIME) showing exactly which facial area looked fake — not just a yes/no answer",
-      "Stays accurate even on heavily compressed or noisy video, which is where most detectors start to fail",
-      "Tested against standard industry benchmarks (FaceForensics++, Celeb-DF) to confirm the results hold up outside the original dataset",
-      "Managed as an end-to-end research workflow — dataset curation, preprocessing, model training, ablation studies, and statistical evaluation — with a 5-member research team under faculty supervision"
+      "Two backbones, Swin Transformer and EfficientNet, combined so one covers what the other misses",
+      "Cross-attention between the two models at multiple feature scales",
+      "Grad-CAM and LIME heatmaps that show which facial regions the model relied on",
+      "Tested on compressed and noisy inputs to see how well it holds up",
+      "Evaluated on FaceForensics++ and Celeb-DF to check performance beyond the training data",
+      "Done as a five-person team under faculty supervision, covering data preparation, training, ablation studies, and statistical tests"
     ],
     tech: ["Python", "TensorFlow", "Swin-T", "EfficientNet", "Grad-CAM", "LIME", "OpenCV"],
     metric: "99.80% Accuracy",
@@ -69,15 +69,15 @@ export const PROJECTS: Project[] = [
     id: "medileaf",
     title: "MediLeafNET",
     tag: "Undergraduate Thesis / Multimodal Computer Vision",
-    description: "My undergraduate thesis: a multimodal AI model that identifies medicinal plants from a photo of their leaves, combining image recognition with text understanding for higher accuracy than image-only models.",
-    longDescription: "Traditional medicine relies heavily on knowing exactly which plant you're looking at — a mistake can be costly. MediLeafNET was built as my undergraduate thesis to solve this with a multimodal classifier that combines a Vision Transformer (ViT) for image understanding with BERT for text-based context, trained on 3,289 leaf images across 13 species native to Bangladesh. Combining both modalities improved accuracy by 8% over single-modality baselines. The final system is demonstrated through a live Gradio web demo and a Flutter mobile proof-of-concept.",
+    description: "My undergraduate thesis. It identifies medicinal plants from leaf photos by combining an image model with a text model.",
+    longDescription: "In traditional medicine, using the wrong plant can cause real harm, so getting the identification right matters. For my thesis, I built a classifier that combines a Vision Transformer for the leaf image with BERT for text, trained on 3,289 leaf images from 13 species found in Bangladesh. Using both together improved accuracy by 8% over single-modality baselines. I also built a Gradio web demo and a basic Flutter app to try it out.",
     features: [
-      "Multimodal classifier combining a Vision Transformer (ViT) with BERT, rather than relying on image data alone",
-      "Trained and evaluated on 3,289 real leaf images across all 13 documented species",
-      "Achieved 96.22% accuracy — an 8% improvement over single-modal (image-only) baseline models",
-      "Deployed as a live, testable Gradio web demo",
-      "Includes a working Flutter mobile app proof-of-concept for on-the-go identification",
-      "Comes paired with a reference database explaining the traditional medicinal use of each species"
+      "Combines a Vision Transformer (ViT) for images with BERT for text",
+      "Trained and tested on 3,289 leaf images from 13 species",
+      "96.22% accuracy, 8% higher than single-modality baselines",
+      "Web demo built with Gradio",
+      "Prototype Flutter app for identifying plants on a phone",
+      "Short reference notes on the traditional medicinal use of each species"
     ],
     tech: ["PyTorch", "Python", "Vision Transformer (ViT)", "BERT", "Gradio", "Flutter", "OpenCV"],
     metric: "96.22% Accuracy",
@@ -91,15 +91,15 @@ export const PROJECTS: Project[] = [
     id: "skincare-ai",
     title: "SkinCare AI",
     tag: "Healthcare AI / Computer Vision",
-    description: "A clinical support tool that looks at a photo of a skin condition, identifies what it might be, and generates an easy-to-read summary — combining computer vision with AI-written medical explanations.",
-    longDescription: "SkinCare AI pairs image recognition with plain-language explanation. A YOLOv8 model first localizes the exact skin lesion in the photo at 95.42% mAP, then three vision models (EfficientNetB0, MobileNetV2, and ResNet50) vote together on what the condition looks like, across ten possible categories. A language model then converts that technical finding into a plain-text summary a patient can actually understand — bridging the gap between 'the AI detected something' and 'here's what that means for you.' The full pipeline is deployed via FastAPI, Streamlit, and Docker.",
+    description: "A project that finds skin lesions in a photo, classifies them, and writes a short plain-language summary of the result.",
+    longDescription: "SkinCare AI works in three steps. A YOLOv8 model first finds the lesion in the photo (95.42% mAP). An ensemble of EfficientNetB0, MobileNetV2, and ResNet50 then classifies it into one of ten categories. Finally, a language model turns the result into a short summary that is easier to read than raw model output. I served it with FastAPI and Streamlit and packaged it with Docker. It is a learning project, not a medical tool.",
     features: [
-      "YOLOv8-based lesion localization achieving 95.42% mAP, pinpointing the exact affected area before classification",
-      "Sorts skin conditions into 10 categories from a single photo",
-      "Three AI models vote together on the diagnosis, which is more reliable than trusting just one",
-      "Uses an AI language model to turn the technical result into a plain-language explanation for the patient",
-      "Automatically generates a downloadable PDF summary of the findings",
-      "Fully containerized deployment via FastAPI, Streamlit, and Docker"
+      "YOLOv8 lesion detection (95.42% mAP) before classification",
+      "Classifies skin conditions into 10 categories",
+      "Ensemble of three CNNs instead of relying on a single model",
+      "A language model writes a plain-language summary of the result",
+      "Generates a downloadable PDF report",
+      "Served with FastAPI and Streamlit, packaged with Docker"
     ],
     tech: ["Python", "FastAPI", "YOLOv8", "TensorFlow", "MongoDB", "Docker", "Streamlit"],
     metric: "95.42% mAP (Lesion Detection)",
@@ -112,15 +112,15 @@ export const PROJECTS: Project[] = [
     id: "bazario",
     title: "Bazario Marketplace",
     tag: "Full-Stack Development",
-    description: "A full e-commerce platform where many independent sellers each run their own storefront under one system — with each seller's data kept completely separate, plus built-in sales analytics.",
+    description: "A multi-vendor e-commerce platform where each seller runs their own store on a separate subdomain, with sales dashboards and Stripe payments.",
     // NOTE: kept as PostgreSQL + Drizzle ORM (internally consistent, since Drizzle is a SQL-first ORM).
     // Your resume lists MongoDB instead — this is a real conflict, not a wording difference. Confirm which is correct.
-    longDescription: "Bazario lets many sellers operate independent shops on one platform without their data ever mixing — each seller gets their own subdomain and isolated database space. It handles live product catalogs, real-time inventory, vendor dashboards, and Stripe Connect payment integration so each vendor can accept payments directly through their own storefront.",
+    longDescription: "Bazario lets multiple sellers run their own shops on one platform. Each seller gets a subdomain, and their data is kept separate from other sellers. It includes product catalogs, inventory tracking, seller dashboards, and Stripe Connect so each seller can take payments directly.",
     features: [
-      "Every seller's data and subdomain are kept fully separate from every other seller's, even though they share one platform",
-      "Inventory counts update instantly and safely, even when many customers are buying the same item at once",
-      "Individual vendor dashboards where each seller can track their own daily sales trends",
-      "Built-in Stripe Connect payment integration so sellers can accept payments directly through their storefront"
+      "Each seller has their own subdomain, with data kept separate per seller",
+      "Inventory stays correct when several customers buy the same item at once",
+      "Seller dashboards showing daily sales",
+      "Stripe Connect payments for each store"
     ],
     tech: ["Next.js", "Node.js", "PostgreSQL", "Tailwind CSS", "TypeScript", "Drizzle ORM"],
     metric: "50+ Active Tenants",
@@ -140,8 +140,8 @@ export const EXPERIENCES: Experience[] = [
     location: "Dhaka, Bangladesh",
     period: "Aug 2026 – Present",
     bullets: [
-      "Evaluated machine learning models using Python, performing data preprocessing, feature engineering, and model validation on real-world datasets.",
-      "Conducted model performance analysis and experimentation, optimizing algorithms and workflows to improve prediction accuracy and support production-oriented ML solutions."
+      "Preprocess data, build features, and train and validate ML models in Python on real-world datasets.",
+      "Run experiments to compare models and improve prediction accuracy for production use."
     ],
   },
   {
@@ -151,8 +151,8 @@ export const EXPERIENCES: Experience[] = [
     location: "Dhaka, Bangladesh",
     period: "Feb 2026 – May 2026",
     bullets: [
-      "Managed 100+ operational documents and maintained IT asset, employee, and database records, ensuring accurate and up-to-date information.",
-      "Prepared daily, weekly, and monthly reports by collecting and analyzing departmental data, while supporting hardware, software, and network troubleshooting."
+      "Managed 100+ operational documents and kept IT asset, employee, and database records up to date.",
+      "Prepared daily, weekly, and monthly reports from departmental data, and helped with hardware, software, and network issues."
     ],
   },
   {
@@ -162,9 +162,9 @@ export const EXPERIENCES: Experience[] = [
     location: "Dhaka, Bangladesh",
     period: "Dec 2024 – Dec 2025",
     bullets: [
-      "Benchmarked deep learning architectures for AI-generated face detection on 140K images, identifying complementary strengths between CNN-based local features and transformer-based global contexts.",
-      "Designed DeFaX, a cross-attention fusion architecture combining Swin Transformer’s global reasoning with EfficientNet’s local feature extraction to address the limitations of individual architectures.",
-      "Managed the end-to-end research workflow, including dataset curation, preprocessing, model training, ablation studies, and statistical evaluation."
+      "Benchmarked CNN and transformer models for AI-generated face detection on a 140K-image dataset, and found that CNNs pick up local details while transformers capture global context.",
+      "Designed DeFaX, which combines a Swin Transformer and an EfficientNet through cross-attention to get the benefits of both.",
+      "Handled the full research process: dataset curation, preprocessing, training, ablation studies, and statistical evaluation."
     ],
     supervisor: {
       name: "Al Imran",
@@ -181,25 +181,25 @@ export const NEWS: NewsItem[] = [
     date: "August 2026",
     category: "Career",
     content: "Joined Nasir Syntax Solution Limited as a Machine Learning Engineer Intern.",
-    longContent: "Joined Nasir Syntax Solution Limited as a Machine Learning Engineer Intern, starting August 1, 2026. Working on machine learning projects and gaining hands-on industry experience in developing and evaluating AI solutions.",
+    longContent: "Started on August 1, 2026. I work on building and evaluating ML models for the company's projects.",
     image: "/files/syntax.png"
   },
   {
     id: "n-2",
     date: "July 2026",
     category: "Publication",
-    content: "Published a medicinal plant leaf image dataset covering 13 species collected in Bangladesh, on Mendeley Data (Version 2).",
-    longContent: "Working with local botanists and fellow researchers, we released a high-resolution collection of leaf photos from 13 medicinally important plant species. The dataset is freely available on Mendeley Data, while the accompanying manuscript is currently under review at Nature's Scientific Data.",
+    content: "Published a leaf image dataset of 13 medicinal plant species from Bangladesh on Mendeley Data (Version 2).",
+    longContent: "Together with my co-authors, I released high-resolution leaf images of 13 medicinal plant species. The dataset is free to use on Mendeley Data, and the paper describing it is under review at Scientific Data.",
     image: "/files/datasets_13.png",
     link: "https://data.mendeley.com/datasets/9tdc9gbtgb/2",
-    linkText: "View Mendeley Dataset"
+    linkText: "View dataset"
   },
   {
     id: "n-6",
     date: "May 2026",
     category: "Career",
     content: "Completed a 4-month internship in IT & Operations at Banglalink, Dhaka.",
-    longContent: "Worked across IT and Operations, managing 100+ operational documents and preparing daily, weekly, and monthly reports drawing on data from multiple departments. Maintained IT asset inventories and employee records, supported the IT team on hardware, software, and network troubleshooting, and helped develop SOPs and technical documentation for the team.",
+    longContent: "I managed 100+ operational documents, prepared daily, weekly, and monthly reports from different departments, and kept IT asset and employee records up to date. I also helped the IT team with hardware, software, and network issues and helped write SOPs and documentation.",
     image: "/files/Certificate_Intern_Sifatullah_Sheikh.png"
   },
   {
@@ -207,35 +207,35 @@ export const NEWS: NewsItem[] = [
     date: "February 2026",
     category: "Academic",
     content: "Graduated with a Bachelor of Science in Computer Science & Engineering from East West University.",
-    longContent: "Completed the four-year engineering program with honors. My final-year thesis, MediLeafNET, focused on multimodal plant identification, supervised and evaluated by the department's faculty.",
+    longContent: "Finished my four-year CSE degree. My thesis was MediLeafNET, a multimodal model for identifying medicinal plants.",
     image: "/files/graduation.jpg"
   },
   {
     id: "n-3",
     date: "December 2025",
     category: "Publication",
-    content: "Our main research paper, 'DeFaX: A Cross-Attention Fusion Framework for Robust and Explainable Deepfake Detection,' was accepted and published in IEEE Access, a top-tier Q1 journal.",
-    longContent: "This is our flagship contribution to AI safety research. By combining Swin Transformer and CNN models through a custom attention mechanism, DeFaX sets a strong benchmark for catching AI-generated face manipulations, while also producing clear visual explanations for every decision it makes.",
+    content: "Our paper 'DeFaX: A Cross-Attention Fusion Framework for Robust and Explainable Deepfake Detection' was published in IEEE Access.",
+    longContent: "DeFaX combines a Swin Transformer and an EfficientNet through cross-attention to detect AI-generated faces, and uses heatmaps to show what each prediction is based on. It was the main project from my time as a research assistant.",
     image: "/files/framework.png",
     link: "https://ieeexplore.ieee.org/abstract/document/11303744",
-    linkText: "Read Q1 IEEE Paper"
+    linkText: "Read the paper"
   },
   {
     id: "n-4",
     date: "August 2025",
     category: "Event",
-    content: "Presented our research, 'AI-Powered Deepfake Detection Using CNN and Vision Transformer Architectures,' at the IEEE IBDAP Conference in Thailand.",
-    longContent: "Traveled to Thailand to give an oral presentation on our custom CNN-Transformer hybrid model, VFDNET. Spent the conference exchanging ideas with international researchers on where AI-generated media detection and explainable AI are headed next.",
+    content: "Presented our paper 'AI-Powered Deepfake Detection Using CNN and Vision Transformer Architectures' at IEEE IBDAP in Thailand.",
+    longContent: "Gave an oral presentation on VFDNET, our lightweight deepfake detection model, and talked with other researchers working on media forensics and explainable AI.",
     image: "/files/conference.png",
     link: "https://ieeexplore.ieee.org/abstract/document/11145852",
-    linkText: "Read IBDAP Proceeding"
+    linkText: "Read the paper"
   },
   {
     id: "n-5",
     date: "December 2024",
     category: "Award",
-    content: "Won 3rd place nationally in the IT Olympiad at National Robo-Fest 2024.",
-    longContent: "Represented our university in a nationwide competition covering algorithms, systems troubleshooting, and digital logic design — finishing 3rd out of hundreds of undergraduate engineering teams from across the country.",
+    content: "Won 3rd place in the IT Olympiad at National Robo-Fest 2024.",
+    longContent: "Represented East West University in a national competition covering algorithms, systems troubleshooting, and digital logic design, and placed 3rd.",
     image: "/files/ROBOTICS.jpg"
   },
 ];
@@ -245,10 +245,10 @@ export const EXTRA_ACTIVITIES: ExtraActivity[] = [
     role: "Undergraduate Student Mentor",
     organization: "Dept of CSE, East West University",
     period: "2024 – 2025",
-    description: "Helped first- and second-year students get comfortable with the core fundamentals of computer science.",
+    description: "Helped first- and second-year students with core computer science courses.",
     bullets: [
-      "Ran voluntary peer-learning sessions in Data Structures, C++, and Object-Oriented Design, supporting more than 40 junior students.",
-      "Worked alongside professors to help students debug code, understand memory management, and reason about runtime efficiency (Big O complexity)."
+      "Ran voluntary study sessions on Data Structures, C++, and Object-Oriented Design for more than 40 junior students.",
+      "Helped students debug code, understand memory management, and reason about time complexity."
     ],
     badge: "Teaching"
   },
@@ -257,10 +257,10 @@ export const EXTRA_ACTIVITIES: ExtraActivity[] = [
     role: "Voluntary Co-Organizer",
     organization: "EWU Computer Club (EWUCC)",
     period: "2023 – 2025",
-    description: "Helped run technical workshops, programming contests, and coding bootcamps for the university community.",
+    description: "Helped run workshops, programming contests, and coding bootcamps at the university.",
     bullets: [
-      "Handled logistics and lab setup for national programming contests hosted at East West University, making sure the network and testing systems ran smoothly throughout.",
-      "Managed announcements and student sign-ups for Python and machine learning bootcamps."
+      "Handled logistics and lab setup for national programming contests hosted at East West University, including the network and judging systems.",
+      "Managed announcements and sign-ups for Python and machine learning bootcamps."
     ],
     badge: "Leadership"
   },
@@ -269,10 +269,10 @@ export const EXTRA_ACTIVITIES: ExtraActivity[] = [
     role: "Competitive Coding Coach",
     organization: "Academic Student Groups",
     period: "2024 – 2026",
-    description: "Coached junior students preparing for competitive programming contests and local algorithm olympiads.",
+    description: "Coached junior students preparing for programming contests and algorithm olympiads.",
     bullets: [
-      "Put together practice problem sets covering dynamic programming, graph traversal, and greedy algorithms.",
-      "Reviewed students' submitted solutions on mock judges, focusing on runtime efficiency and catching edge cases."
+      "Made practice problem sets on dynamic programming, graph traversal, and greedy algorithms.",
+      "Reviewed students' solutions on mock judges, focusing on runtime and edge cases."
     ],
     badge: "Mentorship"
   },
@@ -283,10 +283,10 @@ export const EXTRA_ACTIVITIES: ExtraActivity[] = [
     role: "Executive Member",
     organization: "East West University Robotics Club",
     period: "2023 – 2025",
-    description: "Helped organize technical events and workshops for the university's robotics community.",
+    description: "Helped organize events and workshops for the university's robotics club.",
     bullets: [
-      "Organized technical events and hands-on workshops as part of the club's executive team.",
-      "Coordinated with fellow members to plan and run robotics-focused activities for the student community."
+      "Organized technical events and hands-on workshops as part of the executive team.",
+      "Planned and ran robotics activities for students with other club members."
     ],
     badge: "Leadership"
   },
@@ -296,9 +296,9 @@ export const EXTRA_ACTIVITIES: ExtraActivity[] = [
     role: "Core Member",
     organization: "LMH Foundation",
     period: "2023 – 2025",
-    description: "Volunteered with a community foundation supporting underprivileged families in Bangladesh.",
+    description: "Volunteered with a foundation that supports underprivileged families in Bangladesh.",
     bullets: [
-      "Coordinated food and clothing drives for underprivileged communities as a core organizing member."
+      "Helped organize food and clothing drives for families in need."
     ],
     badge: "Volunteering"
   }
@@ -306,34 +306,34 @@ export const EXTRA_ACTIVITIES: ExtraActivity[] = [
 
 export const HOBBIES: Hobby[] = [
   {
-    name: "Strategic Chess",
+    name: "Chess",
     category: "Cognitive",
-    description: "I enjoy playing chess to improve logical thinking, strategic planning, and problem-solving. The game challenges me to think several moves ahead and make decisions under pressure.",
+    description: "I play chess in my free time. I like that it rewards patience and thinking a few moves ahead.",
     iconName: "Compass"
   },
   {
-    name: "Strength Training & Fitness",
+    name: "Strength Training",
     category: "Health",
-    description: "I regularly work out at the gym and enjoy strength training combined with cardio. Fitness helps me stay disciplined, focused, and maintain a healthy balance alongside research and programming.",
+    description: "I go to the gym regularly for strength training and some cardio. It helps me keep a steady routine alongside work and research.",
     iconName: "Dumbbell"
   },
   {
     name: "Football",
     category: "Sports",
-    description: "I enjoy playing football with friends whenever I have the opportunity. The sport keeps me active while strengthening teamwork, communication, and decision-making skills.",
+    description: "I play football with friends whenever I get the chance. It's a good way to get outside and unwind.",
     iconName: "Trophy"
   },
   {
     name: "Photography",
     category: "Creative",
-    description: "I like capturing nature, landscapes, and everyday moments through photography. It allows me to appreciate details, explore creativity, and preserve memorable experiences.",
+    description: "I like taking photos of nature, landscapes, and everyday moments, mostly to remember places and small details.",
     iconName: "Camera"
   }
 ];
 
 export const AWARDS: Award[] = [
   { icon: "🥉", title: "National Robo-Fest", sub: "3rd Place IT Olympiad, 2024" },
-  { icon: "🏆", title: "Dean's List Scholarship", sub: "East West University — 3 consecutive semesters (2023–2025)" },
+  { icon: "🏆", title: "Dean's List Scholarship", sub: "East West University, 3 consecutive semesters (2023–2025)" },
   { icon: "🎯", title: "National ICT Olympiad Bangladesh", sub: "Finalist, 2026" },
   { icon: "⭐", title: "CodeChef Rating", sub: "2-Star competitive programmer" }
 ];
