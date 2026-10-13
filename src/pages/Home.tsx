@@ -169,7 +169,7 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
             />
             <p className="ac-desc">
               A Swin Transformer and an EfficientNet joined by cross-attention, with Grad-CAM and LIME maps showing which
-              face regions each prediction used. 99.80% accuracy on the 140K Real and Fake Faces test set.
+              face regions each prediction used, so the call can be checked.
             </p>
           </Entry>
 
@@ -186,8 +186,8 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
               ]}
             />
             <p className="ac-desc">
-              Three CNNs and a Vision Transformer compared on telling real faces from GAN-generated ones. VFDNET did best,
-              with 99.13% accuracy on the 20,000-image test split of 140K Real and Fake Faces.
+              Three CNNs and a Vision Transformer compared on telling real faces from GAN-generated ones: what the local
+              view of a CNN and the global view of a Transformer each pick up.
             </p>
           </Entry>
 
@@ -227,7 +227,7 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
             />
             <p className="ac-desc">
               A Vision Transformer identifies the plant from one leaf photo. When it is confident enough, a text model
-              writes a short article on the plant's uses, compounds and side effects. 96.22% test accuracy on 11 species.
+              writes a short article on the plant's uses, compounds and side effects. Trained on 11 species from Bangladesh.
             </p>
             <p className="stack-tags">
               {medileaf.tech.slice(0, 5).map((t) => (

@@ -68,7 +68,7 @@ export default function ProjectModal({ project, onClose }: { project: Project; o
 
           <dl className="defs" style={{ marginTop: 40 }}>
             <div>
-              <dt>Result</dt>
+              <dt>In short</dt>
               <dd>{p.metric}</dd>
             </div>
             <div>

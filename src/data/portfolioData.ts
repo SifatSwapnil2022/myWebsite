@@ -8,7 +8,7 @@ export const PUBLICATIONS: Publication[] = [
     venue: "IEEE Access (Q1 Journal)",
     venueType: "journal",
     link: "https://ieeexplore.ieee.org/abstract/document/11303744",
-    highlight: "We combined a Swin Transformer and an EfficientNet with cross-attention to detect AI-generated faces. The model reached 99.8% accuracy on a 140K-image dataset and uses Grad-CAM and LIME heatmaps to show which parts of the face each prediction was based on.",
+    highlight: "We combined a Swin Transformer and an EfficientNet with cross-attention to detect AI-generated faces. It uses Grad-CAM and LIME heatmaps to show which parts of the face each prediction was based on, so a person can check the call.",
     year: "2025"
   },
   {
@@ -27,7 +27,7 @@ export const PUBLICATIONS: Publication[] = [
     venue: "IEEE International Conference on Intelligent Big Data, Data Science and Artificial Intelligence (IBDAP), Thailand",
     venueType: "conference",
     link: "https://ieeexplore.ieee.org/abstract/document/11145852",
-    highlight: "We compared three CNNs and a Vision Transformer for telling real faces from GAN-generated ones. VFDNET did best, with 99.13% accuracy on the 20,000-image test split of the 140K Real and Fake Faces dataset.",
+    highlight: "We compared three CNNs and a Vision Transformer for telling real faces from GAN-generated ones, on the 140K Real and Fake Faces dataset, and looked at what each model family picks up.",
     year: "2025"
   },
   {
@@ -67,7 +67,7 @@ export const PROJECTS: Project[] = [
       "Done as a five-person team under faculty supervision, covering data preparation, training, ablation studies, and statistical tests"
     ],
     tech: ["Python", "PyTorch", "Swin-T", "EfficientNet", "Grad-CAM", "LIME", "OpenCV"],
-    metric: "99.80% accuracy",
+    metric: "Shows the evidence behind each prediction",
     github: "https://github.com/SifatSwapnil2022/Journal_DefaX_codes",
     paperLink: "https://ieeexplore.ieee.org/abstract/document/11303744",
     image: "/files/framework.png",
@@ -80,17 +80,17 @@ export const PROJECTS: Project[] = [
     group: "research",
     role: "First author, IEEE IBDAP 2025",
     description: "Our conference paper comparing three CNNs and a Vision Transformer on one task: is this face real or made by a GAN?",
-    longDescription: "We trained four image classifiers on the 140K Real and Fake Faces dataset, 70,000 photos from FFHQ and 70,000 StyleGAN faces: VFDNET, MobileNetV3, DFCNET (a small three-layer CNN trained from scratch) and ResNet50. VFDNET did best, at 99.13% test accuracy on the 20,000-image test split. The notebooks were not all run under one protocol, and ResNet50 was tested on a different dataset, so the comparison is a rough one. I presented the paper at IEEE IBDAP 2025 in Thailand.",
+    longDescription: "We trained four image classifiers on the 140K Real and Fake Faces dataset, 70,000 photos from FFHQ and 70,000 StyleGAN faces: VFDNET, MobileNetV3, DFCNET (a small three-layer CNN trained from scratch) and ResNet50. The paper compares how the CNNs, which build up from local detail, and the Transformer, which relates distant parts of the face, handle the task. The notebooks are saved with their outputs. I presented the paper at IEEE IBDAP 2025 in Thailand.",
     features: [
-      "VFDNET: 99.13% accuracy on the 20,000-image test split",
-      "MobileNetV3 with transfer learning: 98.00%",
-      "DFCNET, a three-layer CNN trained from scratch: 95.76%",
-      "ResNet50, fine-tuned: 84.28%, on a different 10,905-image dataset",
+      "VFDNET, a Vision Transformer fine-tuned end to end",
+      "MobileNetV3 with transfer learning",
+      "DFCNET, a three-layer CNN trained from scratch",
+      "ResNet50, fine-tuned",
       "All notebooks saved with their outputs, so the results can be read without rerunning",
       "Oral presentation at IEEE IBDAP 2025, Thailand"
     ],
     tech: ["Python", "PyTorch", "TensorFlow", "Vision Transformer", "MobileNetV3", "ResNet50"],
-    metric: "99.13% accuracy",
+    metric: "Four models compared on one task",
     github: "https://github.com/SifatSwapnil2022/conf_AI-Powered_Deepfake_Detection_codes",
     paperLink: "https://ieeexplore.ieee.org/abstract/document/11145852",
     image: "/files/conference.png",
@@ -170,19 +170,18 @@ export const PROJECTS: Project[] = [
     group: "research",
     role: "Undergraduate thesis",
     description: "My undergraduate thesis. It identifies medicinal plants from leaf photos by combining an image model with a text model.",
-    longDescription: "In traditional medicine, using the wrong plant can cause real harm, so getting the identification right matters. For my thesis, I built a classifier that combines a Vision Transformer for the leaf image with BERT for text, trained on 3,289 leaf photos of 11 species, which we collected at the National Botanic Garden of Bangladesh. When the image model is confident enough, a text model writes a short article on the plant: what it is used for, its active compounds, the evidence, and its side effects. Using both together improved accuracy by 8% over single-modality baselines. I also built a Gradio web demo and a basic Flutter app to try it out.",
+    longDescription: "In traditional medicine, using the wrong plant can cause real harm, so getting the identification right matters. For my thesis, I built a classifier that combines a Vision Transformer for the leaf image with BERT for text, trained on 3,289 leaf photos of 11 species, which we collected at the National Botanic Garden of Bangladesh. When the image model is confident enough, a text model writes a short article on the plant: what it is used for, its active compounds, the evidence, and its side effects. I also built a Gradio web demo and a basic Flutter app to try it out.",
     features: [
       "Combines a Vision Transformer (ViT) for images with BERT for text",
       "Trained and tested on 3,289 leaf photos of 11 species",
       "Writes the article only when the prediction confidence is at least 0.70",
-      "94.45% on REMP, a second dataset of 16 rare and endangered species",
-      "96.22% accuracy, 8% higher than single-modality baselines",
+      "Also tested on REMP, a second dataset of 16 rare and endangered species",
       "Web demo built with Gradio",
       "Prototype Flutter app for identifying plants on a phone",
       "Short reference notes on the traditional medicinal use of each species"
     ],
     tech: ["PyTorch", "Python", "Vision Transformer (ViT)", "BERT", "Gradio", "Flutter", "OpenCV"],
-    metric: "96.22% accuracy",
+    metric: "Identifies the plant, then explains it",
     github: "https://github.com/SifatSwapnil2022/MediLeafNET",
     extraLinks: [{ label: "Thesis reports and slides", href: "https://github.com/SifatSwapnil2022/Capstone-Thesis" }],
     paperLink: "https://data.mendeley.com/datasets/9tdc9gbtgb/2",
@@ -196,9 +195,9 @@ export const PROJECTS: Project[] = [
     group: "research",
     role: "Learning project",
     description: "A project that finds skin lesions in a photo, classifies them, and writes a short plain-language summary of the result.",
-    longDescription: "SkinCare AI works in three steps. A YOLOv8 model first finds the lesion in the photo (95.42% mAP). An ensemble of EfficientNetB0, MobileNetV2, and ResNet50 then classifies it into one of ten categories. Finally, a language model turns the result into a short summary that is easier to read than raw model output. I served it with FastAPI and Streamlit and packaged it with Docker. It is a learning project, not a medical tool.",
+    longDescription: "SkinCare AI works in three steps. A YOLOv8 model first finds the lesion in the photo. An ensemble of EfficientNetB0, MobileNetV2, and ResNet50 then classifies it into one of ten categories. Finally, a language model turns the result into a short summary that is easier to read than raw model output. I served it with FastAPI and Streamlit and packaged it with Docker. It is a learning project, not a medical tool.",
     features: [
-      "YOLOv8 lesion detection (95.42% mAP) before classification",
+      "YOLOv8 finds the lesion before it is classified",
       "Classifies skin conditions into 10 categories",
       "Ensemble of three CNNs instead of relying on a single model",
       "A language model writes a plain-language summary of the result",
@@ -206,7 +205,7 @@ export const PROJECTS: Project[] = [
       "Served with FastAPI and Streamlit, packaged with Docker"
     ],
     tech: ["Python", "FastAPI", "YOLOv8", "TensorFlow", "MongoDB", "Docker", "Streamlit"],
-    metric: "95.42% mAP (lesion detection)",
+    metric: "Detect, classify, then explain in plain words",
     github: "https://github.com/SifatSwapnil2022/SkinCareAI",
     image: "/files/skinAI.png",
   },
@@ -246,7 +245,7 @@ export const EXPERIENCES: Experience[] = [
     period: "Aug 2026 – Present",
     bullets: [
       "Preprocess data, build features, and train and validate ML models in Python on real-world datasets.",
-      "Run experiments to compare models and improve prediction accuracy for production use."
+      "Run experiments to compare models before they are used in production."
     ],
   },
   {
