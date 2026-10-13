@@ -123,7 +123,7 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
               ]}
             />
           </div>
-          <img className="ac-photo reveal d1" src={PROFILE.photo} alt="Md Sifatullah Sheikh" width={220} height={220} />
+          <img className="ac-photo reveal d1" src={PROFILE.photo} alt="Md Sifatullah Sheikh" width={220} height={286} />
         </header>
 
         {/* Research interests */}

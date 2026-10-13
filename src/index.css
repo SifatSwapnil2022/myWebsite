@@ -308,8 +308,8 @@ a.sr-only:focus { position: fixed; left: 12px; top: 12px; z-index: 100; backgrou
 .ac-intro { display: grid; gap: 28px; align-items: start; }
 @media (min-width: 760px) { .ac-intro { grid-template-columns: minmax(0, 1fr) 220px; gap: 56px; } }
 .ac-name { font-weight: 600; font-size: clamp(2.2rem, 4.6vw, 3.1rem); letter-spacing: -0.03em; line-height: 1.05; margin: 0; }
-.ac-photo { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; object-position: 50% 20%; background: var(--paper-2); }
-@media (min-width: 760px) { .ac-photo { width: 220px; height: 220px; margin-top: 6px; } }
+.ac-photo { width: 180px; height: auto; aspect-ratio: 1099 / 1431; border-radius: 8px; object-fit: cover; object-position: 50% 0; background: #fff; border: 1px solid var(--rule); }
+@media (min-width: 760px) { .ac-photo { width: 220px; margin-top: 6px; } }
 .ac-bio { margin-top: 22px; font-family: var(--serif); font-size: 1.12rem; line-height: 1.65; color: var(--ink-2); max-width: 62ch; }
 .ac-bio p { margin: 0 0 .8em; }
 .ac-links { margin: 14px 0 0; font-size: var(--t-sm); line-height: 1.6; }
@@ -362,4 +362,4 @@ a.sr-only:focus { position: fixed; left: 12px; top: 12px; z-index: 100; backgrou
 
 .text-btn.link { color: var(--accent); }
 .footer .big { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
-@media (max-width: 759px) { .ac-photo { order: -1; width: 120px; height: 120px; } }
+@media (max-width: 759px) { .ac-photo { order: -1; width: 140px; } }
