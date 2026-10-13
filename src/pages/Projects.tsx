@@ -13,7 +13,7 @@ export default function Projects({ onSelectProject }: { onSelectProject: (p: Pro
     <div className="page">
       <div className="wrap">
         <PageIntro title="Projects">
-          Research I've worked on and things I've built. The four with films play them here without sound; open any
+          Research I've worked on and things I've built. The films play here without sound; open any
           project for the full write-up.
         </PageIntro>
 

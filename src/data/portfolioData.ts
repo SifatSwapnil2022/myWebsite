@@ -27,7 +27,7 @@ export const PUBLICATIONS: Publication[] = [
     venue: "IEEE International Conference on Intelligent Big Data, Data Science and Artificial Intelligence (IBDAP), Thailand",
     venueType: "conference",
     link: "https://ieeexplore.ieee.org/abstract/document/11145852",
-    highlight: "We compared three CNN models and a Vision Transformer for deepfake detection. Our lightweight MobileNetV3-based model, VFDNET, performed best while staying small enough to run on limited hardware.",
+    highlight: "We compared three CNNs and a Vision Transformer for telling real faces from GAN-generated ones. VFDNET did best, with 99.13% accuracy on the 20,000-image test split of the 140K Real and Fake Faces dataset.",
     year: "2025"
   },
   {
@@ -72,6 +72,29 @@ export const PROJECTS: Project[] = [
     paperLink: "https://ieeexplore.ieee.org/abstract/document/11303744",
     image: "/files/framework.png",
     video: media("defax", "The architecture from the paper, step by step"),
+  },
+  {
+    id: "vfdnet",
+    title: "VFDNET",
+    tag: "Deepfake detection, model comparison",
+    group: "research",
+    role: "First author, IEEE IBDAP 2025",
+    description: "Our conference paper comparing three CNNs and a Vision Transformer on one task: is this face real or made by a GAN?",
+    longDescription: "We trained four image classifiers on the 140K Real and Fake Faces dataset, 70,000 photos from FFHQ and 70,000 StyleGAN faces: VFDNET, MobileNetV3, DFCNET (a small three-layer CNN trained from scratch) and ResNet50. VFDNET did best, at 99.13% test accuracy on the 20,000-image test split. The notebooks were not all run under one protocol, and ResNet50 was tested on a different dataset, so the comparison is a rough one. I presented the paper at IEEE IBDAP 2025 in Thailand.",
+    features: [
+      "VFDNET: 99.13% accuracy on the 20,000-image test split",
+      "MobileNetV3 with transfer learning: 98.00%",
+      "DFCNET, a three-layer CNN trained from scratch: 95.76%",
+      "ResNet50, fine-tuned: 84.28%, on a different 10,905-image dataset",
+      "All notebooks saved with their outputs, so the results can be read without rerunning",
+      "Oral presentation at IEEE IBDAP 2025, Thailand"
+    ],
+    tech: ["Python", "PyTorch", "TensorFlow", "Vision Transformer", "MobileNetV3", "ResNet50"],
+    metric: "99.13% accuracy",
+    github: "https://github.com/SifatSwapnil2022/conf_AI-Powered_Deepfake_Detection_codes",
+    paperLink: "https://ieeexplore.ieee.org/abstract/document/11145852",
+    image: "/files/conference.png",
+    video: media("vfdnet", "The pipeline from the paper and how the four models compare"),
   },
   {
     id: "cholo-puran-dhaka",
@@ -147,10 +170,12 @@ export const PROJECTS: Project[] = [
     group: "research",
     role: "Undergraduate thesis",
     description: "My undergraduate thesis. It identifies medicinal plants from leaf photos by combining an image model with a text model.",
-    longDescription: "In traditional medicine, using the wrong plant can cause real harm, so getting the identification right matters. For my thesis, I built a classifier that combines a Vision Transformer for the leaf image with BERT for text, trained on 3,289 leaf images from 13 species found in Bangladesh. Using both together improved accuracy by 8% over single-modality baselines. I also built a Gradio web demo and a basic Flutter app to try it out.",
+    longDescription: "In traditional medicine, using the wrong plant can cause real harm, so getting the identification right matters. For my thesis, I built a classifier that combines a Vision Transformer for the leaf image with BERT for text, trained on 3,289 leaf photos of 11 species, which we collected at the National Botanic Garden of Bangladesh. When the image model is confident enough, a text model writes a short article on the plant: what it is used for, its active compounds, the evidence, and its side effects. Using both together improved accuracy by 8% over single-modality baselines. I also built a Gradio web demo and a basic Flutter app to try it out.",
     features: [
       "Combines a Vision Transformer (ViT) for images with BERT for text",
-      "Trained and tested on 3,289 leaf images from 13 species",
+      "Trained and tested on 3,289 leaf photos of 11 species",
+      "Writes the article only when the prediction confidence is at least 0.70",
+      "94.45% on REMP, a second dataset of 16 rare and endangered species",
       "96.22% accuracy, 8% higher than single-modality baselines",
       "Web demo built with Gradio",
       "Prototype Flutter app for identifying plants on a phone",
@@ -159,8 +184,10 @@ export const PROJECTS: Project[] = [
     tech: ["PyTorch", "Python", "Vision Transformer (ViT)", "BERT", "Gradio", "Flutter", "OpenCV"],
     metric: "96.22% accuracy",
     github: "https://github.com/SifatSwapnil2022/MediLeafNET",
+    extraLinks: [{ label: "Thesis reports and slides", href: "https://github.com/SifatSwapnil2022/Capstone-Thesis" }],
     paperLink: "https://data.mendeley.com/datasets/9tdc9gbtgb/2",
     image: "/files/medileafnet.png",
+    video: media("medileafnet", "From one leaf photo to an article on the plant"),
   },
   {
     id: "skincare-ai",
@@ -185,24 +212,25 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "bazario",
-    title: "Bazario Marketplace",
-    tag: "Full-stack development",
+    title: "Bazario",
+    tag: "Multi-vendor marketplace",
     group: "product",
-    description: "A multi-vendor e-commerce platform where each seller runs their own store on a separate subdomain, with sales dashboards and Stripe payments.",
-    // NOTE: kept as PostgreSQL + Drizzle ORM (internally consistent, since Drizzle is a SQL-first ORM).
-    // Your resume lists MongoDB instead — this is a real conflict, not a wording difference. Confirm which is correct.
-    longDescription: "Bazario lets multiple sellers run their own shops on one platform. Each seller gets a subdomain, and their data is kept separate from other sellers. It includes product catalogs, inventory tracking, seller dashboards, and Stripe Connect so each seller can take payments directly.",
+    role: "Not live at the moment",
+    description: "A marketplace where each seller runs their own store on a subdomain, with one cart across stores and Stripe Connect paying each seller directly.",
+    longDescription: "Bazario lets many sellers run their own shops on one platform. Each seller gets a subdomain and keeps their own products, orders and payouts, separate from everyone else's. Customers browse and filter across all stores, check out once, and Stripe Connect splits the payment between the sellers. Customers, sellers and admins each have their own views, with role-based access. The site isn't live at the moment; the code and the project report are on GitHub.",
     features: [
-      "Each seller has their own subdomain, with data kept separate per seller",
-      "Inventory stays correct when several customers buy the same item at once",
-      "Seller dashboards showing daily sales",
-      "Stripe Connect payments for each store"
+      "A subdomain and separate data for each seller",
+      "Search and filters across all stores: category, price, rating, stock",
+      "One cart across stores, paid with Stripe or cash on delivery",
+      "Stripe Connect pays each seller directly",
+      "Seller dashboard for products, stock and orders",
+      "Admin tools for monitoring and moderation"
     ],
-    tech: ["Next.js", "Node.js", "PostgreSQL", "Tailwind CSS", "TypeScript", "Drizzle ORM"],
-    metric: "50+ active tenants",
+    tech: ["Next.js", "React", "Payload CMS", "MongoDB", "Stripe Connect", "Tailwind CSS", "TypeScript"],
+    metric: "Separate store per seller",
     github: "https://github.com/SifatSwapnil2022/bazario-A-multi-tenant-Ecommerce-Platform",
-    website: "https://bazario.ltd/",
-    image: "/files/bazario.png",
+    image: "/media/bazario-poster.jpg",
+    video: media("bazario", "Demo with sample data: stores, filters, checkout and roles"),
   }
 ];
 

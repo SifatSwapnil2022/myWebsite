@@ -93,6 +93,11 @@ export default function ProjectModal({ project, onClose }: { project: Project; o
                 Source code
               </a>
             )}
+            {p.extraLinks?.map((l) => (
+              <a key={l.href} className="btn ghost" href={l.href} target="_blank" rel="noreferrer">
+                {l.label}
+              </a>
+            ))}
           </div>
         </div>
       </div>

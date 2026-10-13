@@ -92,7 +92,7 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
   const defax = proj('defax');
   const medileaf = proj('medileaf');
   const open = (id: string) => () => onSelectProject(proj(id));
-  const products = ['cholo-puran-dhaka', 'unun', 'kona'].map(proj);
+  const products = ['cholo-puran-dhaka', 'unun', 'kona', 'bazario'].map(proj);
 
   return (
     <div className="page ac">
@@ -173,19 +173,21 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
             </p>
           </Entry>
 
-          <Entry
-            media={<Still src="/files/conference.png" alt="Vision Transformer pipeline from the paper" contain />}
-            title={pub('03').title}
-            href={pub('03').link}
-          >
+          <Entry media={<ProjectMedia project={proj('vfdnet')} />} title={pub('03').title} href={pub('03').link}>
             <p className="ac-authors">
               <Authors list={pub('03').authors} />
             </p>
             <p className="ac-venue">IEEE IBDAP 2025, Thailand. Oral presentation</p>
-            <Links items={[{ label: 'paper', href: pub('03').link }]} />
+            <Links
+              items={[
+                { label: 'paper', href: pub('03').link },
+                { label: 'code', href: proj('vfdnet').github },
+                { label: 'details', onClick: open('vfdnet') },
+              ]}
+            />
             <p className="ac-desc">
-              Three CNNs and a Vision Transformer compared for deepfake detection. Our MobileNetV3-based VFDNET did best
-              while staying small enough for limited hardware.
+              Three CNNs and a Vision Transformer compared on telling real faces from GAN-generated ones. VFDNET did best,
+              with 99.13% accuracy on the 20,000-image test split of 140K Real and Fake Faces.
             </p>
           </Entry>
 
@@ -213,6 +215,27 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
             </a>
           </div>
 
+          <Entry media={<ProjectMedia project={medileaf} />} title="MediLeafNET" href={medileaf.github}>
+            <p className="ac-venue">Undergraduate thesis, East West University</p>
+            <Links
+              items={[
+                { label: 'code', href: medileaf.github },
+                { label: 'thesis', href: medileaf.extraLinks?.[0]?.href },
+                { label: 'dataset', href: medileaf.paperLink },
+                { label: 'details', onClick: open('medileaf') },
+              ]}
+            />
+            <p className="ac-desc">
+              A Vision Transformer identifies the plant from one leaf photo. When it is confident enough, a text model
+              writes a short article on the plant's uses, compounds and side effects. 96.22% test accuracy on 11 species.
+            </p>
+            <p className="stack-tags">
+              {medileaf.tech.slice(0, 5).map((t) => (
+                <code key={t}>{t}</code>
+              ))}
+            </p>
+          </Entry>
+
           {products.map((p) => (
             <Entry key={p.id} media={<ProjectMedia project={p} />} title={p.title} href={p.website}>
               <p className="ac-venue">{p.role ? `${p.tag}. ${p.role}` : p.tag}</p>
@@ -232,21 +255,6 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
             </Entry>
           ))}
 
-          <Entry media={<Still src={medileaf.image} alt="MediLeafNET overview" contain />} title="MediLeafNET" href={medileaf.github}>
-            <p className="ac-venue">Undergraduate thesis, East West University</p>
-            <Links
-              items={[
-                { label: 'code', href: medileaf.github },
-                { label: 'details', onClick: open('medileaf') },
-              ]}
-            />
-            <p className="ac-desc">{medileaf.description}</p>
-            <p className="stack-tags">
-              {medileaf.tech.slice(0, 5).map((t) => (
-                <code key={t}>{t}</code>
-              ))}
-            </p>
-          </Entry>
         </section>
 
         {/* News */}

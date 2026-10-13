@@ -33,6 +33,8 @@ export interface Project {
   tech: string[];
   metric: string;
   github?: string;
+  /** Further links shown in the detail view, e.g. a thesis repository */
+  extraLinks?: { label: string; href: string }[];
   website?: string;
   paperLink?: string;
   image: string;
