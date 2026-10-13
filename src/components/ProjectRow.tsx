@@ -18,7 +18,11 @@ export default function ProjectRow({ project, flip = false, onOpen }: { project:
         <p className="figure">
           <b>{p.metric}</b>
         </p>
-        <p className="stack">{p.tech.join(', ')}</p>
+        <p className="stack-tags">
+          {p.tech.map((t) => (
+            <code key={t}>{t}</code>
+          ))}
+        </p>
         <div className="acts">
           <button className="btn" onClick={() => onOpen(p)}>
             Read more

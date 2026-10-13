@@ -1,187 +1,279 @@
-import { Download } from 'lucide-react';
-import { LINKS, NEWS, PROFILE, PROJECTS, PUBLICATIONS, SHOWREEL_IDS } from '../data/portfolioData';
+import { Fragment, ReactNode } from 'react';
+import { LINKS, NEWS, PROFILE, PROJECTS, PUBLICATIONS } from '../data/portfolioData';
 import { Project } from '../types';
-import Showreel from '../components/Showreel';
-import { Authors, Cite, SectionHead, useDhakaTime } from '../components/ui';
+import ProjectMedia from '../components/ProjectMedia';
+import { Authors } from '../components/ui';
 
 const pub = (id: string) => PUBLICATIONS.find((p) => p.id === id)!;
+const proj = (id: string) => PROJECTS.find((p) => p.id === id)!;
 
-/** Numbered in the order they're cited in the introduction. */
-const REFS = [
-  { n: 1, p: pub('01'), venue: 'IEEE Access, vol. 13, 2025' },
-  { n: 2, p: pub('03'), venue: 'IEEE IBDAP 2025, Thailand. Oral presentation' },
+const INTERESTS = [
   {
-    n: 3,
-    p: pub('02'),
-    venue: 'Data paper under review at Scientific Data. Dataset public on Mendeley Data, v2 (DOI 10.17632/9tdc9gbtgb.2)',
-    linkOverride: pub('04').link,
+    title: 'Trustworthy and explainable AI',
+    text: 'Models that show the evidence behind a decision, so a person can check it. In DeFaX we used Grad-CAM and LIME for this.',
+  },
+  {
+    title: 'Safety of vision-language-action models',
+    text: 'Where I want to go next: how robot policies built on VLA models fail under adversarial inputs or new conditions, and how to make them fail less.',
+    current: true,
+  },
+  {
+    title: 'Computer vision',
+    text: 'Detecting generated faces, and identifying medicinal plants from leaf images.',
+  },
+  {
+    title: 'Robust evaluation',
+    text: 'Results that hold up on new data: cross-dataset tests, corrupted inputs, ablations and statistical tests.',
+  },
+  {
+    title: 'Human–computer interaction',
+    text: 'Whether people can understand and use what a model or a map shows them. Cholo Puran Dhaka asks if a street-level 3D view helps people find their way.',
   },
 ];
 
+type Link = { label: string; href?: string; onClick?: () => void };
+
+function Links({ items }: { items: Link[] }) {
+  const shown = items.filter((l) => l.href || l.onClick);
+  return (
+    <p className="ac-links">
+      {shown.map((l, i) => (
+        <Fragment key={l.label}>
+          {i > 0 && <span className="sep"> / </span>}
+          {l.href ? (
+            <a
+              className="link"
+              href={l.href}
+              target={l.href.startsWith('http') || l.href.endsWith('.pdf') ? '_blank' : undefined}
+              rel="noreferrer"
+            >
+              {l.label}
+            </a>
+          ) : (
+            <button className="text-btn link" onClick={l.onClick}>
+              {l.label}
+            </button>
+          )}
+        </Fragment>
+      ))}
+    </p>
+  );
+}
+
+function Entry({ media, title, href, children }: { media: ReactNode; title: string; href?: string; children: ReactNode }) {
+  return (
+    <article className="ac-entry">
+      <div className="ac-thumb">{media}</div>
+      <div className="ac-text">
+        <h3 className="ac-title">
+          {href ? (
+            <a href={href} target="_blank" rel="noreferrer">
+              {title}
+            </a>
+          ) : (
+            title
+          )}
+        </h3>
+        {children}
+      </div>
+    </article>
+  );
+}
+
+function Still({ src, alt, contain }: { src: string; alt: string; contain?: boolean }) {
+  return (
+    <div className="pmedia">
+      <img src={src} alt={alt} loading="lazy" className={contain ? 'contain' : undefined} />
+    </div>
+  );
+}
+
 export default function Home({ onSelectProject }: { onSelectProject: (p: Project) => void }) {
-  const time = useDhakaTime();
-  const reel = SHOWREEL_IDS.map((id) => PROJECTS.find((p) => p.id === id)!).filter(Boolean);
+  const defax = proj('defax');
+  const medileaf = proj('medileaf');
+  const open = (id: string) => () => onSelectProject(proj(id));
+  const products = ['cholo-puran-dhaka', 'unun', 'kona'].map(proj);
 
   return (
-    <div className="page">
-      <div className="wrap">
-        {/* Introduction */}
-        <section className="hero">
+    <div className="page ac">
+      <div className="ac-wrap">
+        {/* Intro */}
+        <header className="ac-intro">
           <div>
-            <h1 className="display reveal">
-              Md Sifatullah
-              <br />
-              Sheikh
-            </h1>
-            <p className="lede reveal d1">
-              I work on computer vision and trustworthy machine learning. So far that has meant a deepfake detector that
-              shows the evidence behind each prediction
-              <Cite n={1} target="ref-1" />
-              <Cite n={2} target="ref-2" /> and a leaf image dataset of medicinal plants from Bangladesh
-              <Cite n={3} target="ref-3" />. Next, I want to work on the safety of models that act in the world, such as
-              vision-language-action models for robots.
+            <h1 className="ac-name reveal">{PROFILE.name}</h1>
+            <p className="badge reveal d1">
+              <span className="dot" aria-hidden />
+              Open to Fall 2027 PhD positions
             </p>
-            <p className="small reveal d2" style={{ marginTop: 18 }}>
-              I'm applying for PhD programs starting in Fall 2027.
-            </p>
-            <div className="btn-row reveal d3">
-              <a className="btn" href="#/research">
-                Research and publications
-              </a>
-              <a className="btn ghost" href="#/projects">
-                Projects
-              </a>
-              <a className="btn ghost" href={PROFILE.cv} target="_blank" rel="noreferrer">
-                CV <Download aria-hidden />
-              </a>
+            <div className="ac-bio reveal d2">
+              <p>
+                I'm an ML engineer intern at {PROFILE.employer} in Dhaka, where I test machine learning models on
+                real-world data. I studied Computer Science and Engineering at East West University.
+              </p>
+              <p>
+                At university I worked as a research assistant on deepfake detection with Md Al-Imran and Shamim Ripon,
+                and did my thesis on identifying medicinal plants from leaf images with Md Nawab Yousuf Ali.
+              </p>
             </div>
+            <Links
+              items={[
+                { label: 'Email', href: `mailto:${PROFILE.email}` },
+                { label: 'CV', href: PROFILE.cv },
+                ...LINKS.filter((l) => l.label !== 'Email').map((l) => ({ label: l.label, href: l.href })),
+              ]}
+            />
           </div>
+          <img className="ac-photo reveal d1" src={PROFILE.photo} alt="Md Sifatullah Sheikh" width={220} height={220} />
+        </header>
 
-          <aside className="hero-side reveal d2">
-            <img className="hero-photo" src={PROFILE.photo} alt="Portrait of Md Sifatullah Sheikh" width={300} height={375} />
-            <dl className="facts">
-              <div>
-                <dt>Now</dt>
-                <dd>
-                  {PROFILE.role}, {PROFILE.employer}
-                </dd>
+        {/* Research interests */}
+        <section className="ac-section" aria-labelledby="h-interests">
+          <h2 className="ac-h" id="h-interests">
+            Research interests
+          </h2>
+          <div className="interests">
+            {INTERESTS.map((r) => (
+              <div className={`interest${r.current ? ' current' : ''}`} key={r.title}>
+                <h3>
+                  {r.title}
+                  {r.current && <span className="now">Next</span>}
+                </h3>
+                <p>{r.text}</p>
               </div>
-              <div>
-                <dt>Studied</dt>
-                <dd>B.Sc. in CSE, East West University</dd>
-              </div>
-              <div>
-                <dt>Based in</dt>
-                <dd>
-                  Dhaka, <span className="num muted">{time}</span>
-                </dd>
-              </div>
-              <div>
-                <dt>Elsewhere</dt>
-                <dd style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 14px' }}>
-                  {LINKS.filter((l) => l.label !== 'Email').map((l) => (
-                    <a key={l.label} className="quiet-link" href={l.href} target="_blank" rel="noreferrer">
-                      {l.label}
-                    </a>
-                  ))}
-                </dd>
-              </div>
-            </dl>
-          </aside>
+            ))}
+          </div>
         </section>
 
-        {/* Films */}
-        <Showreel projects={reel} onOpen={onSelectProject} />
-
         {/* Publications */}
-        <section className="section">
-          <SectionHead
-            title="Publications"
-            note={
-              <>
-                Full list, with citations, on the <a className="link" href="#/research">research page</a>.
-              </>
-            }
-          />
-          <ol className="refs">
-            {REFS.map(({ n, p, venue, linkOverride }) => (
-              <li className="ref" id={`ref-${n}`} key={n}>
-                <span className="n">[{n}]</span>
-                <div>
-                  <h3 className="title">
-                    {p.title}
-                    {p.authors.startsWith('Md Sifatullah Sheikh') && <span className="tag-pill">First author</span>}
-                  </h3>
-                  <p className="authors">
-                    <Authors list={p.authors} />
-                  </p>
-                  <p className="venue">{venue}</p>
-                  <p className="note">{p.highlight}</p>
-                  <div className="acts">
-                    {(linkOverride || p.link) && (
-                      <a className="link" href={linkOverride || p.link} target="_blank" rel="noreferrer">
-                        {linkOverride ? 'Dataset' : 'Paper'}
-                      </a>
-                    )}
-                    {n === 1 && (
-                      <button className="text-btn link" onClick={() => onSelectProject(PROJECTS[0])}>
-                        Watch the architecture film
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ol>
+        <section className="ac-section" aria-labelledby="h-pubs">
+          <div className="ac-hrow">
+            <h2 className="ac-h" id="h-pubs">
+              Publications
+            </h2>
+            <a className="link small" href="#/research">
+              All, with citations
+            </a>
+          </div>
+
+          <Entry media={<ProjectMedia project={defax} />} title={pub('01').title} href={pub('01').link}>
+            <p className="ac-authors">
+              <Authors list={pub('01').authors} />
+            </p>
+            <p className="ac-venue">IEEE Access, vol. 13, 2025</p>
+            <Links
+              items={[
+                { label: 'paper', href: pub('01').link },
+                { label: 'code', href: defax.github },
+                { label: 'details', onClick: open('defax') },
+              ]}
+            />
+            <p className="ac-desc">
+              A Swin Transformer and an EfficientNet joined by cross-attention, with Grad-CAM and LIME maps showing which
+              face regions each prediction used. 99.80% accuracy on the 140K Real and Fake Faces test set.
+            </p>
+          </Entry>
+
+          <Entry
+            media={<Still src="/files/conference.png" alt="Vision Transformer pipeline from the paper" contain />}
+            title={pub('03').title}
+            href={pub('03').link}
+          >
+            <p className="ac-authors">
+              <Authors list={pub('03').authors} />
+            </p>
+            <p className="ac-venue">IEEE IBDAP 2025, Thailand. Oral presentation</p>
+            <Links items={[{ label: 'paper', href: pub('03').link }]} />
+            <p className="ac-desc">
+              Three CNNs and a Vision Transformer compared for deepfake detection. Our MobileNetV3-based VFDNET did best
+              while staying small enough for limited hardware.
+            </p>
+          </Entry>
+
+          <Entry media={<Still src="/files/datasets_13.png" alt="Sample leaves from the dataset" contain />} title={pub('02').title}>
+            <p className="ac-authors">
+              <Authors list={pub('02').authors} />
+            </p>
+            <p className="ac-venue">Data paper under review at Scientific Data. Dataset on Mendeley Data, 2026</p>
+            <Links items={[{ label: 'dataset', href: pub('04').link }]} />
+            <p className="ac-desc">
+              Leaf images of 13 medicinal plant species collected in Bangladesh, free to download. It is the data behind
+              my thesis, MediLeafNET.
+            </p>
+          </Entry>
         </section>
 
         {/* Projects */}
-        <section className="section">
-          <SectionHead
-            title="Projects"
-            note="Research work, my thesis, and products I've designed and built."
-          />
-          <div className="plist">
-            {PROJECTS.map((p) => (
-              <button key={p.id} className="pline" onClick={() => onSelectProject(p)}>
-                <span>
-                  <span className="t">{p.title}</span>
-                  <span className="d">{p.description}</span>
-                </span>
-                <span className="small pline-tag">{p.tag}</span>
-              </button>
-            ))}
-          </div>
-          <p style={{ marginTop: 20 }}>
-            <a className="link" href="#/projects">
-              All projects, with films and details
+        <section className="ac-section" aria-labelledby="h-proj">
+          <div className="ac-hrow">
+            <h2 className="ac-h" id="h-proj">
+              Projects
+            </h2>
+            <a className="link small" href="#/projects">
+              All projects
             </a>
-          </p>
+          </div>
+
+          {products.map((p) => (
+            <Entry key={p.id} media={<ProjectMedia project={p} />} title={p.title} href={p.website}>
+              <p className="ac-venue">{p.role ? `${p.tag}. ${p.role}` : p.tag}</p>
+              <Links
+                items={[
+                  { label: 'site', href: p.website },
+                  { label: 'code', href: p.github },
+                  { label: 'details', onClick: open(p.id) },
+                ]}
+              />
+              <p className="ac-desc">{p.description}</p>
+              <p className="stack-tags">
+                {p.tech.slice(0, 6).map((t) => (
+                  <code key={t}>{t}</code>
+                ))}
+              </p>
+            </Entry>
+          ))}
+
+          <Entry media={<Still src={medileaf.image} alt="MediLeafNET overview" contain />} title="MediLeafNET" href={medileaf.github}>
+            <p className="ac-venue">Undergraduate thesis, East West University</p>
+            <Links
+              items={[
+                { label: 'code', href: medileaf.github },
+                { label: 'details', onClick: open('medileaf') },
+              ]}
+            />
+            <p className="ac-desc">{medileaf.description}</p>
+            <p className="stack-tags">
+              {medileaf.tech.slice(0, 5).map((t) => (
+                <code key={t}>{t}</code>
+              ))}
+            </p>
+          </Entry>
         </section>
 
         {/* News */}
-        <section className="section">
-          <SectionHead title="Recently" />
-          <div>
-            {NEWS.slice(0, 4).map((n) => (
-              <div className="dated" key={n.id}>
+        <section className="ac-section" aria-labelledby="h-news">
+          <div className="ac-hrow">
+            <h2 className="ac-h" id="h-news">
+              News
+            </h2>
+            <a className="link small" href="#/news">
+              All news
+            </a>
+          </div>
+          <ul className="ac-news">
+            {NEWS.slice(0, 6).map((n) => (
+              <li key={n.id}>
                 <span className="when">{n.date}</span>
-                <p className="what">
+                <span>
                   {n.content}{' '}
                   {n.link && (
                     <a className="link" href={n.link} target="_blank" rel="noreferrer">
-                      {n.linkText ?? 'Link'}
+                      {(n.linkText ?? 'link').toLowerCase()}
                     </a>
                   )}
-                </p>
-              </div>
+                </span>
+              </li>
             ))}
-          </div>
-          <p style={{ marginTop: 20 }}>
-            <a className="link" href="#/news">
-              All news
-            </a>
-          </p>
+          </ul>
         </section>
       </div>
     </div>

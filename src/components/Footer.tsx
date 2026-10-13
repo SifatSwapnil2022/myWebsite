@@ -21,9 +21,7 @@ export default function Footer() {
       <div className="wrap">
         <div className="top">
           <div>
-            <p className="big" style={{ maxWidth: '22ch' }}>
-              Open to PhD positions for Fall 2027, and to research collaboration.
-            </p>
+            <p className="big">Get in touch</p>
             <a className="mail" href={`mailto:${PROFILE.email}`}>
               {PROFILE.email}
             </a>
