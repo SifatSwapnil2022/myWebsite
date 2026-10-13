@@ -1,4 +1,4 @@
-import { Publication, Project, Experience, NewsItem, Award, Language, Hobby, ExtraActivity } from '../types';
+import { Publication, Project, Experience, NewsItem, Award, Language, Hobby, ExtraActivity, EducationItem } from '../types';
 
 export const PUBLICATIONS: Publication[] = [
   {
@@ -42,33 +42,110 @@ export const PUBLICATIONS: Publication[] = [
   }
 ];
 
+const media = (name: string, caption: string) => ({
+  src: `/media/${name}-720.mp4`,
+  srcHd: `/media/${name}-1080.mp4`,
+  poster: `/media/${name}-poster.jpg`,
+  caption,
+});
+
 export const PROJECTS: Project[] = [
   {
     id: "defax",
-    title: "DeFaX Framework",
-    tag: "AI Safety / Explainable AI",
+    title: "DeFaX",
+    tag: "Deepfake detection, explainable AI",
+    group: "research",
+    role: "Second author, IEEE Access 2025",
     description: "A deepfake detector published in IEEE Access. Along with the real or fake prediction, it shows which parts of the face the model focused on.",
     longDescription: "Most deepfake detectors give a label with no explanation. In DeFaX, we combined a Swin Transformer, which looks at the face as a whole, with an EfficientNet, which picks up fine local details, and connected them with cross-attention so each model can use what the other sees. We then used Grad-CAM and LIME to produce heatmaps showing which facial regions led to each prediction, so a person can check the result instead of just trusting it.",
     features: [
       "Two backbones, Swin Transformer and EfficientNet, combined so one covers what the other misses",
-      "Cross-attention between the two models at multiple feature scales",
+      "Cross-attention between the two: Swin tokens are the queries, EfficientNet tokens the keys and values",
       "Grad-CAM and LIME heatmaps that show which facial regions the model relied on",
       "Tested on compressed and noisy inputs to see how well it holds up",
       "Evaluated on FaceForensics++ and Celeb-DF to check performance beyond the training data",
       "Done as a five-person team under faculty supervision, covering data preparation, training, ablation studies, and statistical tests"
     ],
-    tech: ["Python", "TensorFlow", "Swin-T", "EfficientNet", "Grad-CAM", "LIME", "OpenCV"],
-    metric: "99.80% Accuracy",
+    tech: ["Python", "PyTorch", "Swin-T", "EfficientNet", "Grad-CAM", "LIME", "OpenCV"],
+    metric: "99.80% accuracy",
     github: "https://github.com/SifatSwapnil2022/Journal_DefaX_codes",
     paperLink: "https://ieeexplore.ieee.org/abstract/document/11303744",
-    image: "/files/defax_full.gif",
-    iconName: "CheckCircle2",
-    videoSrc: ""
+    image: "/files/framework.png",
+    video: media("defax", "The architecture from the paper, step by step"),
+  },
+  {
+    id: "cholo-puran-dhaka",
+    title: "Cholo Puran Dhaka",
+    tag: "3D web guide, HCI",
+    group: "product",
+    role: "Designed and built alone",
+    description: "A walkable 3D guide to Old Dhaka for first-time visitors: 40 places, ready-made walking routes, and a card to show your rickshaw driver.",
+    longDescription: "The practical details about Old Dhaka are scattered across Facebook posts and old blogs: which day Ahsan Manzil is shut, where the original Nanna Biryani is, whether a car can reach the gate. I live in Gendaria, so these lanes are home ground, and I wanted one place that answers those questions on a map you can walk through. Every place is projected from its real latitude and longitude, landmarks are modelled in code, and the surrounding city of about 30,000 houses is generated with instancing and a custom shader. It is also an HCI question I care about: does a street-level 3D view help people find their way in dense, non-grid lanes better than a flat map?",
+    features: [
+      "40 places with hours, fees, closed days and the source for every fact",
+      "Four walking routes drawn on the 3D map, with stops, timings and walking minutes",
+      "Walk mode at street level with collision against walls and the river",
+      "Show-the-driver card with the place name in large Bangla",
+      "Time-of-day light from dawn to night, with places that suit the hour",
+      "Bangla and English, installs on a phone like an app"
+    ],
+    tech: ["three.js", "JavaScript", "GLSL", "HTML/CSS", "Netlify"],
+    metric: "40 places, 4 routes",
+    website: "https://cholopurandhaka.netlify.app/",
+    image: "/media/cholo-puran-dhaka-poster.jpg",
+    video: media("cholo-puran-dhaka", "Real footage of the site: fly-in, routes, walk mode, night"),
+  },
+  {
+    id: "unun",
+    title: "Unun",
+    tag: "Full-stack web app, ML services",
+    group: "product",
+    role: "Designed and built alone",
+    description: "A food delivery platform for Dhaka where the price you see is the price you pay, and the arrival time shown is the one you get.",
+    longDescription: "Unun (উনুন, the clay stove) covers the whole order: a customer finds a kitchen, orders, pays, follows the rider on a map, rates the food and reports a problem. A restaurant owner, a rider and an admin each have their own workspace. The bag shows the full cost, including delivery, service fee and VAT, from the first item. A small Python service predicts arrival times and makes search work even when dish names are misspelled or typed in Bangla with English letters. The 69 kitchens are invented; the areas, dishes and price levels are real Dhaka, and no real money moves.",
+    features: [
+      "Customer, restaurant owner, rider and admin workspaces",
+      "Full price shown from the first item, nothing added at checkout",
+      "Cash, bKash or card through a test payment gateway",
+      "Live rider tracking on a map, with the promised arrival window",
+      "Arrival-time model and spelling-tolerant search in Python",
+      "464 automated tests and 17 short decision records"
+    ],
+    tech: ["Next.js", "React", "Tailwind CSS", "Hono", "PostgreSQL", "Drizzle ORM", "FastAPI", "scikit-learn", "Playwright"],
+    metric: "464 automated tests",
+    github: "https://github.com/SifatSwapnil2022/Unun",
+    website: "https://unun-dhaka.netlify.app/en",
+    image: "/media/unun-poster.jpg",
+    video: media("unun", "Checkout, tracking and the four workspaces"),
+  },
+  {
+    id: "kona",
+    title: "KONA",
+    tag: "Accessories brand and online store",
+    group: "product",
+    role: "Founder, team of five",
+    description: "An accessories brand from Dhaka: rings, chains, bracelets and earrings in anti-tarnish steel for men and women, sold through its own store.",
+    longDescription: "KONA takes its name from the Bangla word কণা, a speck: the smallest amount of something. Every piece starts from a plain circle with one deliberate change made to it, and most of the collection is unisex. I founded it with a team of five and built the store, which has a shop with filters, product pages with a 3D view, a bag, order tracking, and ordering through Messenger or WhatsApp, in English and Bangla.",
+    features: [
+      "18 pieces at launch in 316L stainless steel, with Steel, Champagne and Onyx finishes",
+      "Shop with filters for category, fit, price, colour, size and stock",
+      "Product pages with an interactive 3D view and a size guide",
+      "Order by Messenger or WhatsApp with the message pre-filled, plus order tracking",
+      "Delivery to every district, 7-day exchange",
+      "English and Bangla interface"
+    ],
+    tech: ["Three.js", "E-commerce", "Oracle Cloud", "English / Bangla"],
+    metric: "18 pieces at launch",
+    website: "https://konabd.shop/",
+    image: "/media/kona-poster.jpg",
+    video: media("kona", "The idea behind the brand and the three finishes"),
   },
   {
     id: "medileaf",
     title: "MediLeafNET",
-    tag: "Undergraduate Thesis / Multimodal Computer Vision",
+    tag: "Multimodal computer vision",
+    group: "research",
+    role: "Undergraduate thesis",
     description: "My undergraduate thesis. It identifies medicinal plants from leaf photos by combining an image model with a text model.",
     longDescription: "In traditional medicine, using the wrong plant can cause real harm, so getting the identification right matters. For my thesis, I built a classifier that combines a Vision Transformer for the leaf image with BERT for text, trained on 3,289 leaf images from 13 species found in Bangladesh. Using both together improved accuracy by 8% over single-modality baselines. I also built a Gradio web demo and a basic Flutter app to try it out.",
     features: [
@@ -80,17 +157,17 @@ export const PROJECTS: Project[] = [
       "Short reference notes on the traditional medicinal use of each species"
     ],
     tech: ["PyTorch", "Python", "Vision Transformer (ViT)", "BERT", "Gradio", "Flutter", "OpenCV"],
-    metric: "96.22% Accuracy",
+    metric: "96.22% accuracy",
     github: "https://github.com/SifatSwapnil2022/MediLeafNET",
     paperLink: "https://data.mendeley.com/datasets/9tdc9gbtgb/2",
     image: "/files/medileafnet.png",
-    iconName: "Cpu",
-    videoSrc: ""
   },
   {
     id: "skincare-ai",
     title: "SkinCare AI",
-    tag: "Healthcare AI / Computer Vision",
+    tag: "Healthcare AI, computer vision",
+    group: "research",
+    role: "Learning project",
     description: "A project that finds skin lesions in a photo, classifies them, and writes a short plain-language summary of the result.",
     longDescription: "SkinCare AI works in three steps. A YOLOv8 model first finds the lesion in the photo (95.42% mAP). An ensemble of EfficientNetB0, MobileNetV2, and ResNet50 then classifies it into one of ten categories. Finally, a language model turns the result into a short summary that is easier to read than raw model output. I served it with FastAPI and Streamlit and packaged it with Docker. It is a learning project, not a medical tool.",
     features: [
@@ -102,16 +179,15 @@ export const PROJECTS: Project[] = [
       "Served with FastAPI and Streamlit, packaged with Docker"
     ],
     tech: ["Python", "FastAPI", "YOLOv8", "TensorFlow", "MongoDB", "Docker", "Streamlit"],
-    metric: "95.42% mAP (Lesion Detection)",
+    metric: "95.42% mAP (lesion detection)",
     github: "https://github.com/SifatSwapnil2022/SkinCareAI",
     image: "/files/skinAI.png",
-    iconName: "HeartPulse",
-    videoSrc: ""
   },
   {
     id: "bazario",
     title: "Bazario Marketplace",
-    tag: "Full-Stack Development",
+    tag: "Full-stack development",
+    group: "product",
     description: "A multi-vendor e-commerce platform where each seller runs their own store on a separate subdomain, with sales dashboards and Stripe payments.",
     // NOTE: kept as PostgreSQL + Drizzle ORM (internally consistent, since Drizzle is a SQL-first ORM).
     // Your resume lists MongoDB instead — this is a real conflict, not a wording difference. Confirm which is correct.
@@ -123,14 +199,15 @@ export const PROJECTS: Project[] = [
       "Stripe Connect payments for each store"
     ],
     tech: ["Next.js", "Node.js", "PostgreSQL", "Tailwind CSS", "TypeScript", "Drizzle ORM"],
-    metric: "50+ Active Tenants",
+    metric: "50+ active tenants",
     github: "https://github.com/SifatSwapnil2022/bazario-A-multi-tenant-Ecommerce-Platform",
     website: "https://bazario.ltd/",
     image: "/files/bazario.png",
-    iconName: "Layers",
-    videoSrc: ""
   }
 ];
+
+/** Order the showreel plays in. */
+export const SHOWREEL_IDS = ["defax", "cholo-puran-dhaka", "unun", "kona"];
 
 export const EXPERIENCES: Experience[] = [
   {
@@ -309,38 +386,34 @@ export const HOBBIES: Hobby[] = [
     name: "Chess",
     category: "Cognitive",
     description: "I play chess in my free time. I like that it rewards patience and thinking a few moves ahead.",
-    iconName: "Compass"
   },
   {
     name: "Strength Training",
     category: "Health",
     description: "I go to the gym regularly for strength training and some cardio. It helps me keep a steady routine alongside work and research.",
-    iconName: "Dumbbell"
   },
   {
     name: "Football",
     category: "Sports",
     description: "I play football with friends whenever I get the chance. It's a good way to get outside and unwind.",
-    iconName: "Trophy"
   },
   {
     name: "Photography",
     category: "Creative",
     description: "I like taking photos of nature, landscapes, and everyday moments, mostly to remember places and small details.",
-    iconName: "Camera"
   }
 ];
 
 export const AWARDS: Award[] = [
-  { icon: "🥉", title: "National Robo-Fest", sub: "3rd Place IT Olympiad, 2024" },
-  { icon: "🏆", title: "Dean's List Scholarship", sub: "East West University, 3 consecutive semesters (2023–2025)" },
-  { icon: "🎯", title: "National ICT Olympiad Bangladesh", sub: "Finalist, 2026" },
-  { icon: "⭐", title: "CodeChef Rating", sub: "2-Star competitive programmer" }
+  { title: "National Robo-Fest", sub: "3rd Place IT Olympiad, 2024" },
+  { title: "Dean's List Scholarship", sub: "East West University, 3 consecutive semesters (2023–2025)" },
+  { title: "National ICT Olympiad Bangladesh", sub: "Finalist, 2026" },
+  { title: "CodeChef Rating", sub: "2-Star competitive programmer" }
 ];
 
 export const LANGUAGES: Language[] = [
-  { label: "English", level: "C1 / Professional Working", width: "85%" },
-  { label: "Bengali", level: "Native / Bilingual", width: "100%" }
+  { label: "English", level: "C1 / Professional Working" },
+  { label: "Bengali", level: "Native / Bilingual" }
 ];
 
 export const SKILL_GROUPS = [
@@ -364,4 +437,71 @@ export const SKILL_GROUPS = [
     title: "Tools & Cloud / DevOps",
     skills: ["Docker", "Git / GitHub", "CI/CD", "AWS", "n8n", "Google Colab", "LaTeX"]
   }
+];
+
+export const PROFILE = {
+  name: "Md Sifatullah Sheikh",
+  short: "Sifat",
+  email: "mdsifatullahsheikh@gmail.com",
+  role: "ML Engineer Intern",
+  employer: "Syntax Solution Limited",
+  degree: "B.Sc. in Computer Science and Engineering, East West University",
+  location: "Dhaka, Bangladesh",
+  photo: "/files/profile.png",
+  cv: "/files/CV_Sifat_Sheikh.pdf",
+};
+
+export const LINKS = [
+  { label: "Email", href: "mailto:mdsifatullahsheikh@gmail.com", handle: "mdsifatullahsheikh@gmail.com" },
+  { label: "Google Scholar", href: "https://scholar.google.com/citations?view_op=list_works&hl=en&user=7m3g1cEAAAAJ", handle: "Sifatullah Sheikh" },
+  { label: "GitHub", href: "https://github.com/SifatSwapnil2022", handle: "SifatSwapnil2022" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/mdsifatullahsheikh", handle: "mdsifatullahsheikh" },
+];
+
+/** Copied by hand from Google Scholar; not live. */
+export const SCHOLAR = { citations: 16, hIndex: 2, i10Index: 0, updated: "September 2026" };
+
+export const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdaygqjy";
+
+export const RESEARCH_INTERESTS = [
+  { title: "Computer vision", desc: "Most of my work so far: detecting fake faces and identifying plants from images." },
+  { title: "Machine learning", desc: "Training and testing models, and checking if results hold up on new data." },
+  { title: "Robotics and autonomy", desc: "Newer for me. I am interested in models that turn what a robot sees into actions, and in how they fail." },
+  { title: "Trustworthy AI", desc: "Models that can show why they made a decision, like the heatmaps in DeFaX." },
+  { title: "Human–computer interaction", desc: "AI tools that people can understand and use without guesswork." },
+];
+
+export const EDUCATION: EducationItem[] = [
+  {
+    id: "bsc",
+    date: "December 2025",
+    credential: "B.Sc. in Computer Science and Engineering",
+    institution: "East West University",
+    location: "Aftabnagar, Dhaka",
+    logo: "/files/east-west-university.png",
+    details: "Specialization in Data Science and Intelligent Systems. CGPA 3.70 / 4.00, Dean's List for three consecutive semesters.",
+  },
+  {
+    id: "hsc",
+    date: "June 2019",
+    credential: "Higher Secondary Certificate (HSC), Science",
+    institution: "Birshreshtha Munshi Abdur Rouf Public College",
+    location: "Peelkhana, Dhaka",
+    logo: "/files/birshreshtha-munshi-abdur-rouf-public-college.png",
+  },
+  {
+    id: "ssc",
+    date: "May 2017",
+    credential: "Secondary School Certificate (SSC), Science",
+    institution: "Narinda Government High School",
+    location: "Narinda, Dhaka",
+    logo: "/files/narinda-government-high-school.jpeg",
+  },
+];
+
+export const COURSEWORK = [
+  "Data Structures and Algorithms", "Analysis of Algorithms", "Artificial Intelligence", "Machine Learning",
+  "Data Mining", "Computer Vision", "Digital Image Processing", "Operating Systems",
+  "Database Management Systems", "Internet of Things", "Microprocessors and Microcontrollers",
+  "Software Engineering", "Linear Algebra", "Probability and Statistics",
 ];

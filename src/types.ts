@@ -9,21 +9,34 @@ export interface Publication {
   year: string;
 }
 
+export interface ProjectVideo {
+  /** 1280×720 file, used in the showreel and in lists */
+  src: string;
+  /** 1920×1080 file, used in the project detail view */
+  srcHd: string;
+  poster: string;
+  /** Short line shown under the video in the showreel */
+  caption: string;
+}
+
+export type ProjectGroup = 'research' | 'product';
+
 export interface Project {
   id: string;
   title: string;
   tag: string;
+  group: ProjectGroup;
+  role?: string;
   description: string;
   longDescription: string;
   features: string[];
   tech: string[];
   metric: string;
-  github: string;
+  github?: string;
   website?: string;
   paperLink?: string;
   image: string;
-  iconName: 'Cpu' | 'Layers' | 'CheckCircle2' | 'HeartPulse' | 'Database' | 'GraduationCap';
-  videoSrc?: string;
+  video?: ProjectVideo;
 }
 
 export interface Experience {
@@ -44,7 +57,7 @@ export interface Experience {
 export interface NewsItem {
   id: string;
   date: string;
-  category?: 'Publication' | 'Event' | 'Academic' | 'Award' |'Career';
+  category?: 'Publication' | 'Event' | 'Academic' | 'Award' | 'Career';
   content: string;
   longContent?: string;
   image?: string;
@@ -56,7 +69,6 @@ export interface Hobby {
   name: string;
   category: string;
   description: string;
-  iconName: string;
 }
 
 export interface ExtraActivity {
@@ -70,7 +82,6 @@ export interface ExtraActivity {
 }
 
 export interface Award {
-  icon: string;
   title: string;
   sub: string;
 }
@@ -78,5 +89,14 @@ export interface Award {
 export interface Language {
   label: string;
   level: string;
-  width: string;
+}
+
+export interface EducationItem {
+  id: string;
+  date: string;
+  credential: string;
+  institution: string;
+  location: string;
+  logo: string;
+  details?: string;
 }

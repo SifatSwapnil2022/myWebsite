@@ -1,11 +1,9 @@
-/// <reference types="react/jsx-runtime" />
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProjectModal from './components/ProjectModal';
 import { Project } from './types';
 
-// Page imports
 import Home from './pages/Home';
 import About from './pages/About';
 import Experience from './pages/Experience';
@@ -14,77 +12,68 @@ import Projects from './pages/Projects';
 import News from './pages/News';
 import Contact from './pages/Contact';
 
-const PAPER = '#FAFAF7';
-const INK   = '#16192B';
+const TITLES: Record<string, string> = {
+  '#/': 'Md Sifatullah Sheikh',
+  '#/about': 'About · Md Sifatullah Sheikh',
+  '#/research': 'Research · Md Sifatullah Sheikh',
+  '#/projects': 'Projects · Md Sifatullah Sheikh',
+  '#/experience': 'Experience · Md Sifatullah Sheikh',
+  '#/news': 'News · Md Sifatullah Sheikh',
+  '#/contact': 'Contact · Md Sifatullah Sheikh',
+};
 
 export default function App() {
   const [currentPath, setCurrentPath] = useState(window.location.hash || '#/');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   useEffect(() => {
-    const handleHashChange = () => {
+    const onHash = () => {
       setCurrentPath(window.location.hash || '#/');
-      window.scrollTo({ top: 0, behavior: 'instant' });
+      setSelectedProject(null);
+      window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     };
-
-    window.addEventListener('hashchange', handleHashChange);
-    // Handle initial load if hash is empty, default to #/
-    if (!window.location.hash) {
-      window.location.hash = '#/';
-    }
-
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', onHash);
+    if (!window.location.hash) window.location.hash = '#/';
+    return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
-  const renderPage = () => {
+  useEffect(() => {
+    document.title = TITLES[currentPath] ?? TITLES['#/'];
+  }, [currentPath]);
+
+  const open = setSelectedProject;
+  const close = useCallback(() => setSelectedProject(null), []);
+
+  const page = () => {
     switch (currentPath) {
-      case '#/':
-      case '#':
-        return <Home />;
       case '#/about':
         return <About />;
       case '#/experience':
         return <Experience />;
       case '#/research':
-        return <Research />;
+        return <Research onSelectProject={open} />;
       case '#/projects':
-        return <Projects onSelectProject={setSelectedProject} />;
+        return <Projects onSelectProject={open} />;
       case '#/news':
         return <News />;
       case '#/contact':
         return <Contact />;
       default:
-        return <Home />;
+        return <Home onSelectProject={open} />;
     }
   };
 
   return (
-    <div
-      className="min-h-screen flex flex-col"
-      style={{ backgroundColor: PAPER, color: INK }}
-    >
-      <style>{`
-        ::selection { background-color: rgba(255,90,60,0.2); color: #FF5A3C; }
-      `}</style>
-
-      {/* Global Navigation */}
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <a href="#main" className="sr-only focus:not-sr-only" onClick={(e) => { e.preventDefault(); document.getElementById('main')?.focus(); }}>
+        Skip to content
+      </a>
       <Navbar currentPath={currentPath} />
-
-      {/* Main Page Area */}
-      <main className="flex-grow max-w-7xl w-full mx-auto px-6 md:px-12 pt-28 pb-16">
-        {renderPage()}
+      <main id="main" tabIndex={-1} style={{ flex: 1, outline: 'none' }} key={currentPath}>
+        {page()}
       </main>
-
-      {/* Universal Footer */}
       <Footer />
-
-      {/* Rich Project Modal Detail Drawer */}
-      {selectedProject && (
-        <ProjectModal
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-        />
-      )}
+      {selectedProject && <ProjectModal project={selectedProject} onClose={close} />}
     </div>
   );
 }
