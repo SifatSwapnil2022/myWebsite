@@ -40,9 +40,8 @@ export default function Research({ onSelectProject }: { onSelectProject: (p: Pro
     <div className="page">
       <div className="wrap">
         <PageIntro title="Research">
-          My published work is on deepfake detection that explains itself, and on a dataset of medicinal plant leaves
-          from Bangladesh. I'm now moving toward the safety and robustness of models that act, such as
-          vision-language-action models.
+          My papers so far are on spotting deepfakes in a way people can check, and on a dataset of medicinal plant
+          leaves from Bangladesh. Next, I want to work on making robots that use vision-language-action models safer.
         </PageIntro>
 
         <div className="stat-row" style={{ maxWidth: 640 }}>
@@ -66,7 +65,7 @@ export default function Research({ onSelectProject }: { onSelectProject: (p: Pro
 
         {/* Featured */}
         <section className="section">
-          <SectionHead title="DeFaX, in 24 seconds" note="How the two backbones and the cross-attention fit together, as drawn in the paper." />
+          <SectionHead title="DeFaX" note="A short video of how the model works, based on the figure in the paper." />
           <div className="prow" style={{ borderTop: 0, paddingTop: 0 }}>
             <ProjectMedia project={defax} />
             <div className="pbody">

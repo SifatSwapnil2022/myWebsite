@@ -2,7 +2,7 @@ import { Fragment, ReactNode } from 'react';
 import { LINKS, NEWS, PROFILE, PROJECTS, PUBLICATIONS } from '../data/portfolioData';
 import { Project } from '../types';
 import ProjectMedia from '../components/ProjectMedia';
-import { Authors } from '../components/ui';
+import { Authors, Person } from '../components/ui';
 
 const pub = (id: string) => PUBLICATIONS.find((p) => p.id === id)!;
 const proj = (id: string) => PROJECTS.find((p) => p.id === id)!;
@@ -10,24 +10,24 @@ const proj = (id: string) => PROJECTS.find((p) => p.id === id)!;
 const INTERESTS = [
   {
     title: 'Trustworthy and explainable AI',
-    text: 'Models that show the evidence behind a decision, so a person can check it. In DeFaX we used Grad-CAM and LIME for this.',
+    text: 'Models that show why they made a decision, so people can check it instead of just trusting it. In DeFaX we used Grad-CAM and LIME heatmaps for this.',
   },
   {
     title: 'Safety of vision-language-action models',
-    text: 'Where I want to go next: how robot policies built on VLA models fail under adversarial inputs or new conditions, and how to make them fail less.',
+    text: 'What I want to work on next. Robots are starting to use VLA models to decide what to do. I want to study when these models break, for example with tricky inputs or in new places, and how to make them safer.',
     current: true,
   },
   {
     title: 'Computer vision',
-    text: 'Detecting generated faces, and identifying medicinal plants from leaf images.',
+    text: 'Most of my work so far: spotting AI-generated faces, and identifying medicinal plants from leaf photos.',
   },
   {
-    title: 'Robust evaluation',
-    text: 'Results that hold up on new data: cross-dataset tests, corrupted inputs, ablations and statistical tests.',
+    title: 'Testing models properly',
+    text: 'Checking that a model still works on new data and on noisy or blurry images, not only on the data it was trained on.',
   },
   {
     title: 'Human–computer interaction',
-    text: 'Whether people can understand and use what a model or a map shows them. Cholo Puran Dhaka asks if a street-level 3D view helps people find their way.',
+    text: 'Whether people can understand and use what a model or a map shows them. With Cholo Puran Dhaka, I want to find out if a 3D street view helps visitors find their way better than a flat map.',
   },
 ];
 
@@ -111,8 +111,9 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
                 real-world data. I studied Computer Science and Engineering at East West University.
               </p>
               <p>
-                At university I worked as a research assistant on deepfake detection with Md Al-Imran and Shamim Ripon,
-                and did my thesis on identifying medicinal plants from leaf images with Md Nawab Yousuf Ali.
+                At university I worked as a research assistant on deepfake detection with <Person name="Md Al-Imran" /> and{' '}
+                <Person name="Shamim Ripon" />, and did my thesis on identifying medicinal plants from leaf images with{' '}
+                <Person name="Md Nawab Yousuf Ali" />.
               </p>
             </div>
             <Links
@@ -151,7 +152,7 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
               Publications
             </h2>
             <a className="link small" href="#/research">
-              All, with citations
+              All publications
             </a>
           </div>
 
@@ -168,8 +169,8 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
               ]}
             />
             <p className="ac-desc">
-              A Swin Transformer and an EfficientNet joined by cross-attention, with Grad-CAM and LIME maps showing which
-              face regions each prediction used, so the call can be checked.
+              We joined a Swin Transformer and an EfficientNet with cross-attention. Grad-CAM and LIME heatmaps show which
+              parts of the face each prediction looked at, so a person can check it.
             </p>
           </Entry>
 
@@ -186,8 +187,8 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
               ]}
             />
             <p className="ac-desc">
-              Three CNNs and a Vision Transformer compared on telling real faces from GAN-generated ones: what the local
-              view of a CNN and the global view of a Transformer each pick up.
+              We compared three CNNs and a Vision Transformer on telling real faces from GAN-made ones, and looked at what
+              each type of model notices in a face.
             </p>
           </Entry>
 
@@ -198,8 +199,8 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
             <p className="ac-venue">Data paper under review at Scientific Data. Dataset on Mendeley Data, 2026</p>
             <Links items={[{ label: 'dataset', href: pub('04').link }]} />
             <p className="ac-desc">
-              Leaf images of 13 medicinal plant species collected in Bangladesh, free to download. It is the data behind
-              my thesis, MediLeafNET.
+              Leaf photos of 13 medicinal plant species that we collected in Bangladesh. Anyone can download them. My
+              thesis, MediLeafNET, is built on this data.
             </p>
           </Entry>
         </section>
@@ -226,8 +227,9 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
               ]}
             />
             <p className="ac-desc">
-              A Vision Transformer identifies the plant from one leaf photo. When it is confident enough, a text model
-              writes a short article on the plant's uses, compounds and side effects. Trained on 11 species from Bangladesh.
+              A Vision Transformer identifies the plant from a photo of one leaf. If it is sure enough, a text model writes
+              a short note on what the plant is used for, what it contains and its side effects. It covers 11 species
+              from Bangladesh.
             </p>
             <p className="stack-tags">
               {medileaf.tech.slice(0, 5).map((t) => (

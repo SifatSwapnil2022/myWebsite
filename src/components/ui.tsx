@@ -1,4 +1,5 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { Fragment, ReactNode, useEffect, useState } from 'react';
+import { PEOPLE } from '../data/portfolioData';
 
 export function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(
@@ -88,17 +89,28 @@ export function PageIntro({ title, children }: { title: string; children?: React
   );
 }
 
-/** Bold the site owner's name inside an author list. */
+/** A person's name as a link to their faculty page, with "Dr." when they hold one. */
+export function Person({ name, withTitle = true }: { name: string; withTitle?: boolean }) {
+  const p = PEOPLE[name];
+  if (!p) return <>{name}</>;
+  return (
+    <a className="link" href={p.href} target="_blank" rel="noreferrer">
+      {withTitle && p.title ? `${p.title} ${name}` : name}
+    </a>
+  );
+}
+
+/** Author list: my name in bold, supervisors linked to their faculty pages. */
 export function Authors({ list }: { list: string }) {
   const me = 'Md Sifatullah Sheikh';
-  const parts = list.split(me);
+  const names = list.split(', ');
   return (
     <>
-      {parts.map((p, i) => (
-        <span key={i}>
-          {p}
-          {i < parts.length - 1 ? <b>{me}</b> : null}
-        </span>
+      {names.map((n, i) => (
+        <Fragment key={n}>
+          {i > 0 && ', '}
+          {n === me ? <b>{n}</b> : <Person name={n} withTitle={false} />}
+        </Fragment>
       ))}
     </>
   );

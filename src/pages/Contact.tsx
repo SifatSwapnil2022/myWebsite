@@ -29,7 +29,7 @@ export default function Contact() {
     <div className="page">
       <div className="wrap">
         <PageIntro title="Contact">
-          For research, a PhD position, or a project, email is the quickest way to reach me. The form below sends to the
+          For research, a PhD position, or a project, email is the quickest way to reach me. The form below goes to the
           same inbox.
         </PageIntro>
 

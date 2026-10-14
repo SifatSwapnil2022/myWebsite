@@ -4,8 +4,8 @@ import ProjectRow from '../components/ProjectRow';
 import { PageIntro, SectionHead } from '../components/ui';
 
 const GROUPS: { id: Project['group']; title: string; note: string }[] = [
-  { id: 'research', title: 'Research', note: 'Published work, my thesis, and a healthcare learning project.' },
-  { id: 'product', title: 'Products', note: 'Websites and apps I designed and built, two of them for Dhaka.' },
+  { id: 'research', title: 'Research', note: 'Papers, my thesis, and a healthcare learning project.' },
+  { id: 'product', title: 'Products', note: 'Websites and apps I built, two of them for Dhaka.' },
 ];
 
 export default function Projects({ onSelectProject }: { onSelectProject: (p: Project) => void }) {
@@ -13,8 +13,8 @@ export default function Projects({ onSelectProject }: { onSelectProject: (p: Pro
     <div className="page">
       <div className="wrap">
         <PageIntro title="Projects">
-          Research I've worked on and things I've built. The films play here without sound; open any
-          project for the full write-up.
+          Research I've worked on and things I've built. The videos play without sound. Open a project to read
+          more.
         </PageIntro>
 
         {GROUPS.map((g, gi) => (

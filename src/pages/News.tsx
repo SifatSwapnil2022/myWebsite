@@ -22,7 +22,7 @@ export default function News() {
   return (
     <div className="page">
       <div className="wrap">
-        <PageIntro title="News">Papers, talks, jobs and the occasional award, newest first.</PageIntro>
+        <PageIntro title="News">Papers, talks, jobs and awards, newest first.</PageIntro>
 
         <div className="chips" role="group" aria-label="Filter news" style={{ marginBottom: 32 }}>
           {CATS.filter((c) => c.id === 'all' || NEWS.some((n) => n.category === c.id)).map((c) => (
