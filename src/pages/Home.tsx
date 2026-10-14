@@ -111,9 +111,16 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
                 real-world data. I studied Computer Science and Engineering at East West University.
               </p>
               <p>
-                At university I worked as a research assistant on deepfake detection with <Person name="Md Al-Imran" /> and{' '}
-                <Person name="Shamim Ripon" />, and did my thesis on identifying medicinal plants from leaf images with{' '}
-                <Person name="Md Nawab Yousuf Ali" />.
+                At university I worked as a research assistant with <Person name="Md Al-Imran" /> and{' '}
+                <Person name="Shamim Ripon" /> on trustworthy AI for AI-generated media: detecting faces made by
+                Generative Adversarial Networks (GANs), testing how well detectors hold up on compressed and noisy
+                images, and using explainability methods (Grad-CAM, LIME) to show why a model calls a face fake.
+              </p>
+              <p>
+                For my thesis, supervised by <Person name="Md Nawab Yousuf Ali" />, I built
+                MediLeafNET, a multimodal system that pairs a Vision Transformer with a generative language model. It
+                identifies a medicinal plant from a leaf image, then generates knowledge about it from an ethnobotanical
+                knowledge base we curated.
               </p>
             </div>
             <Links
@@ -217,7 +224,7 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
           </div>
 
           <Entry media={<ProjectMedia project={medileaf} />} title="MediLeafNET" href={medileaf.github}>
-            <p className="ac-venue">Undergraduate thesis, East West University</p>
+            <p className="ac-venue">Undergraduate thesis, East West University. Multimodal learning, knowledge generation</p>
             <Links
               items={[
                 { label: 'code', href: medileaf.github },
@@ -227,9 +234,10 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
               ]}
             />
             <p className="ac-desc">
-              A Vision Transformer identifies the plant from a photo of one leaf. If it is sure enough, a text model writes
-              a short note on what the plant is used for, what it contains and its side effects. It covers 11 species
-              from Bangladesh.
+              A multimodal pipeline for medicinal plant knowledge retrieval. A Vision Transformer identifies the species
+              from a leaf image. When its confidence passes a set threshold, a fine-tuned transformer language model
+              generates a summary of the plant's medicinal uses, active compounds, clinical evidence and side effects,
+              grounded in a knowledge base we built for 11 species from Bangladesh.
             </p>
             <p className="stack-tags">
               {medileaf.tech.slice(0, 5).map((t) => (
