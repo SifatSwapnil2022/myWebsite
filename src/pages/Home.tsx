@@ -1,5 +1,5 @@
 import { Fragment, ReactNode } from 'react';
-import { LINKS, NEWS, PROFILE, PROJECTS, PUBLICATIONS } from '../data/portfolioData';
+import { LINKS, NEWS, PROFILE, PROJECTS, PUBLICATIONS, asset } from '../data/portfolioData';
 import { Project } from '../types';
 import ProjectMedia from '../components/ProjectMedia';
 import { Authors, Person } from '../components/ui';
@@ -199,7 +199,7 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
             </p>
           </Entry>
 
-          <Entry media={<Still src="/files/datasets_13.png" alt="Sample leaves from the dataset" contain />} title={pub('02').title}>
+          <Entry media={<Still src={asset("files/datasets_13.png")} alt="Sample leaves from the dataset" contain />} title={pub('02').title}>
             <p className="ac-authors">
               <Authors list={pub('02').authors} />
             </p>

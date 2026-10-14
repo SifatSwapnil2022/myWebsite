@@ -1,5 +1,8 @@
 import { Publication, Project, Experience, NewsItem, Award, Language, Hobby, ExtraActivity, EducationItem } from '../types';
 
+/** Public file path that works on any base URL ("/" on Render, "/myWebsite/" on GitHub Pages). */
+export const asset = (p: string) => import.meta.env.BASE_URL + p.replace(/^\//, '');
+
 export const PUBLICATIONS: Publication[] = [
   {
     id: "01",
@@ -43,9 +46,9 @@ export const PUBLICATIONS: Publication[] = [
 ];
 
 const media = (name: string, caption: string) => ({
-  src: `/media/${name}-720.mp4`,
-  srcHd: `/media/${name}-1080.mp4`,
-  poster: `/media/${name}-poster.jpg`,
+  src: asset(`media/${name}-720.mp4`),
+  srcHd: asset(`media/${name}-1080.mp4`),
+  poster: asset(`media/${name}-poster.jpg`),
   caption,
 });
 
@@ -70,7 +73,7 @@ export const PROJECTS: Project[] = [
     metric: "Shows why it made each prediction",
     github: "https://github.com/SifatSwapnil2022/Journal_DefaX_codes",
     paperLink: "https://ieeexplore.ieee.org/abstract/document/11303744",
-    image: "/files/framework.png",
+    image: asset("/files/framework.png"),
     video: media("defax", "The architecture from the paper, step by step"),
   },
   {
@@ -93,7 +96,7 @@ export const PROJECTS: Project[] = [
     metric: "Four models compared on one task",
     github: "https://github.com/SifatSwapnil2022/conf_AI-Powered_Deepfake_Detection_codes",
     paperLink: "https://ieeexplore.ieee.org/abstract/document/11145852",
-    image: "/files/conference.png",
+    image: asset("/files/conference.png"),
     video: media("vfdnet", "The pipeline from the paper and how the four models compare"),
   },
   {
@@ -115,7 +118,7 @@ export const PROJECTS: Project[] = [
     tech: ["three.js", "JavaScript", "GLSL", "HTML/CSS", "Netlify"],
     metric: "40 places, 4 routes",
     website: "https://cholopurandhaka.netlify.app/",
-    image: "/media/cholo-puran-dhaka-poster.jpg",
+    image: asset("/media/cholo-puran-dhaka-poster.jpg"),
     video: media("cholo-puran-dhaka", "Real footage of the site: fly-in, routes, walk mode, night"),
   },
   {
@@ -138,7 +141,7 @@ export const PROJECTS: Project[] = [
     metric: "464 automated tests",
     github: "https://github.com/SifatSwapnil2022/Unun",
     website: "https://unun-dhaka.netlify.app/en",
-    image: "/media/unun-poster.jpg",
+    image: asset("/media/unun-poster.jpg"),
     video: media("unun", "Checkout, tracking and the four workspaces"),
   },
   {
@@ -160,7 +163,7 @@ export const PROJECTS: Project[] = [
     tech: ["Three.js", "E-commerce", "Oracle Cloud", "English / Bangla"],
     metric: "18 pieces at launch",
     website: "https://konabd.shop/",
-    image: "/media/kona-poster.jpg",
+    image: asset("/media/kona-poster.jpg"),
     video: media("kona", "The idea behind the brand and the three finishes"),
   },
   {
@@ -184,7 +187,7 @@ export const PROJECTS: Project[] = [
     github: "https://github.com/SifatSwapnil2022/MediLeafNET",
     extraLinks: [{ label: "Thesis reports and slides", href: "https://github.com/SifatSwapnil2022/Capstone-Thesis" }],
     paperLink: "https://data.mendeley.com/datasets/9tdc9gbtgb/2",
-    image: "/files/medileafnet.png",
+    image: asset("/files/medileafnet.png"),
     video: media("medileafnet", "From one leaf photo to an article on the plant"),
   },
   {
@@ -206,7 +209,7 @@ export const PROJECTS: Project[] = [
     tech: ["Python", "FastAPI", "YOLOv8", "TensorFlow", "MongoDB", "Docker", "Streamlit"],
     metric: "Detect, classify, then explain in plain words",
     github: "https://github.com/SifatSwapnil2022/SkinCareAI",
-    image: "/files/skinAI.png",
+    image: asset("/files/skinAI.png"),
   },
   {
     id: "bazario",
@@ -227,7 +230,7 @@ export const PROJECTS: Project[] = [
     tech: ["Next.js", "React", "Payload CMS", "MongoDB", "Stripe Connect", "Tailwind CSS", "TypeScript"],
     metric: "Separate store per seller",
     github: "https://github.com/SifatSwapnil2022/bazario-A-multi-tenant-Ecommerce-Platform",
-    image: "/media/bazario-poster.jpg",
+    image: asset("/media/bazario-poster.jpg"),
     video: media("bazario", "Demo with sample data: stores, filters, checkout and roles"),
   }
 ];
@@ -285,7 +288,7 @@ export const NEWS: NewsItem[] = [
     category: "Career",
     content: "Joined Nasir Syntax Solution Limited as a Machine Learning Engineer Intern.",
     longContent: "Started on 1 August 2026. I build and test ML models for the company's projects.",
-    image: "/files/syntax.png"
+    image: asset("/files/syntax.png")
   },
   {
     id: "n-2",
@@ -293,7 +296,7 @@ export const NEWS: NewsItem[] = [
     category: "Publication",
     content: "Published a leaf image dataset of 13 medicinal plant species from Bangladesh on Mendeley Data (Version 2).",
     longContent: "With my co-authors, I released high-resolution leaf photos of 13 medicinal plant species. Anyone can use them for free on Mendeley Data, and the paper about them is under review at Scientific Data.",
-    image: "/files/datasets_13.png",
+    image: asset("/files/datasets_13.png"),
     link: "https://data.mendeley.com/datasets/9tdc9gbtgb/2",
     linkText: "View dataset"
   },
@@ -303,7 +306,7 @@ export const NEWS: NewsItem[] = [
     category: "Career",
     content: "Completed a 4-month internship in IT & Operations at Banglalink, Dhaka.",
     longContent: "I looked after 100+ operational documents, made daily, weekly and monthly reports for different departments, and kept IT asset and employee records up to date. I also helped the IT team with hardware, software and network problems, and helped write SOPs.",
-    image: "/files/Certificate_Intern_Sifatullah_Sheikh.png"
+    image: asset("/files/Certificate_Intern_Sifatullah_Sheikh.png")
   },
   {
     id: "n-1",
@@ -311,7 +314,7 @@ export const NEWS: NewsItem[] = [
     category: "Academic",
     content: "Graduated with a Bachelor of Science in Computer Science & Engineering from East West University.",
     longContent: "Finished my four-year CSE degree. My thesis was MediLeafNET, a multimodal system that identifies medicinal plants from leaf images and generates knowledge about them.",
-    image: "/files/graduation.jpg"
+    image: asset("/files/graduation.jpg")
   },
   {
     id: "n-3",
@@ -319,7 +322,7 @@ export const NEWS: NewsItem[] = [
     category: "Publication",
     content: "Our paper 'DeFaX: A Cross-Attention Fusion Framework for Robust and Explainable Deepfake Detection' was published in IEEE Access.",
     longContent: "DeFaX joins a Swin Transformer and an EfficientNet with cross-attention to spot AI-generated faces, and uses heatmaps to show what each prediction is based on. It was my main project as a research assistant.",
-    image: "/files/framework.png",
+    image: asset("/files/framework.png"),
     link: "https://ieeexplore.ieee.org/abstract/document/11303744",
     linkText: "Read the paper"
   },
@@ -329,7 +332,7 @@ export const NEWS: NewsItem[] = [
     category: "Event",
     content: "Presented our paper 'AI-Powered Deepfake Detection Using CNN and Vision Transformer Architectures' at IEEE IBDAP in Thailand.",
     longContent: "Gave a talk on the paper and met other researchers working on fake media and explainable AI.",
-    image: "/files/conference.png",
+    image: asset("/files/conference.png"),
     link: "https://ieeexplore.ieee.org/abstract/document/11145852",
     linkText: "Read the paper"
   },
@@ -339,7 +342,7 @@ export const NEWS: NewsItem[] = [
     category: "Award",
     content: "Won 3rd place in the IT Olympiad at National Robo-Fest 2024.",
     longContent: "Represented East West University in a national contest on algorithms, troubleshooting and digital logic, and came 3rd.",
-    image: "/files/ROBOTICS.jpg"
+    image: asset("/files/ROBOTICS.jpg")
   },
 ];
 export const EXTRA_ACTIVITIES: ExtraActivity[] = [
@@ -473,8 +476,8 @@ export const PROFILE = {
   employer: "Syntax Solution Limited",
   degree: "B.Sc. in Computer Science and Engineering, East West University",
   location: "Dhaka, Bangladesh",
-  photo: "/files/profile.png",
-  cv: "/files/CV_Sifat_Sheikh.pdf",
+  photo: asset("/files/profile.png"),
+  cv: asset("/files/CV_Sifat_Sheikh.pdf"),
 };
 
 export const LINKS = [
@@ -511,7 +514,7 @@ export const EDUCATION: EducationItem[] = [
     credential: "B.Sc. in Computer Science and Engineering",
     institution: "East West University",
     location: "Aftabnagar, Dhaka",
-    logo: "/files/east-west-university.png",
+    logo: asset("/files/east-west-university.png"),
     details: "Specialization in Data Science and Intelligent Systems. CGPA 3.70 / 4.00, Dean's List for three consecutive semesters.",
   },
   {
@@ -520,7 +523,7 @@ export const EDUCATION: EducationItem[] = [
     credential: "Higher Secondary Certificate (HSC), Science",
     institution: "Birshreshtha Munshi Abdur Rouf Public College",
     location: "Peelkhana, Dhaka",
-    logo: "/files/birshreshtha-munshi-abdur-rouf-public-college.png",
+    logo: asset("/files/birshreshtha-munshi-abdur-rouf-public-college.png"),
   },
   {
     id: "ssc",
@@ -528,7 +531,7 @@ export const EDUCATION: EducationItem[] = [
     credential: "Secondary School Certificate (SSC), Science",
     institution: "Narinda Government High School",
     location: "Narinda, Dhaka",
-    logo: "/files/narinda-government-high-school.jpeg",
+    logo: asset("/files/narinda-government-high-school.jpeg"),
   },
 ];
 
