@@ -40,11 +40,11 @@ I am a Computer Science and Engineering graduate of East West University, Dhaka.
 
 | Page | Route | Contents |
 |---|---|---|
-| Home | `#/` | Introduction, a featured project film, research interests, publications, selected projects and recent updates |
+| Home | `#/` | Introduction, research summary, selected projects and recent updates |
 | About | `#/about` | Background, education, skills, awards, languages and activities |
 | Experience | `#/experience` | Timeline of research and industry roles |
 | Research | `#/research` | Publications, with search, a filter by type (journal, conference, dataset) and citation copy |
-| Projects | `#/projects` | An index of all projects, the featured project film, research projects in detail, and a grid of things I built |
+| Projects | `#/projects` | Project cards with search and a detail view for each project |
 | News | `#/news` | Dated updates with search |
 | Contact | `#/contact` | Contact form and links |
 
@@ -88,8 +88,8 @@ myWebsite/
 ├── index.html
 ├── public/
 │   ├── files/                # CV, profile photo, logos and project images
-│   ├── media/                # project films (720p and 1080p) and their posters
-│   └── play/dhaka-bus-war/   # playable build of Dhaka Bus War (copied from its own repo)
+│   ├── media/                # project films and their posters
+│   └── play/dhaka-bus-war/   # playable build of Dhaka Bus War, copied from its own repo
 ├── src/
 │   ├── main.tsx              # entry point
 │   ├── App.tsx               # layout and hash routing
@@ -100,9 +100,6 @@ myWebsite/
 │   ├── components/
 │   │   ├── Navbar.tsx
 │   │   ├── Footer.tsx
-│   │   ├── FeaturedFilm.tsx  # the large film at the top of Home and Projects
-│   │   ├── ProjectMedia.tsx
-│   │   ├── ProjectRow.tsx
 │   │   └── ProjectModal.tsx
 │   └── pages/
 │       ├── Home.tsx
@@ -125,13 +122,11 @@ Almost all text on the site comes from one file, [`src/data/portfolioData.ts`](s
 |---|---|
 | Publications | `PUBLICATIONS` |
 | Projects | `PROJECTS` |
-| Featured project | `FEATURED_ID` (any project with a `video`) |
 | Work and research roles | `EXPERIENCES` |
 | News items | `NEWS` |
 | Awards, skills, languages, activities | `AWARDS`, `SKILL_GROUPS`, `LANGUAGES`, `EXTRA_ACTIVITIES` |
 | CV | Replace `public/files/CV_Sifat_Sheikh.pdf`, keeping the same file name |
 | Images | Add the file to `public/files/` and reference it as `/files/your-image.png` |
-| Dhaka Bus War build | Run `python3 build.py` in the game repo and copy its `index.html` to `public/play/dhaka-bus-war/` |
 
 The contact form posts to Formspree. To send messages to a different inbox, change `FORMSPREE_ENDPOINT` in [`src/pages/Contact.tsx`](src/pages/Contact.tsx).
 

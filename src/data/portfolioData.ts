@@ -54,35 +54,6 @@ const media = (name: string, caption: string) => ({
 
 export const PROJECTS: Project[] = [
   {
-    id: "dhaka-bus-war",
-    title: "Dhaka Bus War",
-    tag: "3D browser game",
-    group: "product",
-    role: "Designed and built alone",
-    description: "A racing game on Dhaka's real roads. You drive a local bus (Bolaka, Raida, Shikor or Malancha), pick up passengers, drop them at the right stop, and fight three other buses for them.",
-    longDescription: "Anyone who has taken a local bus in Dhaka knows the race: two buses side by side on Pragati Sarani, the helper hanging out of the door shouting the next stop, both drivers cutting in at the same stand. I wanted a game that people here would recognise. The map is laid out from real coordinates, so Uttara is north, Dhanmondi is south-west and the Malibag rail gate is where it should be. The roads are not clean either: potholes, patched asphalt, waterlogging and road works that close a lane. Rickshaws, CNGs, cars and other buses move on the road graph, keep to lanes, wait at signals and rail gates, and turn through junctions. The helper calls passengers and warns the driver in Dhaka Bangla. Fares follow the BRTA rate, and a fine depends on how hard you hit something. It runs in the browser on three.js, with nothing to install.",
-    features: [
-      "Road network laid out from real latitude and longitude, north up: 60 roads, 33 junctions, the Dhaka–Tongi railway and the Line-6 metro",
-      "52 landmarks on their real side of the road, from East West University to Shahjalal Airport",
-      "Five real routes in both directions, with free driving, reversing and U-turns at median gaps",
-      "Traffic that keeps to lanes, waits at red lights and closed rail gates, and follows smooth paths through junctions",
-      "A helper who calls passengers and warns the driver in Dhaka Bangla",
-      "Three AI drivers with different tempers; four-player online rooms are being moved to a public server"
-    ],
-    tech: ["three.js", "JavaScript", "WebGL", "Web Audio", "Playwright"],
-    metric: "Five real routes, 52 landmarks",
-    github: "https://github.com/SifatSwapnil2022/dhaka-bus-war3D",
-    website: asset("play/dhaka-bus-war/"),
-    websiteLabel: "Play in the browser",
-    image: asset("/media/dhaka-bus-war-poster.jpg"),
-    video: {
-      src: asset("media/dhaka-bus-war-720.mp4"),
-      srcHd: asset("media/dhaka-bus-war-720.mp4"),
-      poster: asset("media/dhaka-bus-war-poster.jpg"),
-      caption: "Trailer recorded in the game: the Malibag rail gate, Kuril from above, the metro at Farmgate, the helper at Rampura",
-    },
-  },
-  {
     id: "defax",
     title: "DeFaX",
     tag: "GAN-generated face detection, trustworthy AI",
@@ -149,6 +120,35 @@ export const PROJECTS: Project[] = [
     website: "https://cholopurandhaka.netlify.app/",
     image: asset("/media/cholo-puran-dhaka-poster.jpg"),
     video: media("cholo-puran-dhaka", "Real footage of the site: fly-in, routes, walk mode, night"),
+  },
+  {
+    id: "dhaka-bus-war",
+    title: "Dhaka Bus War",
+    tag: "3D browser game",
+    group: "product",
+    role: "Designed and built alone",
+    description: "A racing game on Dhaka's real roads. You drive a local bus (Bolaka, Raida, Shikor or Malancha), pick up passengers, drop them at the right stop, and fight three other buses for them.",
+    longDescription: "Anyone who has taken a local bus in Dhaka knows the race: two buses side by side on Pragati Sarani, the helper hanging out of the door shouting the next stop, both drivers cutting in at the same stand. I wanted a game that people here would recognise. The map is laid out from real coordinates, so Uttara is north, Dhanmondi is south-west and the Malibag rail gate is where it should be. The roads are not clean either: potholes, patched asphalt, waterlogging and road works that close a lane. Rickshaws, CNGs, cars and other buses move on the road graph, keep to lanes, wait at signals and rail gates, and turn through junctions. The helper calls passengers and warns the driver in Dhaka Bangla. Fares follow the BRTA rate, and a fine depends on how hard you hit something. It runs in the browser on three.js, with nothing to install.",
+    features: [
+      "Road network laid out from real latitude and longitude, north up: 60 roads, 33 junctions, the Dhaka–Tongi railway and the Line-6 metro",
+      "52 landmarks on their real side of the road, from East West University to Shahjalal Airport",
+      "Five real routes in both directions, with free driving, reversing and U-turns at median gaps",
+      "Traffic that keeps to lanes, waits at red lights and closed rail gates, and follows smooth paths through junctions",
+      "A helper who calls passengers and warns the driver in Dhaka Bangla",
+      "Three AI drivers with different tempers; four-player online rooms are being moved to a public server"
+    ],
+    tech: ["three.js", "JavaScript", "WebGL", "Web Audio", "Playwright"],
+    metric: "Five real routes, 52 landmarks",
+    github: "https://github.com/SifatSwapnil2022/dhaka-bus-war3D",
+    website: asset("play/dhaka-bus-war/"),
+    websiteLabel: "Play in the browser",
+    image: asset("/media/dhaka-bus-war-poster.jpg"),
+    video: {
+      src: asset("media/dhaka-bus-war-720.mp4"),
+      srcHd: asset("media/dhaka-bus-war-720.mp4"),
+      poster: asset("media/dhaka-bus-war-poster.jpg"),
+      caption: "Trailer recorded in the game: the Malibag rail gate, Kuril from above, the metro at Farmgate, the helper at Rampura",
+    },
   },
   {
     id: "unun",
@@ -263,9 +263,6 @@ export const PROJECTS: Project[] = [
     video: media("bazario", "Demo with sample data: stores, filters, checkout and roles"),
   }
 ];
-
-/** The project shown large at the top of the home and projects pages. */
-export const FEATURED_ID = "dhaka-bus-war";
 
 /** Order the showreel plays in. */
 export const SHOWREEL_IDS = ["defax", "cholo-puran-dhaka", "unun", "kona"];
