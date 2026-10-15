@@ -147,7 +147,7 @@ export const PROJECTS: Project[] = [
       src: asset("media/dhaka-bus-war-720.mp4"),
       srcHd: asset("media/dhaka-bus-war-720.mp4"),
       poster: asset("media/dhaka-bus-war-poster.jpg"),
-      caption: "Trailer recorded in the game: the Malibag rail gate, Kuril from above, the metro at Farmgate, the helper at Rampura",
+      caption: "Recorded in the game: the race start, passing a rival, passengers at Rampura, the Malibag rail gate and a red-light fine",
     },
   },
   {
