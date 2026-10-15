@@ -363,3 +363,38 @@ a.sr-only:focus { position: fixed; left: 12px; top: 12px; z-index: 100; backgrou
 .text-btn.link { color: var(--accent); }
 .footer .big { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
 @media (max-width: 759px) { .ac-photo { order: -1; width: 140px; } }
+
+/* ---------- featured project (home and projects) ---------- */
+.feat-wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 var(--gut); scroll-margin-top: 90px; }
+.ac .feat-wrap { margin-top: 56px; }
+.feat-stage { position: relative; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: var(--night); box-shadow: 0 1px 0 var(--rule), 0 24px 48px -32px rgba(27, 30, 32, .45); }
+.feat-stage video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.feat-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255, 255, 255, .14); }
+.feat-bar i { position: absolute; inset: 0; background: #f4f4f1; transform-origin: 0 50%; transform: scaleX(0); }
+.feat-body { display: grid; gap: 20px; margin-top: 24px; }
+@media (min-width: 900px) { .feat-body { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 56px; } }
+.feat-kicker { margin: 0 0 8px; font-size: var(--t-sm); color: var(--mute); }
+.feat-desc { margin: 12px 0 0; font-family: var(--serif); font-size: 1.12rem; line-height: 1.6; color: var(--ink-2); max-width: 60ch; }
+.feat-side { padding-top: 4px; }
+@media (min-width: 900px) { .feat-side { padding-top: 30px; } }
+.feat-side .stack-tags { margin-top: 16px; }
+@media (max-width: 599px) { .feat-stage { border-radius: var(--radius); } .feat-stage .reel-ctrl { right: 10px; bottom: 12px; } }
+
+/* ---------- projects page: index and card grid ---------- */
+.pindex { display: grid; gap: 28px; margin-top: 40px; padding: 24px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+@media (min-width: 760px) { .pindex { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1.4fr); gap: 32px; } }
+.pindex-h { margin: 0 0 8px; font-size: var(--t-xs); font-weight: 500; color: var(--mute); text-transform: uppercase; letter-spacing: .08em; }
+.pindex ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.pindex a { display: block; padding: 5px 0; text-decoration: none; line-height: 1.35; }
+.pindex .t { font-weight: 600; color: var(--ink); }
+.pindex .d { display: block; font-size: var(--t-xs); color: var(--mute); }
+.pindex a:hover .t { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.prow, .pcard { scroll-margin-top: 100px; }
+.pgrid { display: grid; gap: 48px 32px; padding-top: 8px; }
+@media (min-width: 760px) { .pgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.pcard .pmedia { border: 1px solid var(--rule); }
+.pcard .meta { margin: 16px 0 6px; font-size: var(--t-sm); color: var(--mute); }
+.pcard-desc { margin: 8px 0 0; font-family: var(--serif); line-height: 1.6; color: var(--ink-2); }
+.pcard-links { display: flex; flex-wrap: wrap; gap: 18px; margin: 12px 0 0; font-size: var(--t-sm); }
+.prow.flash, .pcard.flash, .feat-wrap.flash { animation: none; }
+@media (max-width: 759px) { .pindex { display: none; } }

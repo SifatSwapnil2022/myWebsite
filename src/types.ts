@@ -36,6 +36,8 @@ export interface Project {
   /** Further links shown in the detail view, e.g. a thesis repository */
   extraLinks?: { label: string; href: string }[];
   website?: string;
+  /** Button text for `website`, when "Open the site" doesn't fit (e.g. a game) */
+  websiteLabel?: string;
   paperLink?: string;
   image: string;
   video?: ProjectVideo;

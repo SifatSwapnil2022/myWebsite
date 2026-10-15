@@ -80,7 +80,7 @@ export default function ProjectModal({ project, onClose }: { project: Project; o
           <div className="btn-row" style={{ marginTop: 32 }}>
             {p.website && (
               <a className="btn" href={p.website} target="_blank" rel="noreferrer">
-                Open the site
+                {p.websiteLabel ?? 'Open the site'}
               </a>
             )}
             {p.paperLink && (

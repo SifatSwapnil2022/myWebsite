@@ -29,7 +29,7 @@ export default function ProjectRow({ project, flip = false, onOpen }: { project:
           </button>
           {p.website && (
             <a className="btn ghost" href={p.website} target="_blank" rel="noreferrer">
-              Open the site
+              {p.websiteLabel ?? 'Open the site'}
             </a>
           )}
           {p.paperLink && !p.website && (

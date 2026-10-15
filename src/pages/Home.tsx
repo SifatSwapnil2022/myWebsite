@@ -1,7 +1,8 @@
 import { Fragment, ReactNode } from 'react';
-import { LINKS, NEWS, PROFILE, PROJECTS, PUBLICATIONS, asset } from '../data/portfolioData';
+import { FEATURED_ID, LINKS, NEWS, PROFILE, PROJECTS, PUBLICATIONS, asset } from '../data/portfolioData';
 import { Project } from '../types';
 import ProjectMedia from '../components/ProjectMedia';
+import FeaturedFilm from '../components/FeaturedFilm';
 import { Authors, Person } from '../components/ui';
 
 const pub = (id: string) => PUBLICATIONS.find((p) => p.id === id)!;
@@ -133,6 +134,14 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
           </div>
           <img className="ac-photo reveal d1" src={PROFILE.photo} alt="Md Sifatullah Sheikh" width={220} height={286} />
         </header>
+      </div>
+
+      {/* Featured project, wider than the text column */}
+      <div className="feat-wrap">
+        <FeaturedFilm project={proj(FEATURED_ID)} onOpen={onSelectProject} />
+      </div>
+
+      <div className="ac-wrap">
 
         {/* Research interests */}
         <section className="ac-section" aria-labelledby="h-interests">
