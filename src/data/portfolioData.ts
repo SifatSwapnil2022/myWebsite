@@ -261,7 +261,8 @@ export const PROJECTS: Project[] = [
     tech: ["Python", "FastAPI", "YOLOv8", "TensorFlow", "MongoDB", "Docker", "Streamlit"],
     metric: "Detect, classify, then explain in plain words",
     github: "https://github.com/SifatSwapnil2022/SkinCareAI",
-    image: asset("/files/skinAI.png"),
+    image: asset("/media/skincare-ai-poster.jpg"),
+    video: media("skincare-ai", "Upload, the model's scores, LLM advice, history and the PDF report"),
   },
   {
     id: "bazario",
@@ -288,7 +289,7 @@ export const PROJECTS: Project[] = [
 ];
 
 /** Order the showreel plays in. */
-export const SHOWREEL_IDS = ["defax", "khamar-khata", "cholo-puran-dhaka", "unun", "kona"];
+export const SHOWREEL_IDS = ["defax", "khamar-khata", "skincare-ai", "cholo-puran-dhaka", "unun", "kona"];
 
 export const EXPERIENCES: Experience[] = [
   {
