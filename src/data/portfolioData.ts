@@ -174,6 +174,29 @@ export const PROJECTS: Project[] = [
     video: media("unun", "Checkout, tracking and the four workspaces"),
   },
   {
+    id: "khamar-khata",
+    title: "Khamar Khata",
+    tag: "Full-stack web app, 3D",
+    group: "product",
+    role: "Designed and built alone",
+    description: "A record book for cattle farms in Bangladesh, in Bangla and English, for a family with two cows or a farm with two thousand.",
+    longDescription: "Khamar Khata (খামার খাতা, the farm ledger) keeps each animal's milk, vaccines, breeding, weight and sale on the farmer's phone. Milk can be written in the shed with no signal and sends itself later. Treated cows are kept out of milk and meat sales until their withdrawal period ends, Qurbani bulls get a projected weight for Eid, and a cattle market shows buyers the farm's own records. The home page walks through a day on a Jamuna char farm, modelled in Three.js from code, with each animal carrying its real record from the demo farm. The demo farm's 260 animals and their numbers are sample data.",
+    features: [
+      "Bangla first, with step-by-step help written for farmers who read slowly",
+      "Offline milk sheet, buyer dues, vaccines, withdrawal periods, breeding calendar",
+      "Qurbani weigh-ins by scale or measuring tape, with a projected weight at Eid",
+      "Owner, manager, worker and vet roles; photos taken with the phone camera",
+      "Three.js farm scene built from primitives, no model files",
+      "Installs on Android and iPhone home screens"
+    ],
+    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Three.js", "PostgreSQL", "Drizzle ORM", "Vitest", "Playwright"],
+    metric: "91 automated tests",
+    github: "https://github.com/SifatSwapnil2022/khamarkhata",
+    website: "https://khamarkhata.vercel.app",
+    image: asset("/media/khamar-khata-poster.jpg"),
+    video: media("khamar-khata", "The 3D day on the farm, then the app: money, Qurbani and breeding"),
+  },
+  {
     id: "kona",
     title: "KONA",
     tag: "Accessories brand and online store",
@@ -265,7 +288,7 @@ export const PROJECTS: Project[] = [
 ];
 
 /** Order the showreel plays in. */
-export const SHOWREEL_IDS = ["defax", "cholo-puran-dhaka", "unun", "kona"];
+export const SHOWREEL_IDS = ["defax", "khamar-khata", "cholo-puran-dhaka", "unun", "kona"];
 
 export const EXPERIENCES: Experience[] = [
   {
