@@ -237,10 +237,13 @@ export const PROJECTS: Project[] = [
     tech: ["PyTorch", "Python", "Vision Transformer (ViT)", "BERT", "Gradio", "Flutter", "OpenCV"],
     metric: "From a leaf image to knowledge about the plant",
     github: "https://github.com/SifatSwapnil2022/MediLeafNET",
-    extraLinks: [{ label: "Thesis reports and slides", href: "https://github.com/SifatSwapnil2022/Capstone-Thesis" }],
+    extraLinks: [
+      { label: "Live web app", href: "https://medi-leaf-net.vercel.app" },
+      { label: "Thesis reports and slides", href: "https://github.com/SifatSwapnil2022/Capstone-Thesis" },
+    ],
     paperLink: "https://data.mendeley.com/datasets/9tdc9gbtgb/2",
     image: asset("/files/medileafnet.png"),
-    video: media("medileafnet", "From one leaf photo to an article on the plant"),
+    video: media("medileafnet", "The field, the data, inside the Vision Transformer, the results and the live app"),
   },
   {
     id: "skincare-ai",
