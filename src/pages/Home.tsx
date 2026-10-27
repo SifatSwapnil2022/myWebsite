@@ -92,7 +92,7 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
   const defax = proj('defax');
   const medileaf = proj('medileaf');
   const open = (id: string) => () => onSelectProject(proj(id));
-  const products = ['sentinel', 'cholo-puran-dhaka', 'dhaka-bus-war', 'unun', 'kona', 'bazario'].map(proj);
+  const products = ['sentinel', 'chalan', 'cholo-puran-dhaka', 'dhaka-bus-war', 'unun', 'kona', 'bazario'].map(proj);
 
   return (
     <div className="page ac">
