@@ -609,8 +609,8 @@ export const RESEARCH_INTERESTS: { title: string; desc: string; next?: boolean }
     next: true,
   },
   {
-    title: "Testing on data the model hasn't seen",
-    desc: "In DeFaX we tested on compressed and noisy images, and on FaceForensics++ and Celeb-DF, which the model never trained on. In MediLeafNET we also tested the leaf model on REMP, a separate dataset of rare and endangered species.",
+    title: "ML systems",
+    desc: "What happens to a model after it ships. In Sentinel I built monitoring for models whose labels arrive weeks late: it estimates accuracy before the labels come in, watches the inputs for drift, and points to the part of the traffic behind a drop. At work I test models on real data before they are used.",
   },
   {
     title: "Knowing when not to answer",
