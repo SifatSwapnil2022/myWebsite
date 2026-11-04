@@ -5,7 +5,7 @@ import { PageIntro } from '../components/ui';
 
 type Cat = NonNullable<NewsItem['category']>;
 const CATS: { id: Cat | 'all'; label: string }[] = [
-  { id: 'all', label: 'Everything' },
+  { id: 'all', label: 'All' },
   { id: 'Publication', label: 'Publications' },
   { id: 'Career', label: 'Work' },
   { id: 'Academic', label: 'Study' },

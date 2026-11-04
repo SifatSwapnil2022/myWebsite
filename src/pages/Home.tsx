@@ -7,30 +7,6 @@ import { Authors, Person } from '../components/ui';
 const pub = (id: string) => PUBLICATIONS.find((p) => p.id === id)!;
 const proj = (id: string) => PROJECTS.find((p) => p.id === id)!;
 
-const INTERESTS = [
-  {
-    title: 'Trustworthy and explainable AI',
-    text: 'Models that show why they made a decision, so people can check it instead of just trusting it. In DeFaX we used Grad-CAM and LIME heatmaps for this.',
-  },
-  {
-    title: 'Safety of vision-language-action models',
-    text: 'What I want to work on next. Robots are starting to use VLA models to decide what to do. I want to study when these models break, for example with tricky inputs or in new places, and how to make them safer.',
-    current: true,
-  },
-  {
-    title: 'Computer vision',
-    text: 'Most of my work so far: spotting AI-generated faces, and identifying medicinal plants from leaf photos.',
-  },
-  {
-    title: 'Testing models properly',
-    text: 'Checking that a model still works on new data and on noisy or blurry images, not only on the data it was trained on.',
-  },
-  {
-    title: 'Human–computer interaction',
-    text: 'Whether people can understand and use what a model or a map shows them. With Cholo Puran Dhaka, I want to find out if a 3D street view helps visitors find their way better than a flat map.',
-  },
-];
-
 type Link = { label: string; href?: string; onClick?: () => void };
 
 function Links({ items }: { items: Link[] }) {
@@ -111,16 +87,14 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
                 real-world data. I studied Computer Science and Engineering at East West University.
               </p>
               <p>
-                At university I worked as a research assistant with <Person name="Md Al-Imran" /> and{' '}
-                <Person name="Shamim Ripon" /> on trustworthy AI for AI-generated media: detecting faces made by
-                Generative Adversarial Networks (GANs), testing how well detectors hold up on compressed and noisy
-                images, and using explainability methods (Grad-CAM, LIME) to show why a model calls a face fake.
+                At university I was a research assistant with <Person name="Md Al-Imran" /> and{' '}
+                <Person name="Shamim Ripon" />. We worked on detecting faces made by GANs, testing the detectors on
+                compressed and noisy images, and using Grad-CAM and LIME to show why a model calls a face fake.
               </p>
               <p>
                 For my thesis, supervised by <Person name="Md Nawab Yousuf Ali" />, I built
-                MediLeafNET, a multimodal system that pairs a Vision Transformer with a generative language model. It
-                identifies a medicinal plant from a leaf image, then generates knowledge about it from an ethnobotanical
-                knowledge base we curated.
+                MediLeafNET. It identifies a medicinal plant from a photo of its leaf, then writes a short summary of the
+                plant's uses and side effects from a knowledge base we put together.
               </p>
             </div>
             <Links
@@ -139,17 +113,26 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
           <h2 className="ac-h" id="h-interests">
             Research interests
           </h2>
-          <div className="interests">
-            {INTERESTS.map((r) => (
-              <div className={`interest${r.current ? ' current' : ''}`} key={r.title}>
-                <h3>
-                  {r.title}
-                  {r.current && <span className="now">Next</span>}
-                </h3>
-                <p>{r.text}</p>
-              </div>
-            ))}
-          </div>
+          <p className="ac-desc">
+            In both of these projects, a good test score was the easy part. The harder questions were{' '}
+            <b>when the model fails</b> (on compressed images, on a dataset it never saw) and{' '}
+            <b>what it should do when it isn't sure</b>. MediLeafNET, for example, writes nothing about a plant unless the
+            image model passes a confidence threshold.
+          </p>
+          <p className="ac-desc">
+            Next, I want to ask the same questions about <b>vision-language-action (VLA) models</b>, which take a camera
+            image and an instruction like "put the cup in the sink" and output robot actions. I haven't worked with
+            robots yet. I would start with two questions: which small changes to the scene or the wording make these
+            models fail, and can the robot tell it is unsure and stop before it moves?
+          </p>
+          <p className="ac-desc">
+            I'm also interested in how people use what a system shows them. With{' '}
+            <button className="text-btn link" onClick={open('cholo-puran-dhaka')}>
+              Cholo Puran Dhaka
+            </button>
+            , my 3D guide to Old Dhaka, I'd like to test whether a 3D street view helps first-time visitors find their
+            way better than a flat map.
+          </p>
         </section>
 
         {/* Publications */}
@@ -177,7 +160,7 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
             />
             <p className="ac-desc">
               We joined a Swin Transformer and an EfficientNet with cross-attention. Grad-CAM and LIME heatmaps show which
-              parts of the face each prediction looked at, so a person can check it.
+              parts of the face each prediction relied on.
             </p>
           </Entry>
 
@@ -234,10 +217,9 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
               ]}
             />
             <p className="ac-desc">
-              A multimodal pipeline for medicinal plant knowledge retrieval. A Vision Transformer identifies the species
-              from a leaf image. When its confidence passes a set threshold, a fine-tuned transformer language model
-              generates a summary of the plant's medicinal uses, active compounds, clinical evidence and side effects,
-              grounded in a knowledge base we built for 11 species from Bangladesh.
+              A Vision Transformer identifies the plant from a leaf photo. If it is confident enough, a fine-tuned
+              language model writes a short summary of the plant's medicinal uses, active compounds, clinical evidence
+              and side effects, using a knowledge base we built for 11 species from Bangladesh.
             </p>
             <p className="stack-tags">
               {medileaf.tech.slice(0, 5).map((t) => (

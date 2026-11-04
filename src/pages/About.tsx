@@ -37,7 +37,7 @@ export default function About() {
         </section>
 
         <section className="section">
-          <SectionHead title="Skills" note="The tools I use most." />
+          <SectionHead title="Skills" />
           <dl className="defs">
             {SKILL_GROUPS.map((g) => (
               <div key={g.title}>
@@ -53,7 +53,7 @@ export default function About() {
         </section>
 
         <section className="section">
-          <SectionHead title="Teaching, clubs and volunteering" note="What I did at university besides classes." />
+          <SectionHead title="Teaching and activities" />
           <div>
             {EXTRA_ACTIVITIES.map((a) => (
               <div className="dated" key={a.id}>

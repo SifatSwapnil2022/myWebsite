@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { LINKS, PROFILE } from '../data/portfolioData';
-import { copyText, useDhakaTime } from './ui';
+import { copyText } from './ui';
 
 const PAGES = [
   { href: '#/', label: 'Home' },
@@ -13,7 +13,6 @@ const PAGES = [
 ];
 
 export default function Footer() {
-  const time = useDhakaTime();
   const [copied, setCopied] = useState(false);
 
   return (
@@ -21,7 +20,7 @@ export default function Footer() {
       <div className="wrap">
         <div className="top">
           <div>
-            <p className="big">Get in touch</p>
+            <p className="big">Contact</p>
             <a className="mail" href={`mailto:${PROFILE.email}`}>
               {PROFILE.email}
             </a>
@@ -49,7 +48,7 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <h3>Elsewhere</h3>
+              <h3>Links</h3>
               <ul>
                 {LINKS.filter((l) => l.label !== 'Email').map((l) => (
                   <li key={l.label}>
@@ -71,7 +70,7 @@ export default function Footer() {
           <span>
             © {new Date().getFullYear()} {PROFILE.name}
           </span>
-          <span className="num">Dhaka, {time} local time</span>
+          <span>Dhaka, Bangladesh</span>
         </div>
       </div>
     </footer>

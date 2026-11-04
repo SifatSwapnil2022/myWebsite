@@ -15,9 +15,6 @@ export default function ProjectRow({ project, flip = false, onOpen }: { project:
         <div className="prose">
           <p>{p.description}</p>
         </div>
-        <p className="figure">
-          <b>{p.metric}</b>
-        </p>
         <p className="stack-tags">
           {p.tech.map((t) => (
             <code key={t}>{t}</code>

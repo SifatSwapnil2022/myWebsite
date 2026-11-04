@@ -58,7 +58,7 @@ export default function ProjectModal({ project, onClose }: { project: Project; o
           </div>
 
           <h3 className="h3" style={{ marginTop: 40, marginBottom: 16 }}>
-            What it does
+            Details
           </h3>
           <ul className="feat">
             {p.features.map((f) => (
@@ -67,10 +67,6 @@ export default function ProjectModal({ project, onClose }: { project: Project; o
           </ul>
 
           <dl className="defs" style={{ marginTop: 40 }}>
-            <div>
-              <dt>In short</dt>
-              <dd>{p.metric}</dd>
-            </div>
             <div>
               <dt>Built with</dt>
               <dd>{p.tech.join(', ')}</dd>

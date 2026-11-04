@@ -5,7 +5,7 @@ import { PageIntro, SectionHead } from '../components/ui';
 
 const GROUPS: { id: Project['group']; title: string; note: string }[] = [
   { id: 'research', title: 'Research', note: 'Papers, my thesis, and a healthcare learning project.' },
-  { id: 'product', title: 'Products', note: 'Websites and apps I built, two of them for Dhaka.' },
+  { id: 'product', title: 'Products', note: 'Apps and sites I built, most of them for Dhaka and Bangladesh.' },
 ];
 
 export default function Projects({ onSelectProject }: { onSelectProject: (p: Project) => void }) {

@@ -40,27 +40,14 @@ export default function Research({ onSelectProject }: { onSelectProject: (p: Pro
     <div className="page">
       <div className="wrap">
         <PageIntro title="Research">
-          My papers so far are on spotting deepfakes in a way people can check, and on a dataset of medicinal plant
-          leaves from Bangladesh. Next, I want to work on making robots that use vision-language-action models safer.
+          My papers so far are on detecting AI-generated faces and showing what the detector looked at, and on a
+          dataset of medicinal plant leaves from Bangladesh. Next, I want to study when vision-language-action models
+          used in robots fail.
         </PageIntro>
 
-        <div className="stat-row" style={{ maxWidth: 640 }}>
-          <div>
-            <b>{SCHOLAR.citations}</b>
-            <span>Citations</span>
-          </div>
-          <div>
-            <b>{SCHOLAR.hIndex}</b>
-            <span>h-index</span>
-          </div>
-          <div>
-            <b>{SCHOLAR.i10Index}</b>
-            <span>i10-index</span>
-          </div>
-        </div>
-        <p className="xs" style={{ marginTop: 10 }}>
-          From <a className="link" href={scholar.href} target="_blank" rel="noreferrer">Google Scholar</a>, copied by hand
-          in {SCHOLAR.updated}.
+        <p className="small">
+          Full list on <a className="link" href={scholar.href} target="_blank" rel="noreferrer">Google Scholar</a>
+          {' '}({SCHOLAR.citations} citations as of {SCHOLAR.updated}).
         </p>
 
         {/* Featured */}
@@ -135,11 +122,14 @@ export default function Research({ onSelectProject }: { onSelectProject: (p: Pro
 
         {/* Interests */}
         <section className="section">
-          <SectionHead title="What I'm interested in" />
+          <SectionHead title="Research interests" />
           <dl className="defs">
             {RESEARCH_INTERESTS.map((r) => (
               <div key={r.title}>
-                <dt>{r.title}</dt>
+                <dt>
+                  {r.title}
+                  {r.next && <span className="tag-pill">Next</span>}
+                </dt>
                 <dd>{r.desc}</dd>
               </div>
             ))}
