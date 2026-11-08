@@ -7,8 +7,8 @@
 
 /*
   Design notes
-  - The site itself stays greyscale. Colour only comes from the work: the videos and images.
-  - One accent, an ink blue, used for links and reference markers and nothing else.
+  - Mostly greyscale. One accent, an ink blue, used for links, headings, tags and a few small marks.
+  - The footer uses a deep navy from the same family.
   - Schibsted Grotesk for names, headings and interface text. Source Serif 4 for anything you read.
 */
 :root {
@@ -22,9 +22,9 @@
   --rule-2: #c3c5be;
   --accent: #27457a;
   --accent-wash: rgba(39, 69, 122, 0.08);
-  --night: #191b1d;
-  --night-2: #24272a;
-  --night-mute: #a3a8ab;
+  --night: #15233b;
+  --night-2: #23344f;
+  --night-mute: #a9b5c8;
 
   --sans: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
   --serif: "Source Serif 4 Variable", Georgia, serif;
@@ -356,3 +356,39 @@ a.sr-only:focus { position: fixed; left: 12px; top: 12px; z-index: 100; backgrou
 .ri-list li { padding-left: 4px; margin-bottom: 10px; }
 .ri-list li::marker { color: var(--mute); font-family: var(--sans); font-size: .95em; }
 .ri-list b { color: var(--ink); font-weight: 600; }
+
+/* ---------- colour and layout touches ---------- */
+.nav { border-top: 3px solid var(--accent); }
+.nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--accent); }
+.nav-links a[aria-current="page"]::after { background: var(--accent); height: 2px; }
+.nav-name { color: var(--accent); }
+
+/* intro as a white card */
+.ac-intro { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 20px; }
+@media (min-width: 760px) { .ac-intro { padding: 36px 40px; } }
+
+/* section headings with a small accent bar */
+.ac-h, .section-head .h2 { color: var(--accent); border-left: 4px solid var(--accent); padding-left: 12px; line-height: 1.15; }
+
+/* small accent marks */
+.ac-icons a { background: var(--accent-wash); border-color: transparent; color: var(--accent); }
+.ac-icons a:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.stack-tags code { background: var(--accent-wash); color: var(--accent); }
+.ac-news .when { color: var(--accent); }
+.ac-interests li::marker { color: var(--accent); }
+.ac-title a:hover { color: var(--ink); }
+.btn:not(.ghost) { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn:not(.ghost):hover { background: #1d3561; }
+
+/* phone: bigger tap targets */
+@media (max-width: 759px) {
+  .ac-icons a { width: 44px; height: 44px; }
+  .ac-side { padding-top: 4px; }
+}
+
+/* large screens: a bit wider and larger */
+@media (min-width: 1500px) {
+  html { font-size: 17px; }
+  :root { --wrap: 1200px; }
+  .ac-wrap { max-width: 1120px; }
+}
