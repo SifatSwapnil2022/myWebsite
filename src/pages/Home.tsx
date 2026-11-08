@@ -1,16 +1,17 @@
 import { Fragment, ReactNode } from 'react';
 import { LINKS, NEWS, PROFILE, PROJECTS, PUBLICATIONS, RESEARCH_INTERESTS, asset } from '../data/portfolioData';
-import { GraduationCap, Github, Linkedin, Mail } from 'lucide-react';
+import { FaLinkedin } from 'react-icons/fa';
+import { SiGithub, SiGmail, SiGooglescholar } from 'react-icons/si';
 import { Project } from '../types';
 import ProjectMedia from '../components/ProjectMedia';
 import { Authors, Person } from '../components/ui';
 
 const scholarHref = LINKS.find((l) => l.label === 'Google Scholar')!.href;
 const ICONS = [
-  { label: 'Email', href: `mailto:${PROFILE.email}`, Icon: Mail },
-  { label: 'Google Scholar', href: scholarHref, Icon: GraduationCap },
-  { label: 'GitHub', href: LINKS.find((l) => l.label === 'GitHub')!.href, Icon: Github },
-  { label: 'LinkedIn', href: LINKS.find((l) => l.label === 'LinkedIn')!.href, Icon: Linkedin },
+  { label: 'Email', href: `mailto:${PROFILE.email}`, Icon: SiGmail, color: '#EA4335' },
+  { label: 'Google Scholar', href: scholarHref, Icon: SiGooglescholar, color: '#4285F4' },
+  { label: 'GitHub', href: LINKS.find((l) => l.label === 'GitHub')!.href, Icon: SiGithub, color: '#181717' },
+  { label: 'LinkedIn', href: LINKS.find((l) => l.label === 'LinkedIn')!.href, Icon: FaLinkedin, color: '#0A66C2' },
 ];
 
 const pub = (id: string) => PUBLICATIONS.find((p) => p.id === id)!;
@@ -87,8 +88,16 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
           <div className="ac-side">
             <img className="ac-photo" src={PROFILE.photo} alt="Md Sifatullah Sheikh" width={220} height={286} />
             <nav className="ac-icons" aria-label="Profiles">
-              {ICONS.map(({ label, href, Icon }) => (
-                <a key={label} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer" aria-label={label} title={label}>
+              {ICONS.map(({ label, href, Icon, color }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={href.startsWith('http') ? '_blank' : undefined}
+                  rel="noreferrer"
+                  aria-label={label}
+                  title={label}
+                  style={{ color }}
+                >
                   <Icon aria-hidden />
                 </a>
               ))}
