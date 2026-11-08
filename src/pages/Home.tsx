@@ -131,7 +131,7 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
                 compressed and noisy images, and using Grad-CAM and LIME to show why a model calls a face fake.
               </p>
               <p>
-                For my thesis, supervised by <Person name="Md Nawab Yousuf Ali" />, I built MediLeafNET. It identifies a
+                For my thesis, supervised by <Person name="Md. Nawab Yousuf Ali" />, I built MediLeafNET. It identifies a
                 medicinal plant from a photo of its leaf, then writes a short summary of the plant's uses and side
                 effects from a knowledge base we put together.
               </p>
@@ -186,11 +186,11 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
             </p>
           </Entry>
 
-          <Entry media={<Still src={asset("files/datasets_13.png")} alt="Sample leaves from the dataset" contain />} title={pub('02').title}>
+          <Entry media={<Still src={asset("files/datasets_13.png")} alt="Sample leaves from the dataset" contain />} title={pub('04').title}>
             <p className="ac-authors">
-              <Authors list={pub('02').authors} />
+              <Authors list={pub('04').authors} />
             </p>
-            <p className="ac-venue">Data paper under review at Scientific Data. Dataset on Mendeley Data, 2026</p>
+            <p className="ac-venue">Mendeley Data, Version 2, 2026</p>
             <Links items={[{ label: 'dataset', href: pub('04').link }]} />
             <p className="ac-desc">
               Leaf photos of 13 medicinal plant species that we collected in Bangladesh. Anyone can download them. My

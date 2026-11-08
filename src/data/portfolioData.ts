@@ -15,28 +15,19 @@ export const PUBLICATIONS: Publication[] = [
     year: "2025"
   },
   {
-    id: "02",
-    title: "Medicinal Plant Leaf Image Dataset of 13 Species Collected in Bangladesh",
-    authors: "Momena Khatun Zinia, Mahmudul Haque Sakib, Md Sifatullah Sheikh, Urmi Kirtonia, Bashirul Islam, Md Nawab Yousuf Ali",
-    venue: "Scientific Data, Nature Portfolio (Under Review)",
-    venueType: "journal",
-    highlight: "A data paper on the leaf photos of 13 medicinal plant species we collected in Bangladesh. The paper is under review at Scientific Data, and the photos are already free to download on Mendeley Data.",
-    year: "2025"
-  },
-  {
     id: "03",
     title: "AI-Powered Deepfake Detection Using CNN and Vision Transformer Architectures",
     authors: "Md Sifatullah Sheikh, Urmi Kirtonia, Nuzath Tabassum Arthi, Md Al-Imran",
     venue: "6th International Conference on Big Data Analytics and Practices (IBDAP), IEEE, Thailand",
     venueType: "conference",
-    link: "https://ieeexplore.ieee.org/abstract/document/11145852",
+    link: "https://doi.org/10.1109/IBDAP65587.2025.11145852",
     highlight: "We compared three CNNs and a Vision Transformer on telling real faces from GAN-made ones, using the 140K Real and Fake Faces dataset, and looked at what each type of model notices.",
     year: "2025"
   },
   {
     id: "04",
     title: "A Medicinal Plant Leaf Image Dataset of 13 Species Collected in Bangladesh",
-    authors: "Momena Khatun Zinia, Mahmudul Haque Sakib, Md Sifatullah Sheikh, Urmi Kirtonia, Bashirul Islam, Md Nawab Yousuf Ali",
+    authors: "Momena Khatun Zinia, Mahmudul Haque Sakib, Md Sifatullah Sheikh, Urmi Kirtonia, Bashirul Islam, Md. Nawab Yousuf Ali",
     venue: "Mendeley Data, Version 2 (DOI: 10.17632/9tdc9gbtgb.2)",
     venueType: "dataset",
     link: "https://data.mendeley.com/datasets/9tdc9gbtgb/2",
@@ -398,7 +389,7 @@ export const NEWS: NewsItem[] = [
     date: "July 2026",
     category: "Publication",
     content: "Published a leaf image dataset of 13 medicinal plant species from Bangladesh on Mendeley Data (Version 2).",
-    longContent: "With my co-authors, I released high-resolution leaf photos of 13 medicinal plant species. Anyone can use them for free on Mendeley Data, and the paper about them is under review at Scientific Data.",
+    longContent: "With my co-authors, I released high-resolution leaf photos of 13 medicinal plant species. Anyone can use them for free on Mendeley Data.",
     image: asset("/files/datasets_13.png"),
     link: "https://data.mendeley.com/datasets/9tdc9gbtgb/2",
     linkText: "View dataset"
@@ -436,7 +427,7 @@ export const NEWS: NewsItem[] = [
     content: "Presented our paper 'AI-Powered Deepfake Detection Using CNN and Vision Transformer Architectures' at IEEE IBDAP in Thailand.",
     longContent: "Gave a talk on the paper and met other researchers working on fake media and explainable AI.",
     image: asset("/files/conference.png"),
-    link: "https://ieeexplore.ieee.org/abstract/document/11145852",
+    link: "https://doi.org/10.1109/IBDAP65587.2025.11145852",
     linkText: "Read the paper"
   },
   {
@@ -597,7 +588,7 @@ export const SCHOLAR = { citations: 20, hIndex: 2, i10Index: 0, updated: "Novemb
 export const PEOPLE: Record<string, { title?: string; href: string }> = {
   "Md Al-Imran": { href: "https://fse.ewubd.edu/computer-science-engineering/faculty-view/al.imran" },
   "Shamim Ripon": { title: "Dr.", href: "https://fse.ewubd.edu/computer-science-engineering/faculty-view/dshr" },
-  "Md Nawab Yousuf Ali": { title: "Dr.", href: "https://fse.ewubd.edu/computer-science-engineering/faculty-view/nawab" },
+  "Md. Nawab Yousuf Ali": { title: "Dr.", href: "https://fse.ewubd.edu/computer-science-engineering/faculty-view/nawab" },
 };
 
 export const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdaygqjy";
@@ -612,7 +603,7 @@ export const RESEARCH_INTERESTS = [
 export const EDUCATION: EducationItem[] = [
   {
     id: "bsc",
-    date: "December 2025",
+    date: "January 2026",
     credential: "B.Sc. in Computer Science and Engineering",
     institution: "East West University",
     location: "Aftabnagar, Dhaka",
