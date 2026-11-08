@@ -296,11 +296,20 @@ a.sr-only:focus { position: fixed; left: 12px; top: 12px; z-index: 100; backgrou
 /* ---------- academic home ---------- */
 .ac-wrap { width: 100%; max-width: 1000px; margin: 0 auto; padding: 0 var(--gut); }
 .ac-intro { display: grid; gap: 28px; align-items: start; }
-@media (min-width: 760px) { .ac-intro { grid-template-columns: minmax(0, 1fr) 220px; gap: 56px; } }
-.ac-name { font-weight: 600; font-size: clamp(2.2rem, 4.6vw, 3.1rem); letter-spacing: -0.03em; line-height: 1.05; margin: 0; }
+@media (min-width: 760px) { .ac-intro { grid-template-columns: 220px minmax(0, 1fr); gap: 48px; } }
+.ac-name { font-weight: 600; font-size: clamp(1.9rem, 3.6vw, 2.5rem); letter-spacing: -0.025em; line-height: 1.1; margin: 0; color: var(--accent); }
+.ac-facts { margin: 12px 0 0; font-size: var(--t-sm); line-height: 1.75; color: var(--ink-2); }
+.ac-sub { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; color: var(--accent); margin: 30px 0 10px; }
+.ac-interests { margin: 0; padding-left: 1.2em; list-style: square; font-size: 1rem; line-height: 1.8; color: var(--ink-2); }
+.ac-interests li::marker { color: var(--mute); }
+.ac-side { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.ac-icons { display: flex; gap: 10px; }
+.ac-icons a { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid var(--rule); border-radius: 50%; color: var(--ink-2); background: var(--paper); }
+.ac-icons a:hover { color: var(--accent); border-color: var(--accent); }
+.ac-icons svg { width: 18px; height: 18px; }
 .ac-photo { width: 180px; height: auto; aspect-ratio: 1099 / 1431; border-radius: 8px; object-fit: cover; object-position: 50% 0; background: #fff; border: 1px solid var(--rule); }
-@media (min-width: 760px) { .ac-photo { width: 220px; margin-top: 6px; } }
-.ac-bio { margin-top: 22px; font-family: var(--serif); font-size: 1.12rem; line-height: 1.65; color: var(--ink-2); max-width: 62ch; }
+@media (min-width: 760px) { .ac-photo { width: 220px; } }
+.ac-bio { margin-top: 0; font-family: var(--serif); font-size: 1.12rem; line-height: 1.65; color: var(--ink-2); max-width: 62ch; }
 .ac-bio p { margin: 0 0 .8em; }
 .ac-links { margin: 14px 0 0; font-size: var(--t-sm); line-height: 1.6; }
 .ac-links .sep { color: var(--rule-2); }
@@ -341,7 +350,7 @@ a.sr-only:focus { position: fixed; left: 12px; top: 12px; z-index: 100; backgrou
 
 .text-btn.link { color: var(--accent); }
 .footer .big { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
-@media (max-width: 759px) { .ac-photo { order: -1; width: 140px; } }
+@media (max-width: 759px) { .ac-photo { width: 160px; } }
 
 .ri-list { list-style: decimal; margin: 0; padding-left: 1.4em; font-family: var(--serif); font-size: 1.08rem; line-height: 1.6; color: var(--ink-2); max-width: 62ch; }
 .ri-list li { padding-left: 4px; margin-bottom: 10px; }

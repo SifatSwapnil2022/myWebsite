@@ -1,8 +1,17 @@
 import { Fragment, ReactNode } from 'react';
 import { LINKS, NEWS, PROFILE, PROJECTS, PUBLICATIONS, RESEARCH_INTERESTS, asset } from '../data/portfolioData';
+import { GraduationCap, Github, Linkedin, Mail } from 'lucide-react';
 import { Project } from '../types';
 import ProjectMedia from '../components/ProjectMedia';
 import { Authors, Person } from '../components/ui';
+
+const scholarHref = LINKS.find((l) => l.label === 'Google Scholar')!.href;
+const ICONS = [
+  { label: 'Email', href: `mailto:${PROFILE.email}`, Icon: Mail },
+  { label: 'Google Scholar', href: scholarHref, Icon: GraduationCap },
+  { label: 'GitHub', href: LINKS.find((l) => l.label === 'GitHub')!.href, Icon: Github },
+  { label: 'LinkedIn', href: LINKS.find((l) => l.label === 'LinkedIn')!.href, Icon: Linkedin },
+];
 
 const pub = (id: string) => PUBLICATIONS.find((p) => p.id === id)!;
 const proj = (id: string) => PROJECTS.find((p) => p.id === id)!;
@@ -73,18 +82,48 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
   return (
     <div className="page ac">
       <div className="ac-wrap">
-        {/* Intro */}
+        {/* Intro: photo and links on the left, details on the right */}
         <header className="ac-intro">
+          <div className="ac-side">
+            <img className="ac-photo" src={PROFILE.photo} alt="Md Sifatullah Sheikh" width={220} height={286} />
+            <nav className="ac-icons" aria-label="Profiles">
+              {ICONS.map(({ label, href, Icon }) => (
+                <a key={label} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer" aria-label={label} title={label}>
+                  <Icon aria-hidden />
+                </a>
+              ))}
+            </nav>
+          </div>
+
           <div>
-            <h1 className="ac-name reveal">{PROFILE.name}</h1>
-            <p className="badge reveal d1">
+            <h1 className="ac-name">{PROFILE.name}</h1>
+            <p className="ac-facts">
+              {PROFILE.role}, {PROFILE.employer}
+              <br />
+              {PROFILE.degree}
+              <br />
+              E-mail: <a className="link" href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
+              <br />
+              <a className="link" href={PROFILE.cv} target="_blank" rel="noreferrer">CV (PDF)</a>
+            </p>
+            <p className="badge">
               <span className="dot" aria-hidden />
               Open to Fall 2027 PhD positions
             </p>
-            <div className="ac-bio reveal d2">
+
+            <h2 className="ac-sub">Research interests</h2>
+            <ul className="ac-interests">
+              {RESEARCH_INTERESTS.map((r) => (
+                <li key={r.title}>{r.title}</li>
+              ))}
+            </ul>
+
+            <h2 className="ac-sub">Biography</h2>
+            <div className="ac-bio">
               <p>
-                I'm an ML engineer intern at {PROFILE.employer} in Dhaka, where I test machine learning models on
-                real-world data. I studied Computer Science and Engineering at East West University.
+                I work at {PROFILE.employer} in Dhaka as a {PROFILE.role}, where I test machine learning models on
+                real-world data. I completed my B.Sc. in Computer Science and Engineering at East West
+                University.
               </p>
               <p>
                 At university I was a research assistant with <Person name="Md Al-Imran" /> and{' '}
@@ -92,35 +131,13 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
                 compressed and noisy images, and using Grad-CAM and LIME to show why a model calls a face fake.
               </p>
               <p>
-                For my thesis, supervised by <Person name="Md Nawab Yousuf Ali" />, I built
-                MediLeafNET. It identifies a medicinal plant from a photo of its leaf, then writes a short summary of the
-                plant's uses and side effects from a knowledge base we put together.
+                For my thesis, supervised by <Person name="Md Nawab Yousuf Ali" />, I built MediLeafNET. It identifies a
+                medicinal plant from a photo of its leaf, then writes a short summary of the plant's uses and side
+                effects from a knowledge base we put together.
               </p>
             </div>
-            <Links
-              items={[
-                { label: 'Email', href: `mailto:${PROFILE.email}` },
-                { label: 'CV', href: PROFILE.cv },
-                ...LINKS.filter((l) => l.label !== 'Email').map((l) => ({ label: l.label, href: l.href })),
-              ]}
-            />
           </div>
-          <img className="ac-photo reveal d1" src={PROFILE.photo} alt="Md Sifatullah Sheikh" width={220} height={286} />
         </header>
-
-        {/* Research interests */}
-        <section className="ac-section" aria-labelledby="h-interests">
-          <h2 className="ac-h" id="h-interests">
-            Research interests
-          </h2>
-          <ol className="ri-list">
-            {RESEARCH_INTERESTS.map((r) => (
-              <li key={r.title}>
-                <b>{r.title}.</b> {r.desc}
-              </li>
-            ))}
-          </ol>
-        </section>
 
         {/* Publications */}
         <section className="ac-section" aria-labelledby="h-pubs">

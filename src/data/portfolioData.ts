@@ -27,7 +27,7 @@ export const PUBLICATIONS: Publication[] = [
     id: "03",
     title: "AI-Powered Deepfake Detection Using CNN and Vision Transformer Architectures",
     authors: "Md Sifatullah Sheikh, Urmi Kirtonia, Nuzath Tabassum Arthi, Md Al-Imran",
-    venue: "IEEE International Conference on Intelligent Big Data, Data Science and Artificial Intelligence (IBDAP), Thailand",
+    venue: "6th International Conference on Big Data Analytics and Practices (IBDAP), IEEE, Thailand",
     venueType: "conference",
     link: "https://ieeexplore.ieee.org/abstract/document/11145852",
     highlight: "We compared three CNNs and a Vision Transformer on telling real faces from GAN-made ones, using the 140K Real and Fake Faces dataset, and looked at what each type of model notices.",
@@ -344,7 +344,7 @@ export const SHOWREEL_IDS = ["defax", "khamar-khata", "skincare-ai", "cholo-pura
 export const EXPERIENCES: Experience[] = [
   {
     id: "exp-3",
-    role: "ML Engineer Intern",
+    role: "Trainee Software Engineer (AI/ML)",
     company: "Syntax Solution Limited",
     location: "Dhaka, Bangladesh",
     period: "Aug 2026 – Present",
@@ -575,7 +575,7 @@ export const PROFILE = {
   name: "Md Sifatullah Sheikh",
   short: "Sifat",
   email: "mdsifatullahsheikh@gmail.com",
-  role: "ML Engineer Intern",
+  role: "Trainee Software Engineer (AI/ML)",
   employer: "Syntax Solution Limited",
   degree: "B.Sc. in Computer Science and Engineering, East West University",
   location: "Dhaka, Bangladesh",
@@ -591,7 +591,7 @@ export const LINKS = [
 ];
 
 /** Copied by hand from Google Scholar; not live. */
-export const SCHOLAR = { citations: 16, hIndex: 2, i10Index: 0, updated: "September 2026" };
+export const SCHOLAR = { citations: 20, hIndex: 2, i10Index: 0, updated: "November 2026" };
 
 /** EWU faculty pages, used to link these names wherever they appear. */
 export const PEOPLE: Record<string, { title?: string; href: string }> = {
