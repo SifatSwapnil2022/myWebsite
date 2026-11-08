@@ -1,7 +1,7 @@
 import { Fragment, ReactNode } from 'react';
 import { LINKS, NEWS, PROFILE, PROJECTS, PUBLICATIONS, RESEARCH_INTERESTS, asset } from '../data/portfolioData';
 import { FaLinkedin } from 'react-icons/fa';
-import { SiGithub, SiGmail, SiGooglescholar } from 'react-icons/si';
+import { SiGithub, SiGmail, SiGooglescholar, SiOrcid } from 'react-icons/si';
 import { Project } from '../types';
 import ProjectMedia from '../components/ProjectMedia';
 import { Authors, Person } from '../components/ui';
@@ -10,6 +10,7 @@ const scholarHref = LINKS.find((l) => l.label === 'Google Scholar')!.href;
 const ICONS = [
   { label: 'Email', href: `mailto:${PROFILE.email}`, Icon: SiGmail, color: '#EA4335' },
   { label: 'Google Scholar', href: scholarHref, Icon: SiGooglescholar, color: '#4285F4' },
+  { label: 'ORCID', href: LINKS.find((l) => l.label === 'ORCID')!.href, Icon: SiOrcid, color: '#A6CE39' },
   { label: 'GitHub', href: LINKS.find((l) => l.label === 'GitHub')!.href, Icon: SiGithub, color: '#181717' },
   { label: 'LinkedIn', href: LINKS.find((l) => l.label === 'LinkedIn')!.href, Icon: FaLinkedin, color: '#0A66C2' },
 ];

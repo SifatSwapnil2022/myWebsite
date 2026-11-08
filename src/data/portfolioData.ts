@@ -577,6 +577,7 @@ export const PROFILE = {
 export const LINKS = [
   { label: "Email", href: "mailto:mdsifatullahsheikh@gmail.com", handle: "mdsifatullahsheikh@gmail.com" },
   { label: "Google Scholar", href: "https://scholar.google.com/citations?view_op=list_works&hl=en&user=7m3g1cEAAAAJ", handle: "Sifatullah Sheikh" },
+  { label: "ORCID", href: "https://orcid.org/0009-0007-2045-8245", handle: "0009-0007-2045-8245" },
   { label: "GitHub", href: "https://github.com/SifatSwapnil2022", handle: "SifatSwapnil2022" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/mdsifatullahsheikh", handle: "mdsifatullahsheikh" },
 ];
