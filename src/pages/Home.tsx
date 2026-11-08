@@ -1,5 +1,5 @@
 import { Fragment, ReactNode } from 'react';
-import { LINKS, NEWS, PROFILE, PROJECTS, PUBLICATIONS, asset } from '../data/portfolioData';
+import { LINKS, NEWS, PROFILE, PROJECTS, PUBLICATIONS, RESEARCH_INTERESTS, asset } from '../data/portfolioData';
 import { Project } from '../types';
 import ProjectMedia from '../components/ProjectMedia';
 import { Authors, Person } from '../components/ui';
@@ -113,26 +113,13 @@ export default function Home({ onSelectProject }: { onSelectProject: (p: Project
           <h2 className="ac-h" id="h-interests">
             Research interests
           </h2>
-          <p className="ac-desc">
-            In both of these projects, a good test score was the easy part. The harder questions were{' '}
-            <b>when the model fails</b> (on compressed images, on a dataset it never saw) and{' '}
-            <b>what it should do when it isn't sure</b>. MediLeafNET, for example, writes nothing about a plant unless the
-            image model passes a confidence threshold.
-          </p>
-          <p className="ac-desc">
-            Next, I want to ask the same questions about <b>vision-language-action (VLA) models</b>, which take a camera
-            image and an instruction like "put the cup in the sink" and output robot actions. I haven't worked with
-            robots yet. I would start with two questions: which small changes to the scene or the wording make these
-            models fail, and can the robot tell it is unsure and stop before it moves?
-          </p>
-          <p className="ac-desc">
-            I'm also interested in how people use what a system shows them. With{' '}
-            <button className="text-btn link" onClick={open('cholo-puran-dhaka')}>
-              Cholo Puran Dhaka
-            </button>
-            , my 3D guide to Old Dhaka, I'd like to test whether a 3D street view helps first-time visitors find their
-            way better than a flat map.
-          </p>
+          <ol className="ri-list">
+            {RESEARCH_INTERESTS.map((r) => (
+              <li key={r.title}>
+                <b>{r.title}.</b> {r.desc}
+              </li>
+            ))}
+          </ol>
         </section>
 
         {/* Publications */}

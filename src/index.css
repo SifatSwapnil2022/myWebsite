@@ -342,3 +342,8 @@ a.sr-only:focus { position: fixed; left: 12px; top: 12px; z-index: 100; backgrou
 .text-btn.link { color: var(--accent); }
 .footer .big { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
 @media (max-width: 759px) { .ac-photo { order: -1; width: 140px; } }
+
+.ri-list { list-style: decimal; margin: 0; padding-left: 1.4em; font-family: var(--serif); font-size: 1.08rem; line-height: 1.6; color: var(--ink-2); max-width: 62ch; }
+.ri-list li { padding-left: 4px; margin-bottom: 10px; }
+.ri-list li::marker { color: var(--mute); font-family: var(--sans); font-size: .95em; }
+.ri-list b { color: var(--ink); font-weight: 600; }

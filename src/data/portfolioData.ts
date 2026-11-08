@@ -602,28 +602,11 @@ export const PEOPLE: Record<string, { title?: string; href: string }> = {
 
 export const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdaygqjy";
 
-export const RESEARCH_INTERESTS: { title: string; desc: string; next?: boolean }[] = [
-  {
-    title: "Safety of VLA models",
-    desc: "Vision-language-action models take a camera image and an instruction and output robot actions. I want to find which changes to the scene or the wording make them fail, and whether a robot can tell it is unsure and stop. I haven't worked with robots yet; this is where I want to go.",
-    next: true,
-  },
-  {
-    title: "ML systems",
-    desc: "What happens to a model after it ships. In Sentinel I built monitoring for models whose labels arrive weeks late: it estimates accuracy before the labels come in, watches the inputs for drift, and points to the part of the traffic behind a drop. At work I test models on real data before they are used.",
-  },
-  {
-    title: "Knowing when not to answer",
-    desc: "MediLeafNET only writes about a plant when the image model passes a confidence threshold. Below it, the system says nothing instead of describing a plant it may have got wrong. A robot needs the same habit before it acts.",
-  },
-  {
-    title: "Explanations",
-    desc: "A detector can call a face fake because of something that has nothing to do with the face. In DeFaX we used Grad-CAM and LIME heatmaps to see which regions each prediction relied on.",
-  },
-  {
-    title: "3D maps and wayfinding",
-    desc: "Cholo Puran Dhaka shows Old Dhaka's lanes in 3D. I'd like to run a small study on whether that helps first-time visitors find their way better than a flat map.",
-  },
+export const RESEARCH_INTERESTS = [
+  { title: "ML systems", desc: "Monitoring and testing models after they are deployed, when the data drifts and labels arrive late." },
+  { title: "Computer vision for autonomous systems", desc: "Vision and vision-language-action models for robots: when they fail, and whether they can tell they are unsure." },
+  { title: "Trustworthy AI", desc: "Explanations, confidence that means something, and models that hold up on data they haven't seen." },
+  { title: "Human–computer interaction", desc: "How people read and use what a model or a map shows them." },
 ];
 
 export const EDUCATION: EducationItem[] = [

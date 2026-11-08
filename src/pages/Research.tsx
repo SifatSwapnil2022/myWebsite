@@ -123,17 +123,13 @@ export default function Research({ onSelectProject }: { onSelectProject: (p: Pro
         {/* Interests */}
         <section className="section">
           <SectionHead title="Research interests" />
-          <dl className="defs">
+          <ol className="ri-list">
             {RESEARCH_INTERESTS.map((r) => (
-              <div key={r.title}>
-                <dt>
-                  {r.title}
-                  {r.next && <span className="tag-pill">Next</span>}
-                </dt>
-                <dd>{r.desc}</dd>
-              </div>
+              <li key={r.title}>
+                <b>{r.title}.</b> {r.desc}
+              </li>
             ))}
-          </dl>
+          </ol>
         </section>
       </div>
     </div>
